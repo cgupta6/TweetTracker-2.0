@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="shortcut icon" type="image/png" href="/static/images/favicon.png"/>
+
+    <!-- D3 scripts allow us to create html table on the fly from CSV file  -->
+    <script src="/static/js/libs/d3.min.js" charset="utf-8"></script>
+
+    <!-- JQuery -->
+    <script src="/static/js/libs/jquery.min.js"></script>
+    <script src="/static/js/libs/jquery-ui.min.js"></script>
+
+    <!-- Leaflet -->
+    <script src='/static/js/libs/leaflet/leaflet.js'></script>
+    <link rel="stylesheet" media="screen" href='/static/js/libs/leaflet/leaflet.css'/>
+    <script src='/static/js/libs/leaflet/leaflet.draw.js/'></script>
+    <link rel="stylesheet" media="screen" href='/static/js/libs/leaflet/leaflet.draw.css'/>
+    <script src='/static/js/libs/leaflet-omnivore.min.js'></script>
+
+    <!-- Leaflet Bing Plugin -->
+    <script src='/static/js/libs/Bing.js'></script>
+
+    <!-- Leaflet Shape File Library -->
+    <script src='/static/js/libs/shp.min.js'></script>
+    <script src='/static/js/libs/catiline.min.js'></script>
+
+    <!-- JQuery UI CSS -->
+    <link href="/static/stylesheets/jquery-ui.css" rel="stylesheet" type="text/css"/>
+
+    <!-- Bootstrap 3 -->
+    <!-- Latest compiled and minified CSS -->
+    <link href="/static/stylesheets/bootstrap.min.css" rel="stylesheet"/>
+    <link href='/static/stylesheets/bootstrap-glyphicons.css' rel="stylesheet"/>
+
+    <!-- FontAwesome -->
+    <link href="/static/stylesheets/font-awesome.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Datepicker -->
+    <link href='/static/stylesheets/datepicker.css' rel="stylesheet"/>
+    <script src='/static/js/libs/bootstrap-datepicker.js'></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="/static/js/libs/bootstrap.min.js"></script>
+
+    <!-- AngularJS -->
+    <!-- <script src='/static/js/libs/angular.min.js'></script>
+    <script src="/static/js/libs/angular-route.min.js"></script> -->
+
+    <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.min.js'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js'></script>
+    <script src='http://ngmaterial.assets.s3.amazonaws.com/svg-assets-cache.js'></script>
+    <script src='https://cdn.gitcdn.xyz/cdn/angular/bower-material/v1.0.5/angular-material.min.js'></script>
+    <link href='https://cdn.gitcdn.xyz/cdn/angular/bower-material/v1.0.5/angular-material.css' rel='stylesheet'>
+    <link href='https://material.angularjs.org/1.0.5/docs.css' rel='stylesheet'>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+
+    <!-- Angular UI Bootstrap -->
+    <script src='/static/js/libs/ui-bootstrap-tpls-0.11.0.min.js'></script>
+
+    <!-- Underscore.js -->
+    <script src='/static/js/libs/underscore-min.js'></script>
+
+    <!-- toastr.js -->
+    <script src = '/static/js/libs/toastr.min.js'></script>
+    <link href='/static/stylesheets/toastr.min.css' rel='stylesheet'>
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" media="screen" href="/static/stylesheets/main.css"/>
+
+    <script type="application/javascript" src="/static/js/libs/leaflet/leaflet.markercluster.js"></script>
+    <link rel="stylesheet" media="screen" href='/static/js/libs/leaflet/MarkerCluster.Default.css'/>
+
+    <script src='/static/js/libs/jquery-ui.js'></script>
+    <link rel="stylesheet" media="screen" href="/static/stylesheets/jquery-ui.css" />
+
+    <script src="//unpkg.com/angular-ui-router/release/angular-ui-router.min.js">
+
+
+    <!-- reCAPTCHA -->
+    <script src='/static/js/libs/recaptcha_api.js'></script>
+    {% endblock %}
+</head>
+<body>
+<div class="container">
+    <div id="navbarTest" class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">TweetTracker</a>
+            <ul class="nav navbar-nav pull-right">
+                {% if session.get('username') %}
+                <li id="logout_nav" onclick="$.post('/logout');localStorage={};"><a href="/logout">Logout</a></li> <!-- clear localStorage upon logging out-->
+                {% else %}
+                <li id="login_nav"><a href="/login">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <!-- Main dynamic content -->
+    {% block content %}
+    {% endblock %}
+    <!-- End main dynamic content -->
+    <footer>
+        <div class="navbar navbar-default navbar-fixed-bottom">
+            <center>
+                <p id="copyright">
+                    <small>&copy; 2016 Arizona Board of Regents on Behalf of ASU</small>
+                </p>
+            </center>
+        </div>
+    </footer>
+</div>
+</body>
+</html>
+

@@ -1,0 +1,23 @@
+{% extends "analysis.html" %}
+{% block title %}TweetTracker -- Job Manager{% endblock %}
+{% block head %}
+{{ super() }}
+<script src='/static/js/app/ttutilities/directives.js'></script>
+<script src='/static/js/app/jobmanager/jobManager.js'></script>
+<script src='/static/js/libs/jquery.tagsinput.min.js'></script>
+<script type="text/javascript" src="/static/js/app/tweetalyzer/leaflet-icons.js"></script>
+<link rel="stylesheet" media="screen" href="/static/stylesheets/jquery.tagsinput.css" />
+{% endblock %}
+{% block content %}
+{{ super() }}
+{% endblock %}
+{% block analysis_content %}
+<div id="jobManager">
+    <div data-ng-view></div>
+</div>
+
+<!-- Dynamically change the active tab in the navbar -->
+<script type="text/javascript">
+    $('#manager_nav').addClass('active');
+</script>
+{% endblock %}

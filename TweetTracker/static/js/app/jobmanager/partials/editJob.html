@@ -1,0 +1,48 @@
+<div id="map" leafletmap ng-model="job.geoboxes" ng-model-yaks="job.yakmarkers"  editable="true"></div>
+
+<form id="job_create_form" role="form">
+    <div class="alert alert-success alert-dismissable" ng-show="numOfTweets != -1 && userLoaded">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        You can only crawl {{numOfTweets}} tweets per day.
+    </div>
+    <div class="form-group has-feedback" data-ng-class="{'has-error': nameValidationError, 'has-success': !nameValidationError}">
+        <label for="jobName">Job Name</label>
+        <input type="text" class="form-control" id="jobName" placeholder="Job Name" ng-model="job.name" data-ng-model-options="{ debounce: 1000 }">
+        <span class="glyphicon glyphicon-ok form-control-feedback" data-ng-show="!nameValidationError" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Job name available!"></span>
+        <span class="glyphicon glyphicon-warning-sign form-control-feedback" data-ng-show="nameValidationError" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Job name Unavailable. Please change the name."></span>
+    </div>
+    <div class="form-group">
+        <label for="jobKeywords">Keywords</label>
+        <div style="width:33%"><input jqtags type="text" class="form-control" id="jobKeywords" ng-model="job.keywords"></div>
+    </div>
+    <div class="form-group">
+        <label for="jobUsers">Users</label>
+        <div style="width:33%"><input jqtags type="text" class="form-control" id="jobUsers" ng-model="job.users"></div>
+    </div>
+    <div class="form-group">
+        <label for="jobUsers">Sources</label>
+        <div style="">
+			<input type="checkbox" id="twitter" ng-model="job.sources.tw">&nbsp <i class="fa fa-twitter"></i>&nbsp Twitter</input>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+			<!--<input type="checkbox" id="facebook" ng-model="job.sources.fb">&nbsp <i class="fa fa-facebook-square"></i>&nbsp Facebook</input>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp-->
+			<input type="checkbox" id="youtube" ng-model="job.sources.yt">&nbsp <i class="fa fa-youtube-play"></i>&nbsp Youtube</input>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+			<input type="checkbox" id="vk" ng-model="job.sources.vk">&nbsp <i class="fa fa-vk"></i>&nbsp Vkontakte</input>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+			<input type="checkbox" id="instagram" ng-model="job.sources.in">&nbsp <i class="fa fa-instagram"></i>&nbsp Instagram</input>
+		</div>
+    </div>
+    <button type="submit" ng-if="edit" class="btn btn-primary" data-ng-click="submitJob()">Save Job</button>
+    <button type="submit" ng-if="!edit" class="btn btn-primary" data-ng-click="submitJob()">Create Job</button>
+    <label style="margin-left: 10px;" for="jobPublic">Public?</label>
+    <input type="checkbox" id="jobPublic" ng-model="job.public">
+    <label style="margin-left: 10px;" for="jobCrisis">Is job related to crisis?</label>
+    <input type="checkbox" id="jobCrisis" ng-model="job.crisisflag">
+</form>
+<br />
+<div class="alert alert-danger alert-dismissable" ng-show="parameterError">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <strong>Error!</strong> You must have at least one parameter (geobox, user, or keyword) to create your job!
+</div>
+<script type="application/javascript">
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>

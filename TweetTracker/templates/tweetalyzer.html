@@ -1,0 +1,34 @@
+{% extends "analysis.html" %}
+{% block title %}TweetTracker -- Tweetalyzer{% endblock %}
+{% block head %}
+{{ super() }}
+<!-- I use D3 and D3-Cloud for the Word Cloud -->
+<script src='/static/js/libs/d3.v3.min.js'></script>
+<script src='/static/js/libs/d3.layout.cloud.js'></script>
+<script src='/static/js/app/ttutilities/directives.js'></script>
+<script src='/static/js/app/tweetalyzer/tweetalyzer.js'></script>
+<script language="javascript" type="text/javascript" src="/static/js/libs/jqplot/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/js/libs/jqplot/jquery.jqplot.css" />
+<link rel="stylesheet" type="text/css" href="/static/stylesheets/insta_tube.css">
+<script type="text/javascript" src="/static/js/libs/jqplot/plugins/jqplot.barRenderer.min.js"></script>
+<script type="text/javascript" src="/static/js/libs/jqplot/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+<script type="text/javascript" src="/static/js/libs/jqplot/plugins/jqplot.pointLabels.min.js"></script>
+<script type="text/javascript" src="/static/js/libs/jqplot/plugins/jqplot.pieRenderer.min.js"></script>
+<script type="text/javascript" src="/static/js/libs/jqplot/plugins/jqplot.donutRenderer.min.js"></script>
+<script type="text/javascript" src="/static/js/app/tweetalyzer/leaflet-icons.js"></script>
+<script type="text/javascript" src="/static/js/libs/leaflet.ajax.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/stylesheets/topics.css" />
+{% endblock %}
+{% block content %}
+{{ super() }}
+{% endblock %}
+{% block analysis_content %}
+<div id="tweetalyzer">
+    <div data-ng-view></div>
+</div>
+
+<!-- Dynamically change the active tab in the navbar -->
+<script type="text/javascript">
+    $('#tweetalyzer_nav').addClass('active');
+</script>
+{% endblock %}

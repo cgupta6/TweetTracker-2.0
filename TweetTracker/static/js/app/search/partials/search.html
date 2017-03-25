@@ -1,0 +1,55 @@
+<div class="row">
+    <div class="col-lg-9">
+        <div id="searchMap" leafletsearchmap getgeoboxname="sendName()" data-ng-model="geoboxes" editable="true"></div>
+        <br>
+        <!--<div id="geoboxTagsStageContainer" style="display:none;width:100%"><input jqtagsdragdrop droppable="false" type="text" class="form-control" id="geoboxTagsStage" data-ng-model="geoboxTags"></div>
+        <br>
+        <a><button id="getTagButton" type="submit" class="btn" data-ng-click="getGeoboxTag()">Get Geobox Tags</button></a>-->
+        <table>
+            <tr>
+                <td style="width:33%">
+                    <input jqtagsdragdrop deletetagname="deleteTagName(tag)" droppable="true" type="text" class="form-control" id="searchKeywords" ng-model="tags">
+                </td>
+                <td>
+                    <p style="margin-left:10px;margin-right:10px">AND</p>
+                </td>
+                <td style="width:33%">
+                    <input jqtagsdragdrop deletetagname="deleteTagName(tag)" droppable="true" type="text" class="form-control" id="searchKeywordsAND" ng-model="tagsAND">
+                </td>
+                <td>
+                    <p style="margin-left:10px;margin-right:10px">AND NOT</p>
+                </td>
+                <td style="width:33%">
+                    <input jqtagsdragdrop deletetagname="deleteTagName(tag)" droppable="true" type="text" class="form-control" id="searchKeywordsANDNOT" ng-model="tagsANDNOT">
+                </td>
+            </tr>
+        </table>
+        <br>
+        <a><button id="searchButton"  type = "submit" class="btn btn-primary" data-ng-click="getSearchResults()">Search</button></a>
+    </div>
+    <div class="col-lg-3">
+        <div id="job_panel">
+            <p><strong>Job Panel</strong></p>
+            <label for="begin_date">Begin Date/Time:</label>
+            <div class="input-group">
+                <input id="begin_date" type="text" class="form-control" datepicker-popup="{{ dateFormatString }}" ng-model="dtBegin" is-open="beginOpened" min-date="minDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" data-ng-click="beginOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+            </div>
+            <br />
+            <label for="end_date">End Date/Time:</label>
+            <div class="input-group">
+                <input id="end_date" type="text" class="form-control" datepicker-popup="{{ dateFormatString }}" data-ng-model="dtEnd" is-open="endOpened" min-date="minDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" data-ng-click="endOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+            </div>
+            <hr />
+            <input class="form-control" type="text" placeholder="Job Selection Search" data-ng-model="jobSearch" />
+            <div class="job-list" style="height:15em">
+                <label data-ng-repeat="job in jobs | filter:jobSearch | orderBy:['!selected', '!crawling', 'name']"><input data-ng-model="job.selected" type="checkbox" /> <span data-ng-show="job.crawling" class="crawling-job">{{ job.name }}</span><span data-ng-show="!job.crawling" class="non-crawling-job">{{ job.name }}</span></label>
+            </div>
+        </div>
+    </div>
+</div>

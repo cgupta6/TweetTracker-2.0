@@ -1,0 +1,66 @@
+<div id="map" leafletmap ng-model="selectedJob.geoboxes" editable="false"></div>
+<center><div id="ulimit"></div></center>
+<label><input type="checkbox" data-ng-model="showPublic" /> Show Public Jobs</label>
+<input class="form-control" type="text" placeholder="Job Selection Search" data-ng-model="jobSearch" />
+
+<table id="job-display-table" class="table table-bordered table-responsive table-hover">
+    <thead>
+        <tr>
+            <th data-ng-click="predicate = 'name';reverse = !reverse;"><a>Job Name</a></th>
+			<th style="width:13%" data-ng-click="predicate = 'createtime';reverse = !reverse;"><a>Create Time</a></th>
+            <th>Keywords</th>
+            <th>Users</th>
+			<th>Sources</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td colspan="5"><a href="#/createJob"><button class="btn btn-block btn-primary"><i class="fa fa-plus"></i></button></a></td>
+        </tr>
+        <tr title="Click this row to view the job's geoboxes on the map" data-ng-repeat="job in jobs | filter: jobSearch | orderBy: predicate: reverse" data-ng-click="selectJob(job)">
+            <td>
+                <div style="height: 60px; overflow-y: none;">
+                    {{ job.name }}
+                    <div style="clear:both;">
+                    <a class="tooltipable" title="Edit Job" href="#/editJob/{{ job.id }}"><span
+                        class="pull-right glyphicon glyphicon-edit">Edit</span></a>
+                    <a class="tooltipable" title="Delete Job"><span  style="margin-right:3px;" data-ng-click="deleteJob(job.id)" class="pull-right glyphicon glyphicon-remove">Delete  </span></a>
+                    <a class="tooltipable" title="Toggle Crawl" data-ng-show="job.crawl"><span style="margin-top: 2px; margin-right:3px;" data-ng-click="setCrawl(job.id, false)" class="pull-right fa fa-check-square-o">Crawling</span></a>
+                    <a class="tooltipable" title="Toggle Crawl" data-ng-show="!job.crawl"><span style="margin-top: 2px; margin-right:3px;" data-ng-click="setCrawl(job.id, true)" class="pull-right fa fa-minus-square-o">Stopped</span></a>
+                    </div>
+                </div>
+            </td>
+			<td>
+                <div style="height: 60px">
+                    {{ job.createstring }}
+                </div>
+            </td>
+            <td>
+                <div style="height: 60px; overflow-y: scroll">
+                    {{ job.keywords.join(', ') }}
+                </div>
+            </td>
+            <td>
+                <div style="height: 60px; overflow-y: scroll">
+                    {{ job.users.join(', ') }}
+                </div>
+            </td>
+			<td style="width:20%">
+                <div style="height: 60px; overflow-y: scroll">
+                    <div><input type="checkbox" id="twitter" ng-model="job.sources.tw" disabled>&nbsp <i class="fa fa-twitter"></i>&nbsp Twitter</input></div>
+					<!--<div><input type="checkbox" id="facebook" ng-model="job.sources.fb" disabled>&nbsp <i class="fa fa-facebook-square"></i>&nbsp Facebook</input></div>-->
+					<div><input type="checkbox" id="youtube" ng-model="job.sources.yt" disabled>&nbsp <i class="fa fa-youtube-play"></i>&nbsp Youtube</input></div>
+					<div><input type="checkbox" id="vk" ng-model="job.sources.vk" disabled>&nbsp <i class="fa fa-vk"></i>&nbsp Vkontakte</input></div>
+					<div><input type="checkbox" id="instagram" ng-model="job.sources.in" disabled>&nbsp <i class="fa fa-instagram"></i>&nbsp Instagram</input></div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- Need to opt-in for Bootstrap tooltips-->
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>

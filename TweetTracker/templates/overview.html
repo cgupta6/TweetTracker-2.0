@@ -1,0 +1,21 @@
+{% extends "analysis.html" %}
+{% block title %}TweetTracker -- Overview{% endblock %}
+{% block head %}
+{{ super() }}
+<script src='/static/js/app/overview/overview.js'></script>
+<script src='/static/js/libs/jquery-ui.js'></script>
+<link rel="stylesheet" media="screen" href="/static/stylesheets/jquery-ui.css" />
+{% endblock %}
+{% block content %}
+{{ super() }}
+{% endblock %}
+{% block analysis_content %}
+<div id="overview">
+    <div data-ng-view></div>
+</div>
+
+<!-- Dynamically change the active tab in the navbar -->
+<script type="text/javascript">
+    $('#overview_nav').addClass('active');
+</script>
+{% endblock %}

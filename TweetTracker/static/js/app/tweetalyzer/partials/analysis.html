@@ -1,0 +1,837 @@
+<div id ="upperpart" class="row">
+    <div class="col-lg-9" data-ng-hide="mapHide">
+        <div id="map" leafletmap editable="false" data-clusters="true" data-points="locations" style="height:600px"></div>
+        <div id="addModal"></div>
+    </div>
+    <div class="col-lg-3">
+        <div id="job_panel">
+            <p><strong>Job Panel</strong></p>
+            <label for="begin_date">Begin Date/Time:</label>
+            <div class="input-group">
+                <input id="begin_date" type="text" class="form-control" datepicker-popup="{{ dateFormatString }}" ng-model="dtBegin" is-open="beginOpened" min-date="minDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" data-ng-click="beginOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+            </div>
+            <br />
+            <label for="end_date">End Date/Time:</label>
+            <div class="input-group">
+                <input id="end_date" type="text" class="form-control" datepicker-popup="{{ dateFormatString }}" data-ng-model="dtEnd" is-open="endOpened" min-date="minDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" data-ng-click="endOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+            </div>
+            <hr />
+             <div id="sort-map-buttons">
+              <label>Filter Map by:</label><br>
+              <input id="tweetMapFilter" type="checkbox" name="sorting" value="tweets" checked="checked">&nbsp;
+              <label for="tweetMapFilter">Tweets</label><br>
+              <input id="imageMapFilter" type="checkbox" name="sorting" value="images" checked="checked">&nbsp;
+              <label for="imageMapFilter">Images</label><br>
+              <input id="videoMapFilter" type="checkbox" name="sorting" value="videos" checked="checked">&nbsp;
+              <label for="videoMapFilter">Videos</label><br>
+              <hr />
+            </div>
+            <div id="sort-radio-buttons">
+              <label>Sort Images and Videos by:</label><br>
+              <input id="relevanceSorting" type="radio" name="sorting" value="relevance" checked="checked">&nbsp;
+              <label for="relevanceSorting">Relevance</label><br>
+              <input id="popularitySorting" type="radio" name="sorting" value="popularity">&nbsp;
+              <label for="popularitySorting">Popularity</label><br>
+              <hr />
+            </div>
+            <input class="form-control" type="text" placeholder="Job Selection Search" data-ng-model="jobSearch" />
+            <div class="job-list">
+                <label data-ng-repeat="job in jobs | filter:jobSearch | orderBy:['!selected', '!crawling', 'name']"><input data-ng-model="job.selected" type="checkbox"/>
+					<span data-ng-show="job.crawling" class="crawling-job">{{ job.name }}</span><span data-ng-show="!job.crawling" class="non-crawling-job">{{ job.name }}</span></label>
+            </div>
+            <button id="hide_map" class="btn btn-primary pull-left" data-ng-click="hideMap()">{{hideMapText}}</button>
+            <button id="update-button" class="btn btn-primary pull-right" data-ng-click="updateAnalysis()">Update View</button>
+        </div>
+    </div>
+</div>
+<br />
+<div class="row" id="lowerpart">
+    <div id="tabs" class={{tabsLength}}>
+        <tabset data-justified="true">
+            <tab heading="Tweetalyzer" select="tabSelected('tweetalyzer')">
+                <tabset data-justified="true">
+					<tab heading="Keywords" select="tabSelected('keywords')">
+						<div id="topics_tab" style="overflow-x:auto;">
+							<div data-ng-show="selectedJobs.length == 0">
+								<br />
+								Select some jobs from the job panel to begin visualizing the data.
+							</div>
+							<div data-ng-show="tabStates.topicsLoading">
+								<br />
+								<center><i class="fa fa-circle-o-notch fa-spin"></i> Loading ...</center>
+							</div>
+							<div data-ng-show="tabStates.topicsLoaded">
+								<div data-wordcloud data-ng-model="topics"></div>
+							</div>
+							<div data-ng-show="tabStates.topicsError">
+								Failure to load the word cloud. Try refreshing the page and re-entering the query.
+							</div>
+						</div>
+					</tab>
+					<tab heading="Users" select="tabSelected('users')">
+						<div data-ng-show="selectedJobs.length == 0">
+							<br />
+							Select some jobs from the job panel to begin visualizing the data.
+						</div>
+						<div data-ng-show="tabStates.usersLoading">
+							<br />
+							<center><i class="fa fa-circle-o-notch fa-spin"></i> Loading ...</center>
+						</div>
+						<div data-ng-show="tabStates.usersLoaded">
+							<br />
+							<table class="table table-bordered table-responsive">
+								<thead>
+								<tr>
+									<th> User </th>
+									<th> Mentions </th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr data-ng-repeat="user in users">
+									<td><a href="https://www.twitter.com/{{ user.user }}" target="_blank">{{ user.user }}</a></td>
+									<td>{{ user.count }}</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+						<div data-ng-show="tabStates.usersError">
+							Failure to load the top users. Try refreshing the page and re-entering the query.
+						</div>
+					</tab>
+					<tab heading="Hashtags" select="tabSelected('hashtags')">
+						<div data-ng-show="selectedJobs.length == 0">
+							<br />
+							Select some jobs from the job panel to begin visualizing the data.
+						</div>
+						<div data-ng-show="tabStates.hashtagsLoading">
+							<br />
+							<center><i class="fa fa-circle-o-notch fa-spin"></i> Loading ...</center>
+						</div>
+						<div data-ng-show="tabStates.hashtagsLoaded">
+							<br />
+							<table class="table table-bordered table-responsive">
+								<thead>
+									<tr>
+										<th>Hashtag</th>
+										<th>Count</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr data-ng-repeat="hashtag in hashtags">
+										<td>{{ hashtag.hashtag }}</td>
+										<td>{{ hashtag.count }}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div data-ng-show="tabStates.hashtagsError">
+							Failure to load the top hashtags. Try refreshing the page and re-entering the query.
+						</div>
+					</tab>
+					<tab heading="Images" select="tabSelected('images')">
+						<div data-ng-show="selectedJobs.length == 0">
+							<br />
+							Select some jobs from the job panel to begin visualizing the data.
+						</div>
+						<div data-ng-show="tabStates.imagesLoading">
+							<br />
+							<center><i class="fa fa-circle-o-notch fa-spin"></i> Loading Images...</center>
+						</div>
+						<div data-ng-show="tabStates.imagesLoaded">
+						</br>
+
+						<nav>
+						  <ul class="pager images">
+							<li class="previous disabled"><a data-ng-click="moveQuerySelection('images', 'prev')"><span aria-hidden="true">&larr;</span> Prev</a></li>
+							<li class="next"><a data-ng-click="moveQuerySelection('images', 'next')">Next <span aria-hidden="true">&rarr;</span></a></li>
+						  </ul>
+						</nav>
+						<!-- <ul class="pagination images">
+							<li>                    <a data-ng-click="pageSelected(0, 'images', 'prev')">&laquo;</a></li>
+							<li class="num active"> <a data-ng-click="pageSelected(1, 'images', 'num')" page="1">1</a></li>
+							<li class="num">        <a data-ng-click="pageSelected(2, 'images', 'num')" page="2">2</a></li>
+							<li class="num">        <a data-ng-click="pageSelected(3, 'images', 'num')" page="3">3</a></li>
+							<li>                    <a data-ng-click="pageSelected(0, 'images', 'next')">&raquo;</a></li>
+						</ul> -->
+						</br>
+							<div id="tile_class_insta" class="col-xs-2 insta popup" data-ng-repeat="image in images">
+								<a data-toggle="modal" data-target="#standardView{{ image.id }}" data-gallery="multiimages" data-title="" class="link_tile insta">
+									<img id="tile_img" src="{{ image.images.thumbnail.url }}" class="img-responsive insta tile">
+								</a>
+
+								<div class="modal fade insta" id="standardView{{ image.id }}" tabindex="100" role="dialog" aria-labelledby="standardViewLabel" aria-hidden="true">
+									<div class="modal-dialog insta">
+										<div class="modal-content insta">
+											<div class="modal-header insta">
+												<p class="link-modal text-center insta" href="{{ image.link }}">- Click Image to Go to Instagram -</p>
+												<button type="button" class="close insta" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+												</button>
+												<h4 class="modal-title insta" id="standardViewLabel"></h4>
+											</div>
+											<div class="modal-body insta" >
+												<a href="{{ image.link }}" target="_blank"><img id="modal_img" src="{{ image.images.standard_resolution.url }}" class="img-responsive insta"></a>
+											</div>
+											<div class="modal-footer insta">
+												<p class="desc-modal insta" >{{ image.caption.text }}</p><hr><center>
+												<p class="comments-modal insta" ><i class="glyphicon glyphicon-comment" style"top:2px;"></i>&nbsp;&nbsp;Comments:&nbsp;{{ image.comments.count }}</p>
+												<p class="likes-modal insta" ><i class="glyphicon glyphicon-heart"></i>&nbsp;&nbsp;Likes:&nbsp;{{ image.likes.count }}</p></center>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+						<div data-ng-show="tabStates.imagesError">
+							Failure to load images. Try refreshing the page and re-entering the query.
+						</div>
+					</tab>
+					<tab heading="Videos" select="tabSelected('videos')">
+						<div data-ng-show="selectedJobs.length == 0">
+							<br />
+							Select some jobs from the job panel to begin visualizing the data.
+						</div>
+						<div data-ng-show="tabStates.videosLoading">
+							<br />
+							<center><i class="fa fa-circle-o-notch fa-spin"></i> Loading Videos...</center>
+						</div>
+						<div data-ng-show="tabStates.videosLoaded">
+						</br>
+
+						<nav>
+						  <ul class="pager videos">
+							<li class="previous disabled"><a data-ng-click="moveQuerySelection('videos', 'prev')"><span aria-hidden="true">&larr;</span> Prev</a></li>
+							<li class="next"><a data-ng-click="moveQuerySelection('videos', 'next')">Next <span aria-hidden="true">&rarr;</span></a></li>
+						  </ul>
+						</nav>
+							<!--<ul class="pagination videos">
+								<li>                    <a data-ng-click="pageSelected(0, 'videos', 'prev')">&laquo;</a></li>
+								<li class="num active"> <a data-ng-click="pageSelected(1, 'videos', 'num')" page="1">1</a></li>
+								<li class="num">        <a data-ng-click="pageSelected(2, 'videos', 'num')" page="2">2</a></li>
+								<li class="num">        <a data-ng-click="pageSelected(3, 'videos', 'num')" page="3">3</a></li>
+								<li>                    <a data-ng-click="pageSelected(0, 'videos', 'next')">&raquo;</a></li>
+							</ul> -->
+						</br>
+							<div id="tile_class_tube" class="col-xs-2 tube popup" data-ng-repeat="video in videos">
+
+								<a data-toggle="modal" data-target="#standardView{{ video.id }}" data-gallery="multiimages" data-title="" class="link_tile select_tube tube">
+									<img id="tile_img" src="{{ video.thumbnail }}" class="img-responsive tube tile" value="{{ video.id }}">
+								</a>
+
+								<div class="modal fade tube_view tube" id="standardView{{ video.id }}" tabindex="100" role="dialog" aria-labelledby="standardViewLabel" aria-hidden="true">
+									<div class="modal-dialog tube">
+										<div class="modal-content tube">
+											<div class="modal-header tube">
+												<p class="link-modal text-center tube">{{ video.title }}</p>
+												<button type="button" class="close tube" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+												</button>
+												<h4 class="modal-title tube" id="standardViewLabel"></h4>
+											</div>
+											<div class="modal-body tube" ng-bind-html="video.iFrame | unsafe"></div>
+											<div class="modal-footer tube">
+												<p class="desc-modal tube" >{{ video.description }}</p></br><hr><center>
+												<p class="comments-modal tube" ><i class="glyphicon glyphicon-comment" style"top:2px;"></i>&nbsp;&nbsp;Comments:&nbsp;{{ video.commentCount }}&nbsp;&nbsp;&nbsp;</p>
+												<p class="likes-modal tube" ><i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;&nbsp;Likes:&nbsp;{{ video.likeCount }}&nbsp;&nbsp;&nbsp;</p>
+												<p class="dislikes-modal tube" ><i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;&nbsp;Dislikes:&nbsp;{{ video.dislikeCount }}&nbsp;&nbsp;&nbsp;</p>
+												<p class="favorites-modal tube" ><i class="glyphicon glyphicon-star"></i>&nbsp;&nbsp;Favorites:&nbsp;{{ video.favoriteCount }}&nbsp;&nbsp;&nbsp;</p>
+												<p class="views-modal tube" ><i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;Views:&nbsp;{{ video.viewCount }}</p></center>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+						<div data-ng-show="tabStates.videosError">
+							Failure to load videos. Try refreshing the page and re-entering the query.
+						</div>
+					</tab>
+					<tab heading="Links" select="tabSelected('links')">
+						<div data-ng-show="selectedJobs.length == 0">
+							<br />
+							Select some jobs from the job panel to begin visualizing the data.
+						</div>
+						<div data-ng-show="tabStates.linksLoading">
+							<br />
+							<center><i class="fa fa-circle-o-notch fa-spin"></i> Loading ...</center>
+						</div>
+						<div data-ng-show="tabStates.linksLoaded" style="overflow:auto;" >
+							<br />
+							<table class="table table-bordered table-responsive">
+								<thead>
+									<tr>
+										<th>Link</th>
+										<th>Count</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr data-ng-repeat="link in links">
+										<td><div class="scrollable"><a href="{{ link.link }}" target="_blank">{{ link.link }}</a></div></td>
+										<td>{{ link.count }}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div data-ng-show="tabStates.linksError">
+							Failure to load the top links. Try refreshing the page and re-entering the query.
+						</div>
+					</tab>
+					<tab heading="Tweets" select="tabSelected('tweets')" >
+						<div data-ng-show="selectedJobs.length == 0">
+							<br />
+							Select some jobs from the job panel to begin visualizing the data.
+						</div>
+						<div data-ng-show="tabStates.tweetsLoading">
+							<br />
+							<center><i class="fa fa-circle-o-notch fa-spin"></i> Loading ...</center>
+						</div>
+						<div data-ng-show="tabStates.tweetsLoaded" style="overflow-x:auto;" id="tweetsLoaded">
+							<div> <h3> Number of Tweets: {{numberofTweets}} </h3> </div>
+							<br />
+							<table class="table table-bordered table-responsive">
+								<thead>
+									<tr>
+										<th>
+											<b><a href="" ng-click="predicate='created_at';reverse=!reverse">Time</a></b>
+										</th>
+										<th>
+											<b><a href="" ng-click="predicate='user.screen_name';reverse=!reverse">User</a></b>
+										</th>
+										<th>
+											<b><a href="" ng-click="predicate='text';reverse=!reverse">Text</a></b>
+										</th>
+										<th>
+											<b><a href="" ng-click="predicate='geoflag';reverse=!reverse">Geotagged</a></b>
+										</th>
+										<th>
+											<b><a href="" ng-click="predicate='user.verified';reverse=!reverse">Verified</a></b>
+										</th>
+										<th>
+											<b><a href="" ng-click="predicate='user.followers_count';reverse=!reverse">No. Followers</a></b>
+										</th>
+										<th>
+											<b><a href="" ng-click="predicate='type';reverse=!reverse">Source</a></b>
+										</th>
+										<th>
+											<b><a href="" ng-click="predicate='lang';reverse=!reverse">Language</a></b>
+										</th>
+										<th>Conversation</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr data-ng-repeat="tweet in tweets | orderBy:predicate:reverse">
+										<td>{{ tweet.created_at }}</td>
+										<td>{{ tweet.user.screen_name }}</td>
+										<td style="max-width:400px;">
+											<div  style='height: 150px; overflow-y: scroll'>
+												{{ tweet.text }}
+											</div>
+										</td>
+										<td>{{ tweet.geoflag }}</td>
+										<td>{{ tweet.user.verified }}</td>
+										<td>{{ tweet.user.followers_count }}</td>
+										<td ng-show="tweet.type == 'unknown'">unknown</td>
+										<td ng-show="tweet.type == 'tw'"><i class="fa fa-twitter" title="Twitter"></i></td>
+										<td ng-show="tweet.type == 'vk'"><i class="fa fa-vk" title="VKontakte"></i></td>
+										<td>{{ tweet.lang }}</td>
+										<td ng-show="tweet.type == 'tw'"><button ng-click="convTracker(tweet.str_id_tweet)" class="btn btn-primary"><span class="glyphicon glyphicon-comment"></span></button></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div data-ng-show="tabStates.tweetsError">
+							Failure to load the tweets. Try refreshing the page and re-entering the query.
+						</div>
+					</tab>
+					<tab heading="Topics" select="drawPlots();tabSelected('topics')">
+						<div id="lda_tab">
+							<div id="topicTS"></div>
+							<div id="graphContainer">
+								<div id="divDist"></div>
+							</div>
+							<div id="ldaTweets"></div>
+						</div>
+					</tab>
+					<tab heading="Bots" select ="tabSelected('bots')">
+						<div data-ng-show="selectedJobs.length == 0">
+							<br />
+							Select some jobs from the job panel to begin visualizing the data.
+						</div>
+						<div data-ng-show="tabStates.botsLoading">
+							<br />
+							<center><i class="fa fa-circle-o-notch fa-spin"></i> Loading Bots...</center>
+						</div>
+						 <div data-ng-show="tabStates.botsLoaded">
+							<br />
+							<table class="table table-bordered table-responsive">
+								<thead>
+								<tr>
+									<th> User </th>
+									<th> Probability </th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr data-ng-repeat="bot in bots">
+									<td><a href="https://www.twitter.com/{{ bot.user_name }}" target="_blank">{{ bot.user_name }}</a></td>
+									<td> 
+										<img border="0" src='/static/images/twitter-normal-user.png' width="32" height="32" style='float:left'/>
+										<img border="0" src='/static/images/twitter-bot.png' width="32" height="32" style='float:right'/> 
+										<div class="progress">
+											<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="{{ bot.bot_prob }}" aria-valuemin="0" aria-valuemax="100" style="width: {{bot.bot_prob}}%">{{ bot.bot_prob }}%</div>
+										</div>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+						<div data-ng-show="tabStates.botsError">
+							Failure to load the top users. Try refreshing the page and re-entering the query.
+						</div>
+					</tab>
+					<tab heading="Yaks" select="tabSelected('yaks')">
+								<div data-ng-show="selectedJobs.length == 0">
+									<br/>
+									Select some jobs from the job panel to begin visualizing the data.
+								</div>
+								<div data-ng-show="tabStates.yaksLoading">
+									<br/>
+									<center><i class="fa fa-circle-o-notch fa-spin"></i> Loading ...</center>
+								</div>
+								<div data-ng-show="tabStates.yaksLoaded">
+									<br/>
+									<table class="table table-bordered table-responsive">
+										<thead>
+										<tr>
+											<th>Date</th>
+											<th>Message</th>
+											<th>Likes</th>
+											<th>Latitude</th>
+											<th>Longitude</th>
+										</tr>
+										</thead>
+										<tbody>
+										<tr data-ng-repeat="yak in yaks">
+											<td>{{ yak.date }}</td>
+											<td>{{ yak.text }}</td>
+											<td>{{ yak.likes }}</td>
+											<td>{{ yak.location.lat }}</td>
+											<td>{{ yak.location.long }}</td>
+										</tr>
+										</tbody>
+									</table>
+								</div>
+								<div data-ng-show="tabStates.yaksError">
+									Failure to load the yaks. Try refreshing the page and re-entering the query.
+								</div>
+							</tab>
+				</tabset>
+            </tab>
+            <tab heading="HDX" select="tabSelected('hdx')">
+                <div ng-controller="HDXController">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h3>Humanitarian Data Exchange</h3>
+                            </div>
+                            <div class="col-md-6"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <!-- IMPORTANT: MUST MATCH HDX COUNTRY STRINGS EXACTLY -->
+                                <strong>Country:</strong>
+                                <select id="countrySelect">
+                                    <!-- <option value="All">All</option> -->
+                                    <option value="AF" selected="selected">Afghanistan</option>
+                                    <option value="AX">Åland Islands</option>
+                                    <option value="AL">Albania</option>
+                                    <option value="DZ">Algeria</option>
+                                    <option value="AS">American Samoa</option>
+                                    <option value="AD">Andorra</option>
+                                    <option value="AO">Angola</option>
+                                    <option value="AI">Anguilla</option>
+                                    <option value="AQ">Antarctica</option>
+                                    <option value="AG">Antigua And Barbuda</option>
+                                    <option value="AR">Argentina</option>
+                                    <option value="AM">Armenia</option>
+                                    <option value="AW">Aruba</option>
+                                    <option value="AU">Australia</option>
+                                    <option value="AT">Austria</option>
+                                    <option value="AZ">Azerbajan</option>
+                                    <option value="BS">Bahamas</option>
+                                    <option value="BH">Bahrain</option>
+                                    <option value="BD">Bangladesh</option>
+                                    <option value="BB">Barbados</option>
+                                    <option value="BY">Belarus</option>
+                                    <option value="BE">Belgium</option>
+                                    <option value="BZ">Belize</option>
+                                    <option value="BJ">Benin</option>
+                                    <option value="BM">Bermuda</option>
+                                    <option value="BT">Bhutan</option>
+                                    <option value="BO">Bolivia (Plurinational State of)</option>
+                                    <option value="BQ">Bonaire, Sint Eustatius and Saba</option>
+                                    <option value="BA">Bosnia And Herzegowina</option>
+                                    <option value="BW">Botswana</option>
+                                    <option value="BV">Bouvet Island</option>
+                                    <option value="BR">Brazil</option>
+                                    <option value="IO">British Indian Ocean Territory</option>
+                                    <option value="BN">Brunei Darussalam</option>
+                                    <option value="BG">Bulgaria</option>
+                                    <option value="BF">Burkina Faso</option>
+                                    <option value="BI">Burundi</option>
+                                    <option value="KH">Cambodia</option>
+                                    <option value="CM">Cameroon</option>
+                                    <option value="CA">Canada</option>
+                                    <option value="CV">Cape Verde</option>
+                                    <option value="KY">Cayman Islands</option>
+                                    <option value="CF">Central African Republic</option>
+                                    <option value="TD">Chad</option>
+                                    <option value="CL">Chile</option>
+                                    <option value="CN">China</option>
+                                    <option value="CX">Christmas Island</option>
+                                    <option value="CC">Cocos (Keeling) Islands</option>
+                                    <option value="CO">Colombia</option>
+                                    <option value="KM">Comoros</option>
+                                    <option value="CG">Congo</option>
+                                    <option value="CD">Democratic Republic of the Congo</option>
+                                    <option value="CK">Cook Islands</option>
+                                    <option value="CR">Costa Rica</option>
+                                    <option value="CI">Côte d'Ivoire</option>
+                                    <option value="HR">Croatia</option>
+                                    <option value="CU">Cuba</option>
+                                    <option value="CW">Curaçao</option>
+                                    <option value="CY">Cyprus</option>
+                                    <option value="CZ">Czech Republic</option>
+                                    <option value="DK">Denmark</option>
+                                    <option value="DJ">Djibouti</option>
+                                    <option value="DM">Dominica</option>
+                                    <option value="DO">Dominican Republic</option>
+                                    <option value="EC">Ecuador</option>
+                                    <option value="EG">Egypt</option>
+                                    <option value="SV">El Salvador</option>
+                                    <option value="GQ">Equatorial Guinea</option>
+                                    <option value="ER">Eritrea</option>
+                                    <option value="EE">Estonia</option>
+                                    <option value="ET">Ethiopia</option>
+                                    <option value="FK">Falkland Islands (Malvinas)</option>
+                                    <option value="FO">Faroe Islands</option>
+                                    <option value="FJ">Fiji</option>
+                                    <option value="FI">Finland</option>
+                                    <option value="FR">France</option>
+                                    <option value="GF">French Guiana</option>
+                                    <option value="PF">French Polynesia</option>
+                                    <option value="TF">French Southern Territories</option>
+                                    <option value="GA">Gabon</option>
+                                    <option value="GM">Gambia</option>
+                                    <option value="GE">Georgia</option>
+                                    <option value="DE">Germany</option>
+                                    <option value="GH">Ghana</option>
+                                    <option value="GI">Gibraltar</option>
+                                    <option value="GR">Greece</option>
+                                    <option value="GL">Greenland</option>
+                                    <option value="GD">Grenada</option>
+                                    <option value="GP">Guadeloupe</option>
+                                    <option value="GU">Guam</option>
+                                    <option value="GT">Guatemala</option>
+                                    <option value="GG">Guernsey</option>
+                                    <option value="GN">Guinea</option>
+                                    <option value="GW">Guinea-Bissau</option>
+                                    <option value="GY">Guyana</option>
+                                    <option value="HT">Haiti</option>
+                                    <option value="HM">Heard Island and McDonald Islands</option>
+                                    <option value="VA">Holy See (Vatican City State)</option>
+                                    <option value="HN">Honduras</option>
+                                    <option value="HK">Hong Kong</option>
+                                    <option value="HU">Hungary</option>
+                                    <option value="IS">Iceland</option>
+                                    <option value="IN">India</option>
+                                    <option value="ID">Indonesia</option>
+                                    <option value="IR">Iran (Islamic Republic Of)</option>
+                                    <option value="IQ">Iraq</option>
+                                    <option value="IE">Ireland</option>
+                                    <option value="IM">Isle of Man</option>
+                                    <option value="IL">Israel</option>
+                                    <option value="IT">Italy</option>
+                                    <option value="JM">Jamaica</option>
+                                    <option value="JP">Japan</option>
+                                    <option value="JE">Jersey</option>
+                                    <option value="JO">Jordan</option>
+                                    <option value="KZ">Kazakhstan</option>
+                                    <option value="KE">Kenya</option>
+                                    <option value="KI">Kiribati</option>
+                                    <option value="KP">Democratic People's Republic of Korea</option>
+                                    <option value="KR">Korea, Republic Of</option>
+                                    <option value="KW">Kuwait</option>
+                                    <option value="KG">Kyrgyzstan</option>
+                                    <option value="LA">Lao People's Democratic Republic</option>
+                                    <option value="LV">Latvia</option>
+                                    <option value="LB">Lebanon</option>
+                                    <option value="LS">Lesotho</option>
+                                    <option value="LR">Liberia</option>
+                                    <option value="LY">Libya</option>
+                                    <option value="LI">Liechtenstein</option>
+                                    <option value="LT">Lithuania</option>
+                                    <option value="LU">Luxemburg</option>
+                                    <option value="MO">Macau</option>
+                                    <option value="MK">Macedonia</option>
+                                    <option value="MG">Madagascar</option>
+                                    <option value="MW">Malawi</option>
+                                    <option value="MY">Malaysia</option>
+                                    <option value="MV">Maldives</option>
+                                    <option value="ML">Mali</option>
+                                    <option value="MT">Malta</option>
+                                    <option value="MH">Marshall Islands</option>
+                                    <option value="MQ">Martinique</option>
+                                    <option value="MR">Mauritania</option>
+                                    <option value="MU">Mauritius</option>
+                                    <option value="YT">Mayotte</option>
+                                    <option value="MX">Mexico</option>
+                                    <option value="FM">Micronesia, Federated States Of</option>
+                                    <option value="MD">Moldova, Republic Of</option>
+                                    <option value="MC">Monaco</option>
+                                    <option value="MN">Mongolia</option>
+                                    <option value="ME">Montenegro</option>
+                                    <option value="MS">Montserrat</option>
+                                    <option value="MA">Morocco</option>
+                                    <option value="MZ">Mozambique</option>
+                                    <option value="MM">Myanmar</option>
+                                    <option value="NA">Namibia</option>
+                                    <option value="NR">Nauru</option>
+                                    <option value="NP">Nepal</option>
+                                    <option value="NL">Netherlands</option>
+                                    <option value="NC">New Caledonia</option>
+                                    <option value="NZ">New Zealand</option>
+                                    <option value="NI">Nicaragua</option>
+                                    <option value="NE">Niger</option>
+                                    <option value="NG">Nigeria</option>
+                                    <option value="NU">Niue</option>
+                                    <option value="NF">Norfolk Island</option>
+                                    <option value="MP">Northern Mariana Islands</option>
+                                    <option value="NO">Norway</option>
+                                    <option value="OM">Oman</option>
+                                    <option value="PK">Pakistan</option>
+                                    <option value="PW">Palau</option>
+                                    <option value="PS">State of Palestine</option>
+                                    <option value="PA">Panama</option>
+                                    <option value="PG">Papua New Guinea</option>
+                                    <option value="PY">Paraguay</option>
+                                    <option value="PE">Peru</option>
+                                    <option value="PH">Philippines</option>
+                                    <option value="PN">Pitcairn</option>
+                                    <option value="PL">Poland</option>
+                                    <option value="PT">Portugal</option>
+                                    <option value="PR">Puerto Rico</option>
+                                    <option value="QA">Qatar</option>
+                                    <option value="RE">Reunion</option>
+                                    <option value="RO">Romania</option>
+                                    <option value="RU">Russia</option>
+                                    <option value="RW">Rwanda</option>
+                                    <option value="BL">Saint Barthélemy</option>
+                                    <option value="SH">St. Helena</option>
+                                    <option value="KN">Saint Kitts And Nevis</option>
+                                    <option value="LC">Saint Lucia</option>
+                                    <option value="MF">Saint Martin (French part)</option>
+                                    <option value="PM">St. Pierre And Miquelon</option>
+                                    <option value="VC">Saint Vincent And The Grenadines</option>
+                                    <option value="WS">Samoa</option>
+                                    <option value="SM">San Marino</option>
+                                    <option value="ST">Sao Tome And Principe</option>
+                                    <option value="SA">Saudi Arabia</option>
+                                    <option value="SN">Senegal</option>
+                                    <option value="RS">Serbia</option>
+                                    <option value="SC">Seychelles</option>
+                                    <option value="SL">Sierra Leone</option>
+                                    <option value="SG">Singapore</option>
+                                    <option value="SX">Sint Maarten (Dutch part)</option>
+                                    <option value="SK">Slovakia (Slovak Republic)</option>
+                                    <option value="SI">Slovenia</option>
+                                    <option value="SB">Solomon Islands</option>
+                                    <option value="SO">Somalia</option>
+                                    <option value="ZA">South Africa</option>
+                                    <option value="GS">South Georgia And South S.S.</option>
+                                    <option value="SS">South Sudan</option>
+                                    <option value="ES">Spain</option>
+                                    <option value="LK">Sri Lanka</option>
+                                    <option value="SD">Sudan</option>
+                                    <option value="SR">Suriname</option>
+                                    <option value="SJ">Svalbard And Jan Mayen Islands</option>
+                                    <option value="SZ">Swaziland</option>
+                                    <option value="SE">Sweden</option>
+                                    <option value="CH">Switzerland</option>
+                                    <option value="SY">Syrian Arab Republic</option>
+                                    <option value="TW">Taiwan, Province of China</option>
+                                    <option value="TJ">Tajikistan</option>
+                                    <option value="TZ">United Republic of Tanzania</option>
+                                    <option value="TH">Thailand</option>
+                                    <option value="TL">East Timor</option>
+                                    <option value="TG">Togo</option>
+                                    <option value="TK">Tokelau</option>
+                                    <option value="TO">Tonga</option>
+                                    <option value="TT">Trinidad And Tobago</option>
+                                    <option value="TN">Tunisia</option>
+                                    <option value="TR">Turkey</option>
+                                    <option value="TM">Turkmenistan</option>
+                                    <option value="TC">Turks And Caicos Islands</option>
+                                    <option value="TV">Tuvalu</option>
+                                    <option value="UG">Uganda</option>
+                                    <option value="UA">Ukraine</option>
+                                    <option value="AE">United Arab Emirates</option>
+                                    <option value="GB">United Kingdom</option>
+                                    <option value="US">United States</option>
+                                    <option value="UM">U.S. Minor Islands</option>
+                                    <option value="UY">Uruguay</option>
+                                    <option value="UZ">Uzbekistan</option>
+                                    <option value="VU">Vanuatu</option>
+                                    <option value="VE">Venezuela</option>
+                                    <option value="VN">Viet Nam</option>
+                                    <option value="VG">Virgin Islands (British)</option>
+                                    <option value="VI">Virgin Islands (U.S.)</option>
+                                    <option value="WF">Wallis and Futuna</option>
+                                    <option value="EH">Western Sahara</option>
+                                    <option value="YE">Yemen</option>
+                                    <option value="ZM">Zambia</option>
+                                    <option value="ZW">Zimbabwe</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6"></div>
+                        </div>
+                        <br/>
+
+                        <div class="row">
+                            <div class="col-md-10">
+                                <input class="form-control ng-pristine ng-valid ng-scope ng-touched" type="text"
+                                       placeholder="Dataset Selection Search" ng-model="query">
+                            </div>
+                            <div class="col-md-2"></div>
+                        </div>
+                        <br/>
+
+                        <div class="row">
+                            <div class="col-md-10">
+                                <table id="hdxTable" class="table table-bordered table-responsive">
+                                    <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>User</th>
+                                        <th>Date</th>
+                                        <th>Files</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody ng-repeat="dataset in datasets | filter:query">
+                                    <tr title="{{ dataset.description }}" ng-click="isOpen=!isOpen" class="clickableRow hover">
+                                        <td>{{ dataset.name }}</td>
+                                        <td>{{ dataset.owner }}</td>
+                                        <td>{{ dataset.date }}</td>
+                                        <td>{{ dataset.files.length }}
+                                            <!--<span ng-repeat="file in dataset.files">&nbsp;{{ file.format }}</span>--></td>
+                                    </tr>
+                                    <tr style="background-color:lightblue;" ng-if="isOpen"
+                                        ng-repeat="file in dataset.files">
+                                        <td>{{ file.filename }}&nbsp;({{ file.format }})</td>
+                                        <td>
+                                            <div ng-switch="file.format">
+                                                <div ng-switch-when="JSON">
+                                                    <button ng-if="file.filename.indexOf('geojson') == -1" class="btn btn-primary" ng-click="processFile(file)">View in dialog</button>
+                                                    <button ng-if="file.filename.indexOf('geojson') > -1"  class="btn btn-primary" ng-click="processFile(file)">View in map</button>
+                                                </div>
+                                                <div ng-switch-when="KMZ">
+                                                    <button class="btn btn-danger" disabled>Cannot display</button>
+                                                </div>
+                                                <div ng-switch-when="kmz">
+                                                    <button class="btn btn-danger" disabled>Cannot display</button>
+                                                </div>
+                                                <div ng-switch-when="ZIP">
+                                                    <button ng-if="file.filename.indexOf('gdb') > -1 || file.filename.indexOf('kmz') > -1" class="btn btn-danger" disabled>Cannot display</button>
+                                                    <button ng-if="file.filename.indexOf('gdb') == -1 && file.filename.indexOf('kmz) == -1" class="btn btn-primary" ng-click="processFile(file)">View in map</button>
+                                                </div>
+                                                <div ng-switch-when="zip">
+                                                    <button ng-if="file.filename.indexOf('gdb') > -1" class="btn btn-danger" disabled>Cannot display</button>
+                                                    <button ng-if="file.filename.indexOf('gdb') == -1" class="btn btn-primary" ng-click="processFile(file)">View in map</button>
+                                                </div>
+                                                <div ng-switch-when="zipped shapefile">
+                                                    <button ng-if="file.filename.indexOf('gdb') > -1" class="btn btn-danger" disabled>Cannot display</button>
+                                                    <button ng-if="file.filename.indexOf('gdb') == -1" class="btn btn-primary" ng-click="processFile(file)">View in map</button>
+                                                </div>
+                                                <div ng-switch-when="ZIPPED SHAPEFILE">
+                                                    <button ng-if="file.filename.indexOf('gdb') > -1" class="btn btn-danger" disabled>Cannot display</button>
+                                                    <button ng-if="file.filename.indexOf('gdb') == -1"  class="btn btn-primary" ng-click="processFile(file)">View in map</button>
+                                                </div>
+                                                <div ng-switch-when="KML">
+                                                    <button class="btn btn-primary" ng-click="processFile(file)">View in map</button>
+                                                </div>
+                                                <div ng-switch-when="GeoJSON">
+                                                    <button class="btn btn-primary" ng-click="processFile(file)">View in map</button>
+                                                </div>
+                                                <div ng-switch-when="SHP">
+                                                    <button class="btn btn-primary" ng-click="processFile(file)">View in map</button>
+                                                </div>
+                                                <div ng-switch-when="zipped kml">
+                                                    <button class="btn btn-primary" ng-click="processFile(file)">View in map</button>
+                                                </div>
+                                                <div ng-switch-when="XLSX">
+                                                    <button class="btn btn-danger" disabled>Cannot display</button>
+                                                </div>
+                                                <div ng-switch-when="XLS">
+                                                    <button class="btn btn-danger" disabled>Cannot display</button>
+                                                </div>
+                                                <div ng-switch-when="excel">
+                                                    <button class="btn btn-danger" disabled>Cannot display</button>
+                                                </div>
+                                                <div ng-switch-when="dem">
+                                                    <button class="btn btn-danger" disabled>Cannot display</button>
+                                                </div>
+                                                <div ng-switch-when="Map">
+                                                    <button class="btn btn-danger" disabled>Cannot display</button>
+                                                </div>
+                                                <div ng-switch-when="URL">
+                                                    <button class="btn btn-danger" disabled>Cannot display</button>
+                                                </div>
+                                                <div ng-switch-when="url">
+                                                    <button class="btn btn-danger" disabled>Cannot display</button>
+                                                </div>
+                                                <div ng-switch-default>
+                                                    <button ng-if="file.filename.indexOf('kml') > -1" class="btn btn-primary" ng-click="processFile(file)">View in map</button>
+                                                    <button ng-if="file.filename.indexOf('kml') == -1" class="btn btn-primary" ng-click="processFile(file)">View in dialog</button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-primary" ng-click="downloadFile(file)">Download file</button>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div style="text-align: center;" data-ng-show="datasets.length == 0">
+                                    <strong style="color: darkred;"><h4>No datasets found.</h4></strong>
+                                </div>
+                            </div>
+                            <div class="col-md-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </tab>
+        </tabset>
+    </div>
+</div>
+
+
+<script>
+  $('.clickableRow').hover( function() {
+    $(this).toggleClass('hover');
+   });
+</script>
+
+<!-- Striped table color for HDX datasets -->
+<style>
+
+    .clickableRow.hover {
+   cursor: pointer;
+   /* whatever other hover styles you want */
+}
+</style>

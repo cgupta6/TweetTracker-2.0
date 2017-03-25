@@ -1,0 +1,216 @@
+<H1>Results</H1>
+<div class="col-lg-12">
+    <tabset data-justified="true">
+       <tab heading="Tweets">
+       <a id="invisibleDownloadLink" download="{{fileName}}.{{fileType}}" href="{{exportAddress}}" style="display:none">download</a>
+           <form id="search_results_form" role="form">
+           </br>
+            <label class="radio-inline"><input type="radio" name="tweets-output-file-type" id="tweet-json" checked>JSON</label>
+            <label class="radio-inline"><input type="radio" name="tweets-output-file-type" id="tweet-xml">XML</label>
+            <!--<input type="checkbox" id="DB"  value="1"> DB
+            <input type="checkbox" id="KML"  value="1"> KML
+            <input type="checkbox" id="ORA"  value="1"> ORA-->
+            <div style="float:right">
+            <a><button style="margin-right:2px" id="exportSelectedTweets" class="btn btn-primary" data-ng-click="exportSelected()">Export Selected Tweets</button></a> &nbsp;
+            <a><button id="exportAllTweets" class="btn btn-primary" data-ng-click="exportAll()">Export All Tweets</button></a> </div>
+        </form>
+        <div data-ng-show="loading">
+            <center><i class="fa fa-circle-o-notch fa-spin"></i>Loading...</center>
+        </div>
+        <H3 style="display:{{totalDisplay}}">Displaying {{numberDisplayed}} of {{totalNumber}} tweets</H3>
+        <a><button id = "loadMoreTweetsTop" class="btn btn-primary" data-ng-click="loadMoreResults()">Load More Results</button></a>
+        <a style="float:right"><button class="btn btn-primary" data-ng-click="selectAllToggle()">Select All</button></a>
+        </br></br>
+        <table class = "table table-bordered" id = "resultsTable">
+            <thead>
+                <tr>
+                    <td>
+                        <b><a href="" ng-click="predicate='screen_name';reverse=!reverse">Screen Name</a></b>
+                    </td>
+                    <td style="width:15%">
+                        <b><a href="" ng-click="predicate='timestamp';reverse=!reverse">Date/Time</a></b>
+                    </td>
+                    <td>
+                        <b><a href="" ng-click="predicate='text';reverse=!reverse">Text</a></b>
+                    </td>
+                    <td>
+                        <b><a href="" ng-click="predicate='user.followers_count';reverse=!reverse">Follower Count</a></b>
+                    </td>
+                    <td>
+                        <b>Lat/Lng</b>
+                    </td>
+                    <td>
+                        <b><a href="" ng-click="predicate='type';reverse=!reverse">Source</a></b>
+                    </td>
+                    <td>
+                        <b><a href="" ng-click="predicate='lang';reverse=!reverse">Language</a></b>
+                    </td>
+                    <td>
+                        <b><a href="" ng-click="predicate='retweet_count';reverse=!reverse">Retweet Count</a></b>
+                    </td>
+                    <td>
+                        <b>Export</b>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="tweet in searchResults | orderBy:predicate:reverse" >
+                    <td ng-show="tweet.type== 'tw'"><a target="_blank" href="http://www.twitter.com/{{tweet.user.screen_name}}">{{tweet.user.screen_name}}</a></td>
+                    <td ng-show="tweet.type== 'vk'"><a target="_blank" href="http://www.vk.com/{{tweet.user.screen_name}}">{{tweet.user.screen_name}}</a></td>
+                    <td>{{tweet.dateString}}</td>
+                    <td>{{tweet.text}}<button class="btn btn-primary translate" data-ng-click="translateTweetToEnglish(this)">Translate</button></td>
+                    <td>{{tweet.user.followers_count}}</td>
+                    <td>{{tweet.latlngDisplay}}</td>
+                    <td ng-show="tweet.type == 'unknown'">unknown</td>
+                    <td ng-show="tweet.type == 'tw'"><i class="fa fa-twitter" title="Twitter"></i></td>
+                    <td ng-show="tweet.type == 'vk'"><i class="fa fa-vk" title="VKontakte"></i></td>
+                    <td>{{tweet.lang}}</td>
+                    <td>{{tweet.retweet_count}}</td>
+                    <td><input type="checkbox" ng-model="exportTable[tweet.id].export"></td>
+                </tr>
+            </tbody>
+        </table>
+        <a><button id = "loadMoreTweetsBottom" class="bt btn-primary" data-ng-click="loadMoreResults()">Load More Results</button></a>
+        <a ><button style="float:right" class="btn btn-primary" data-ng-click="selectAllToggle()">Select All</button></a>
+        </br></br><div style="float:right">
+        <a><button id="exportSelectedTweets" class="btn btn-primary" data-ng-click="exportSelected()">Export Selected Tweets</button></a> &nbsp; 
+        <a><button id="exportAllTweets" class="btn btn-primary" data-ng-click="exportAll()">Export All Tweets</button></a>
+        </div>
+        <H3 style="display:{{totalDisplay}}">Displaying {{numberDisplayed}} of {{totalNumber}} tweets</H3>
+        
+    </tab>
+    
+
+    <tab heading="Images">
+    <a id="invisibleDownloadLink" download="{{fileName}}.{{fileType}}" href="{{exportAddress}}" style="display:none">download</a>
+       <form id="search_results_form" role="form">
+       </br>
+          <label class="radio-inline"><input type="radio" name="images-output-file-type" id="image-json" checked>JSON</label>
+          <label class="radio-inline"><input type="radio" name="images-output-file-type" id="image-xml">XML</label>
+    <!--<input type="checkbox" id="DB"  value="1"> DB
+    <input type="checkbox" id="KML"  value="1"> KML
+    <input type="checkbox" id="ORA"  value="1"> ORA-->
+            <div style="float:right">
+            <a ><button id="exportSelectedImages" class="btn btn-primary" data-ng-click="exportSelected()">Export Selected Images</button></a> &nbsp;
+            <a ><button id="exportAllImages" class="btn btn-primary" data-ng-click="exportAll()">Export All Images</button></a>
+            </div>
+</form>
+<H3 style="display:{{totalDisplay}}">Displaying {{numberDisplayedImages}} of {{totalNumberImages}} images</H3>
+<a><button id = "loadMoreImagesTop" class="btn btn-primary" data-ng-click="loadMoreResults()">Load More Results</button></a> 
+<a style="float:right"><button class="btn btn-primary" data-ng-click="selectAllToggle()">Select All</button></a>
+<div data-ng-show="loading">
+    <br/>
+    <center><i class="fa fa-circle-o-notch fa-spin"></i> Loading ...</center>
+</div>
+<br/><br/>
+<table class = "table table-bordered" id = "resultsTable">
+    <thead>
+        <tr>
+            <td>
+                <b><a href="" ng-click="predicate='user.screen_name';reverse=!reverse;">Screen Name</a></b>
+            </td>
+            <td style="width:15%">
+                <b><a href="" ng-click="predicate='timestamp';reverse=!reverse;">Date/Time</a></b>
+            </td>
+            <td>
+                <b>Caption</b>
+            </td>
+            <td>
+                <b>Image</b>
+            </td>
+            <td>
+                <b>Lat/Lng</b>
+            </td>
+            <td>
+                <b>Export</b>
+            </td>
+        </tr>
+    </thead>
+
+    <tbody>
+
+     <tr data-ng-repeat="image in imageSearchResults" >
+        <td>{{image.user.username}}</td>
+        <td>{{image.created_time}}</td>
+        <td>{{image.caption.text}}<button class="btn btn-primary translate" data-ng-click="translateImageCaptionToEnglish(this)">Translate</button></td>
+        <td><a href={{image.link}} target="_blank"><img class="insta" src={{image.images.thumbnail.url}}></a></td>
+        <td>{{image.latlngDisplay}}</td>
+        <td><input type="checkbox" ng-model="exportTableImages[image.id].export"></td
+        </tr>
+    </tbody>
+</table>
+<a><button id = "loadMoreImagesBottom" class="btn btn-primary" data-ng-click="loadMoreResults()">Load More Results</button></a>
+<a style="float:right"><button class="btn btn-primary" data-ng-click="selectAllToggle()">Select All</button></a>
+</br></br>
+<div style="float:right">
+<a><button id="exportSelectedImages" class="btn btn-primary" data-ng-click="exportSelected()">Export Selected Images</button></a> &nbsp;
+<a><button id="exportAllImages" class="btn btn-primary" data-ng-click="exportAll()">Export All Images</button></a>
+</div>
+<H3 style="display:{{totalDisplay}}">Displaying {{numberDisplayedImages}} of {{totalNumberImages}} images</H3>
+</tab>
+
+<tab heading="Videos">
+
+<a id="invisibleDownloadLink" download="{{fileName}}.{{fileType}}" href="{{exportAddress}}" style="display:none">download</a>
+   <form id="search_results_form" role="form">
+    <br>
+      <label class="radio-inline"><input type="radio" name="videos-output-file-type" id="video-json" checked>JSON</label>
+      <label class="radio-inline"><input type="radio" name="videos-output-file-type" id="video-xml">XML</label>
+    <!--<input type="checkbox" id="DB"  value="1"> DB
+    <input type="checkbox" id="KML"  value="1"> KML
+    <input type="checkbox" id="ORA"  value="1"> ORA-->
+    
+    <div style="float:right">
+    <a><button id="exportSelectedVideos" class="btn btn-primary" data-ng-click="exportSelected()">Export Selected Videos</button></a> &nbsp;
+    <a><button id="exportAllVideos" class="btn btn-primary" data-ng-click="exportAll()">Export All Videos</button></a>
+    </div>
+</form>
+<H3 style="display:{{totalDisplay}}">Displaying {{numberDisplayedVideos}} of {{totalNumberVideos}} videos</H3>
+<a><button id = "loadMoreVideosTop" class="btn btn-primary" data-ng-click="loadMoreResults()">Load More Results</button></a> 
+<a style="float:right"><button class="btn btn-primary" data-ng-click="selectAllToggle()">Select All</button></a> 
+</br></br>
+<table class = "table table-bordered" id = "resultsTable">
+    <thead>
+        <tr>
+            <td>
+                <b>Title</b>
+            </td>
+            <td>
+                <b>Date</b>
+            </td>
+            <td>
+                <b>Description</b>
+            </td>
+            <td>
+                <b>Video</b>
+            </td>
+            <td>
+                <b>Lat/Lng</b>
+            </td>
+            <td>
+                <b>Export</b>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr data-ng-repeat="video in videoSearchResults"  >
+            <td>{{video.title}}</td>
+            <td>{{video.date}}</td>
+            <td>{{video.description}}<button class="btn btn-primary translate" data-ng-click="translateVideoDescriptionToEnglish(this)">Translate</button></td>
+            <td><a href={{video.url}} target="_blank"><img class="tube" src={{video.thumbnail}} height="100" width="100"></a></td>
+            <td>{{video.latlngDisplay}}</td>
+            <td><input type="checkbox" ng-model="exportTableVideos[video.id].export"></td>
+        </tr>
+    </tbody>
+</table>
+<a><button id = "loadMoreVideosBottom" class="btn btn-primary" data-ng-click="loadMoreResults()">Load More Results</button></a>
+<a style="float:right"><button class="btn btn-primary" data-ng-click="selectAllToggle()">Select All</button></a>
+<br/><br/> <div style="float:right"> 
+<a><button id="exportSelectedVideos" class="btn btn-primary" data-ng-click="exportSelected()">Export Selected Videos</button></a> &nbsp;
+<a><button id="exportAllVideos" class="btn btn-primary" data-ng-click="exportAll()">Export All Videos</button></a>
+</div>
+<H3 style="display:{{totalDisplay}}">Displaying {{numberDisplayedVideos}} of {{totalNumberVideos}} videos</H3>
+
+
+</tab>
+</tabset>

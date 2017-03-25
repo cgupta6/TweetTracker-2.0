@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}TweetTracker{% endblock %}
+{% block head %}{{ super() }}
+<script type="application/javascript" src="/static/js/libs/leaflet/leaflet.markercluster.js"></script>
+<link rel="stylesheet" media="screen" href='/static/js/libs/leaflet/MarkerCluster.Default.css'/>
+{% endblock %}
+{% block content %}
+<div class="row" data-ng-app="{% print(ngApp) %}">
+    <div class="col-lg-2 col-sm-2 col-med-2">
+        <p><strong>Tools</strong></p>
+        <ul class="nav nav-pills nav-stacked">
+            <li id="overview_nav"><a href="/app/overview#/">Overview</a></li>
+            <li id="manager_nav"><a href="/app/jobmanager#/">Job Manager</a></li>
+            <li id="tweetalyzer_nav"><a href="/app/tweetalyzer#/">Tweetalyzer</a></li>
+            <li id="search_nav"><a href="/app/search#/">Search/Export</a></li>
+            <li id="trends_nav"><a href="/app/trends#/">Trends</a></li>
+        </ul>
+    </div>
+    <div class="col-lg-10 col-sm-10 col-med-10">
+        {% block analysis_content %}{% endblock %}
+    </div>
+</div>
+{% endblock %}

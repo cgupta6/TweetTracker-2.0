@@ -1,0 +1,1669 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
+
+    <title>TweetTracker API V 0.2 (beta)</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <style>
+    /* Move down content because we have a fixed navbar that is 50px tall */
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    </style>
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">TweetTracker API</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="#">Home</a></li>
+            <li><a href="http://tweettracker.fulton.asu.edu">About</a></li>
+            <!-- <li><a href="#contact">Contact</a></li> -->
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Endpoints <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li class="dropdown-header">Authentication</li>
+                <li><a href="#login" class="scrollUpALittle">Login</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Job Management</li>
+                <li><a href="#get_jobs" class="scrollUpALittle">View Jobs</a></li>
+                <li><a href="#create_job" class="scrollUpALittle">Create Job</a></li>
+                <li><a href="#set_crawl" class="scrollUpALittle">Set Crawl</a></li>
+                <li><a href="#edit_job" class="scrollUpALittle">Edit Job</a></li>
+                <li><a href="#delete_job" class="scrollUpALittle">Delete Job</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Getting Data</li>
+                <li><a href="#tweets" class="scrollUpALittle">Get Tweets</a></li>
+                <li><a href="#get_tweet" class="scrollUpALittle">Get Tweet</a></li>
+                <li><a href="#get_locations" class="scrollUpALittle">Get Locations</a></li>
+                <li><a href="#topentities" class="scrollUpALittle">Top Entities</a></li>
+                <li><a href="#trendlines" class="scrollUpALittle">Trendlines</a></li>
+                
+              </ul>
+            </li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1>TweetTracker API V 0.2 (beta)</h1>
+        <p>Provides a series of endpoints to query data collected from <a href="http://tweettracker.fulton.asu.edu">ASU's TweetTracker</a>.</p>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Example row of columns -->
+        <a name="login" class="jumpto"></a><h2>Login</h2>
+        <div class="highlight">
+            <h4>Resource URL</h4>
+            <span class="replace_me_with_url"></span>/login
+            <h4>Parameters</h4>
+            <table class="table table-striped">
+                <tr>
+                    <th>Parameter</th>
+                    <th>Type</th>
+                    <th>Takes Multiple</th>
+                    <th>Required</th>
+                    <th>Default</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td><code>username</code></td>
+                    <td>String</td>
+                    <td>No</td>
+                    <td>Yes</td>
+                    <td>N/A</td>
+                    <td>The username to authenticate as</td>
+                </tr>
+                <tr>
+                    <td><code>password</code></td>
+                    <td>String</td>
+                    <td>No</td>
+                    <td>Yes</td>
+                    <td>N/A</td>
+                    <td>The password for the provided username</td>
+                </tr>
+            </table>
+            <h4>Output</h4>
+            <p>
+                This call returns a JSON document <code>{"login": "success"}</code> with HTTP status code 200 if successful,
+                and a HTTP 400 Bad Request if the request is missing parameters. If the username provided doesn't exist
+                or the password doesn't match the username, the server will respond with an HTTP 403 status code.
+            </p>
+            <p>
+                If you received a HTTP 200 Success response, the response will have a "session" cookie that is used to
+                authenticate later requests. To make authenticated requests to the API, simply call /login with your
+                credentials, save the "session" cookie, then attach that cookie to all subsequent requests.
+            </p>
+            <p>
+                Suppose you have an account with the username <code>foo</code> and the password <code>bar</code>. The
+                following is an example of a successful login:
+            </p>
+            <table class="table table-striped">
+                <tr>
+                    <th>HTTP Method</th>
+                    <th>URL</th>
+                    <th>Request Body</th>
+                </tr>
+                <tr>
+                    <td>POST</td>
+                    <td><span class="replace_me_with_url"></span>/login</td>
+                    <td><code>{ "username": "foo", "password": "bar" }</code></td>
+                </tr>
+            </table>
+            <pre>{ "login": "success" }</pre>
+        </div>
+
+      <a name="get_jobs"></a><h2>Get Jobs</h2>
+      <div class="highlight">
+          <h4>Resource URL</h4>
+          <span class="replace_me_with_url"></span>/api/job
+          <h4>Parameters</h4>
+          <p>
+              The Get Jobs API endpoint doesn't require any parameters -- it will automatically respond with all the public jobs and 
+			  the jobs that correspond to the user stored in the session cookie. This means that you must first make a call to
+              login and set the session cookie in order to receive your jobs. However, if called with no active
+              session, it will respond with all the public jobs.
+          </p>
+          <h4>Output</h4>
+          <p>The "jobs" property of the output of this API call has the following format:</p>
+          <table class="table table-striped">
+              <tr>
+                  <th>Property</th>
+                  <th>Type</th>
+                  <th>Description</th>
+              </tr>
+              <tr>
+                  <td><code>catname</code></td>
+                  <td><code>String</code></td>
+                  <td>The name of the Job</td>
+              </tr>
+              <tr>
+                  <td><code>publicflag</code></td>
+                  <td><code>Integer</code></td>
+                  <td>1 signifies that this Job is publicly accessible, 0 signifies it is not.</td>
+              </tr>
+              <tr>
+                  <td><code>geoboxes</code></td>
+                  <td><code>Array[<a href="#Geobox">Geobox</a>]</code></td>
+                  <td>An array of Geoboxes that the Job is tracking.</td>
+              </tr>
+              <tr>
+                  <td><code>creator</code></td>
+                  <td><code>Integer</code></td>
+                  <td>The user id of the user that created the Job.</td>
+              </tr>
+              <tr>
+                  <td><code>keywords</code></td>
+                  <td><code>Array[String]</code></td>
+                  <td>The keywords that the Job is tracking.</td>
+              </tr>
+              <tr>
+                  <td><code>userids</code></td>
+                  <td><code>Array[<a href="#UserObj">UserObj</a>]</code></td>
+                  <td>An array of UserObj that contains information about the Twitter users the Job tracks.</td>
+              </tr>
+              <tr>
+                  <td><code>desc</code></td>
+                  <td><code>String</code></td>
+                  <td>A short description of the Job.</td>
+              </tr>
+              <tr>
+                  <td><code>categoryID</code></td>
+                  <td><code>Integer</code></td>
+                  <td>A unique identifier for the Job.</td>
+              </tr>
+              <tr>
+                  <td><code>last_tweet_time</code></td>
+                  <td><code>Integer</code></td>
+                  <td>The timestamp for when the last tweet in the Job was added.</td>
+              </tr>
+              <tr>
+                  <td><code>createtime</code></td>
+                  <td><code>Integer</code></td>
+                  <td>A timestamp for when the job was created.</td>
+              </tr>
+          </table>
+          <p>
+              Some of the objects have special types that we defined (Geobox, UserObj). Below are the structures of
+              these types.
+          </p>
+          <a name="Geobox"></a><h5>Geobox</h5>
+          <table class="table table-striped">
+              <tr>
+                  <th>Property</th>
+                  <th>Type</th>
+                  <th>Description</th>
+              </tr>
+              <tr>
+                  <td><code>neLat</code></td>
+                  <td><code>Double</code></td>
+                  <td>The latitude of the North-East corner of the geobox</td>
+              </tr>
+              <tr>
+                  <td><code>neLng</code></td>
+                  <td><code>Double</code></td>
+                  <td>The longitude of the North-East corner of the geobox</td>
+              </tr>
+              <tr>
+                  <td><code>seLat</code></td>
+                  <td><code>Double</code></td>
+                  <td>The latitude of the South-East corner of the geobox</td>
+              </tr>
+              <tr>
+                  <td><code>seLng</code></td>
+                  <td><code>Double</code></td>
+                  <td>The longitude of the South-East corner of the geobox</td>
+              </tr>
+              <tr>
+                  <td><code>swLat</code></td>
+                  <td><code>Double</code></td>
+                  <td>The latitude of the South-West corner of the geobox</td>
+              </tr>
+              <tr>
+                  <td><code>swLng</code></td>
+                  <td><code>Double</code></td>
+                  <td>The longitude of the South-West corner of the geobox</td>
+              </tr>
+              <tr>
+                  <td><code>nwLat</code></td>
+                  <td><code>Double</code></td>
+                  <td>The latitude of the North-West corner of the geobox</td>
+              </tr>
+              <tr>
+                  <td><code>nwLng</code></td>
+                  <td><code>Double</code></td>
+                  <td>The longitude of the North-West corner of the geobox</td>
+              </tr>
+          </table>
+          <a name="UserObj"></a><h5>UserObj</h5>
+          <table class="table table-striped">
+              <tr>
+                  <th>Property</th>
+                  <th>Type</th>
+                  <th>Description</th>
+              </tr>
+              <tr>
+                  <td><code>userID</code></td>
+                  <td><code>Integer</code></td>
+                  <td>The user ID assigned to the user by Twitter</td>
+              </tr>
+              <tr>
+                  <td><code>screen_name</code></td>
+                  <td><code>String</code></td>
+                  <td>The screen name of the user on Twitter</td>
+              </tr>
+          </table>
+          <p>
+              The output of this API call is a JSON object containing a "jobs" array. Each element of this jobs array
+              is itself a JSON object representing the job in TweetTracker. Below is an example, where the session
+              cookie has been set to correspond to our admin user, which is truncated:
+          </p>
+          <h4>Example</h4>
+          <table class="table table-striped">
+              <tr>
+                  <th>HTTP Method</th>
+                  <th>URL</th>
+              </tr>
+              <tr>
+                  <td>GET</td>
+                  <td><span class="replace_me_with_url"></span>/api/job</td>
+              </tr>
+          </table>
+<pre>
+{ "jobs": [
+    {
+        "catname": "Anti-Maydan",
+        "publicflag": 1,
+        "geoboxes": [
+            {
+                "latlngsw": [
+                    11.673,
+                    102.875
+                ],
+                "latlngne": [
+                    21.35,
+                    107.182
+                ]
+            }, ... ],
+        "creator": 5,
+        "keywords": [
+            "antimaydan",
+            ... ],
+        "userids": [
+            {
+                "userID": 2361029106L,
+                "screen_name": "anti_maydan"
+            }, ... ],
+        "desc": "Following pro-Russian propaganda about the Ukraine"
+        "categoryID": 352
+        "last_tweet_time": null,
+        "createtime": 1396801085931L
+    }, ... ]
+}</pre></div>
+      <a name="edit_job"></a><h2>Edit Job</h2>
+      <div class="highlight">
+          <h4>Resource URL</h4>
+          <span class="replace_me_with_url"></span>/api/job/&lt;:jobId&gt;
+          <h4>Parameters</h4>
+          <p>
+              Before making a call to this endpoint, you must be logged in to
+              the user who owns the job with the id &lt;jobId&gt;. jobId should
+              the the id of a job that you retrieved through a <a href="#get_jobs">get_jobs</a>
+              request. This endpoint expects the following parameters as a json object:
+          </p>
+          <table class="table table-striped">
+              <tr>
+                  <th>Parameter</th>
+                  <th>Type</th>
+                  <th>Required</th>
+                  <th>Default</th>
+                  <th>Description</th>
+              </tr>
+              <tr>
+                  <td>name</td>
+                  <td><code>String</code></td>
+                  <td>Yes</td>
+                  <td>n/a</td>
+                  <td>The name we want the job to have.</td>
+              </tr>
+              <tr>
+                  <td>keywords</td>
+                  <td><code>Array[String]</code></td>
+                  <td>No</td>
+                  <td><code>[]</code></td>
+                  <td>The keywords we want the job to track.</td>
+              </tr>
+              <tr>
+                  <td>users</td>
+                  <td><code>Array[String]</code></td>
+                  <td>No</td>
+                  <td><code>[]</code></td>
+                  <td>The Twitter screen names of the users we want the job to track.</td>
+              </tr>
+              <tr>
+                  <td>geoboxes</td>
+                  <td><code>Array[<a href="#Geobox">Geobox</a>]</code></td>
+                  <td>No</td>
+                  <td><code>[]</code></td>
+                  <td>The locations we want the job to track.</td>
+              </tr>
+          </table>
+          <h4>Output</h4>
+          <p>
+              The output of this API call is a JSON object <code>{"status": "ok"}</code>
+              if the job was edited correctly, or an HTTP error code otherwise.
+          </p>
+          <h4>Example</h4>
+          <table class="table table-striped">
+              <tr>
+                  <th>HTTP Method</th>
+                  <th>URL</th>
+                  <th>Request Body</th>
+              </tr>
+              <tr>
+                  <td>PUT</td>
+                  <td><span class="replace_me_with_url"></span>/api/job/3</td>
+                  <td>
+<pre>{
+    "name": "NewJobName",
+    "keywords": ["Jobs", "New"],
+    "users": ["Barack"],
+    "geoboxes": [
+        {
+          "neLat": 42.773,
+          "neLng": -70.661,
+          "nwLat": 42.773,
+          "nwLng": -71.551,
+          "seLat": 42.035,
+          "seLng": -70.661,
+          "swLat": 42.035,
+          "swLng": -71.551
+        }
+    ]
+}</pre>
+                  </td>
+              </tr>
+          </table>
+<pre>
+{"status": "ok"}</pre></div>
+      <a name="create_job"></a><h2>Create Job</h2>
+      <div class="highlight">
+          <h4>Resource URL</h4>
+          <span class="replace_me_with_url"></span>/api/job
+          <h4>Parameters</h4>
+          <p>
+              Before making a call to this endpoint, you must be logged in. The
+              user you are logged in as will be the "owner" of the job and will
+              be the only one who can edit or delete the job.
+          </p>
+          <table class="table table-striped">
+              <tr>
+                  <th>Parameter</th>
+                  <th>Type</th>
+                  <th>Required</th>
+                  <th>Default</th>
+                  <th>Description</th>
+              </tr>
+              <tr>
+                  <td>name</td>
+                  <td><code>String</code></td>
+                  <td>Yes</td>
+                  <td>n/a</td>
+                  <td>The name we want the job to have.</td>
+              </tr>
+              <tr>
+                  <td>keywords</td>
+                  <td><code>Array[String]</code></td>
+                  <td>No</td>
+                  <td><code>[]</code></td>
+                  <td>The keywords we want the job to track.</td>
+              </tr>
+              <tr>
+                  <td>users</td>
+                  <td><code>Array[String]</code></td>
+                  <td>No</td>
+                  <td><code>[]</code></td>
+                  <td>The Twitter screen names of the users we want the job to track.</td>
+              </tr>
+              <tr>
+                  <td>geoboxes</td>
+                  <td><code>Array[<a href="#Geobox">Geobox</a>]</code></td>
+                  <td>No</td>
+                  <td><code>[]</code></td>
+                  <td>The locations we want the job to track.</td>
+              </tr>
+          </table>
+          <h4>Output</h4>
+          <p>
+              The output of this API call is a JSON object <code>{"status": "ok"}</code>
+              if the job was created successfully, or an HTTP error code otherwise.
+          </p>
+          <h4>Example</h4>
+          <table class="table table-striped">
+              <tr>
+                  <th>HTTP Method</th>
+                  <th>URL</th>
+                  <th>Request Body</th>
+              </tr>
+              <tr>
+                  <td>POST</td>
+                  <td><span class="replace_me_with_url"></span>/api/job</td>
+                  <td></td>
+<pre>{
+    "name": "New Created Job",
+    "keywords": ["Jobs", "New"],
+    "users": ["Barack"],
+    "geoboxes": [
+        {
+          "neLat": 42.773,
+          "neLng": -70.661,
+          "nwLat": 42.773,
+          "nwLng": -71.551,
+          "seLat": 42.035,
+          "seLng": -70.661,
+          "swLat": 42.035,
+          "swLng": -71.551
+        }
+    ]
+}</pre>
+                  </td>
+              </tr>
+          </table>
+<pre>
+{"status": "ok"}</pre></div>
+      <a name="delete_job"></a><h2>Delete Job</h2>
+      <div class="highlight">
+          <h4>Resource URL</h4>
+          <span class="replace_me_with_url"></span>/api/job/:id
+          <h4>Parameters</h4>
+          <p>
+              Before making a call to this endpoint, you must be logged in. The
+              user you are logged in must be the owner of the job with the id
+              specified by the :id portion of the URL. This request requires no
+              parameters or body.
+          </p>
+          <h4>Output</h4>
+          <p>
+              The output of this API call is a JSON object <code>{"status": "ok"}</code>
+              if the job was deleted successfully, or an HTTP error code otherwise.
+          </p>
+          <h4>Example</h4>
+          <table class="table table-striped">
+              <tr>
+                  <th>HTTP Method</th>
+                  <th>URL</th>
+                  <th>Request Body</th>
+              </tr>
+              <tr>
+                  <td>DELETE</td>
+                  <td><span class="replace_me_with_url"></span>/api/job/1</td>
+                  <td></td>
+              </tr>
+          </table>
+<pre>
+{"status": "ok"}</pre></div>
+      <a name="set_crawl"></a><h2>Set Crawl</h2>
+      <div class="highlight">
+          <h4>Resource URL</h4>
+          <span class="replace_me_with_url"></span>/api/job/:id/set_crawl
+          <h4>Parameters</h4>
+          <p>
+              Before making a call to this endpoint, you must be logged in. The
+              user you are logged in must be the owner of the job with the id
+              specified by the :id portion of the URL. This request has a very
+              simple body JSON object structure.
+          </p>
+          <table class="table table-striped">
+              <tr>
+                  <th>Parameter</th>
+                  <th>Type</th>
+                  <th>Required</th>
+                  <th>Default</th>
+                  <th>Description</th>
+              </tr>
+              <tr>
+                  <td>crawl</td>
+                  <td><code>Boolean</code></td>
+                  <td>Yes</td>
+                  <td>n/a</td>
+                  <td><code>true</code> to crawl, <code>false</code> to not crawl.</td>
+              </tr>
+          </table>
+          <h4>Output</h4>
+          <p>
+              The output of this API call is a JSON object <code>{"status": "ok"}</code>
+              if the job was deleted successfully, or an HTTP error code otherwise.
+          </p>
+          <h4>Example</h4>
+          <table class="table table-striped">
+              <tr>
+                  <th>HTTP Method</th>
+                  <th>URL</th>
+                  <th>Request Body</th>
+              </tr>
+              <tr>
+                  <td>PUT</td>
+                  <td><span class="replace_me_with_url"></span>/api/job/1/set_crawl</td>
+                  <td><code>{"crawl": true}</code></td>
+              </tr>
+          </table>
+<pre>
+{"status": "ok"}</pre></div>
+        <a name="tweets"></a><h2>Get Tweets</h2>
+        <div class="highlight">
+          <h4>Resource URL</h4>
+          <span class="replace_me_with_url"></span>/api/gettweets
+          <h4>Parameters</h4>
+          <table class="table table-striped">
+            <tr>
+              <th>Parameter</th>
+              <th>Type</th>
+              <th>Takes Multiple</th>
+              <th>Required</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+              <td><code>categoryID</code></td>
+              <td>Integer</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>N/A</td>
+              <td>Category IDs that you want to retrieve. These are the "categoryID" field as returned by the getJobs call.</td>
+            </tr>
+            <tr>
+              <td><code>start_time</code></td>
+              <td>Integer</td>
+              <td>No</td>
+              <td>No</td>
+              <td>Two days before <code>end_time</code></td>
+              <td>The start time of the query as a Unix timestamp without milliseconds. Fetches tweets created after this time.</td>
+            </tr>
+            <tr>
+              <td><code>end_time</code></td>
+              <td>Integer</td>
+              <td>No</td>
+              <td>No</td>
+              <td>Current Time</td>
+              <td>The end time of the query as a Unix timestamp without milliseconds. Fetches tweets created before this time.</td>
+            </tr>
+            <tr>
+              <td><code>keyword</code></td>
+              <td>String</td>
+              <td>Yes</td>
+              <td>No</td>
+              <td>N/A</td>
+              <td>Searches for this keyword in the text. If multiples are provided, treated as logical "or".</td>
+            </tr>
+            <tr>
+              <td><code>user</code></td>
+              <td>String</td>
+              <td>Yes</td>
+              <td>No</td>
+              <td>N/A</td>
+              <td>Searches for tweets authored by this user in the text. If multiples are provided, treated as logical "or".</td>
+            </tr>
+            <tr>
+              <td><code>geobox</code></td>
+              <td>List of floats</td>
+              <td>Yes</td>
+              <td>No</td>
+              <td>N/A</td>
+              <td>Of the form "Southwest Longitude, Southwest Latitude, Northeast Longitude, Northeast Latitude". If multiples are provided, treated as logical "or".</td>
+            </tr>
+             <tr>
+              <td><code>skip</code></td>
+              <td>Integer</td>
+              <td>No</td>
+              <td>No</td>
+              <td>0</td>
+              <td>Skip the first tweets returned by the query.</td>
+            </tr>
+            <tr>
+              <td><code>limit</code></td>
+              <td>Integer</td>
+              <td>No</td>
+              <td>No</td>
+              <td>1000</td>
+              <td>Limits the query to this many documents. <b>Maximum value is 1000</b>.</td>
+            </tr>
+          </table>
+          <h4>Output</h4>
+          This call returns a JSON list of documents matching the query. These are the raw documents stored in the TweetTracker database. An example of a single document is as follows:
+          <table class="table table-striped">
+            <tr>
+            <td><code>GET</code></td>
+      <td><code><span class="replace_me_with_url">HI</span>/api/gettweets?categoryID=370&limit=1</code></td>
+      </table>
+          <pre>[
+  {
+    "geoflag": true,
+    "retweet_count": 0,
+    "text": "@... @... professional soccer coaches let guys scrimmage and train with cones...yes",
+    "created_at": "Wed May 14 07:12:41 +0000 2014",
+    "retweeted": false,
+    "screen_name_lower": "...",
+    "tweet-lang": "en",
+    "entities": {
+      "symbols": [],
+      "user_mentions": [
+        {
+          "id": ...,
+          "id_str": "...",
+          "name": "...",
+          "screen_name": "..."
+        },
+        {
+          "id": ...,
+          "id_str": "...",
+          "name": "...",
+          "screen_name": "..."
+        }
+      ],
+      "hashtags": [],
+      "urls": []
+    },
+    "location": {
+      "lat": 29.61611907,
+      "lng": -82.35946015
+    },
+    "timestamp": 1400051561000,
+    "type": "tweet",
+    "id": 466476176006209536,
+    "user": {
+      "screen_name": "..."
+      "followers_count": 324,
+      "verified": false,
+      "location": "Gainesville, Florida"
+    }
+  }
+]</pre>
+          This is mostly a truncated list of the fields returned from Twitter's APIs. For a more detailed list of these fields and their meanings, see <a href=""></a>.
+          <h4>Example Calls</h4>
+          <ul>
+            <li>
+              Return the first 1000 tweets from category 370:
+              <code><span class="replace_me_with_url">HI</span>/api/gettweets?categoryID=370</code>
+            </li>
+            <li>
+              Return the second batch of 1000 tweets from category 370:
+              <code><span class="replace_me_with_url">HI</span>/api/gettweets?categoryID=370&skip=1000</code>
+            </li>
+            <li>
+              Return the first 1000 tweets from category 370, and 389:
+              <code><span class="replace_me_with_url"></span>/api/gettweets?categoryID=370&categoryID=389</code>
+            </li>
+            <li>
+              Return tweets from category 370 from within the United States
+              <code><span class="replace_me_with_url"></span>/api/gettweets?categoryID=370&geobox=-125.0011,24.9493,-66.9326,49.5904</code>
+            </li>
+            <li>
+              Return tweets from category 370 from within the United States
+              <code><span class="replace_me_with_url"></span>/api/gettweets?categoryID=370&geobox=-125.0011,24.9493,-66.9326,49.5904</code>
+            </li>
+            <li>
+              Return tweets from category 370 containing the word "scrimmage" or "picture":
+              <code><span class="replace_me_with_url"></span>/api/gettweets?categoryID=370&keyword=scrimmage&keyword=picture</code>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    <div class="container">
+      <!-- Example row of columns -->
+
+        <a name="topentities"></a><h2>Get Entities</h2>
+        <div class="highlight">
+          <h4>Resource URL</h4>
+          <span class="replace_me_with_url"></span>/api/getentities
+          <h4>Parameters</h4>
+          <table class="table table-striped">
+            <tr>
+              <th>Parameter</th>
+              <th>Type</th>
+              <th>Takes Multiple</th>
+              <th>Required</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+              <td><code>categoryID</code></td>
+              <td>Integer</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>N/A</td>
+              <td>Category IDs that you want to retrieve. These are the "categoryID" field as returned by the getJobs call.</td>
+            </tr>
+            <tr>
+              <td><code>start_time</code></td>
+              <td>Integer</td>
+              <td>No</td>
+              <td>No</td>
+              <td>Two days before <code>end_time</code></td>
+              <td>The start time of the query as a Unix timestamp without milliseconds. Fetches tweets created after this time.</td>
+            </tr>
+            <tr>
+              <td><code>end_time</code></td>
+              <td>Integer</td>
+              <td>No</td>
+              <td>No</td>
+              <td>Current Time</td>
+              <td>The end time of the query as a Unix timestamp without milliseconds. Fetches tweets created before this time.</td>
+            </tr>
+            <tr>
+              <td><code>Types</code></td>
+              <td>List of strings containing one or more of "TopUrls", "TopHashtags" and "TopMentions".</td>
+              <td>Yes</td>
+              <td>No</td>
+              <td>["TopUrls","TopHashtags","TopMentions"]</td>
+              <td>The top entries for the entities(urls, hashtags, mentions) specified are returned.</td>
+            </tr>
+            <tr>
+              <td><code>limit</code></td>
+              <td>Integer</td>
+              <td>No</td>
+              <td>No</td>
+              <td>20</td>
+              <td>The number of entries for each entity(urls, hashtags, mentions) to be returned. Maximum is 30 </td>
+            </tr>
+            <tr>
+              <td><code>geobox</code></td>
+              <td>List of floats</td>
+              <td>Yes</td>
+              <td>No</td>
+              <td>N/A</td>
+              <td>Of the form "Southwest Longitude, Southwest Latitude, Northeast Longitude, Northeast Latitude". If multiples are provided, treated as logical "or".</td>
+            </tr>
+             
+            
+          </table>
+          <h4>Output</h4>
+          This call returns a JSON document containing the top entities (urls, hashtags, user mentions) sorted in descending order by frequency. An example query and response is given below.
+          <table class="table table-striped">
+            <tr>
+            <td><code>GET</code></td>
+      <td><code><span class="replace_me_with_url">HI</span>/api/getentities?categoryID=370&limit=5</code></td>
+      </table>
+          <pre>{
+  "TopUrls": [
+    [
+      "http://dld.bz/dgyer",
+      44
+    ],
+    [
+      "http://bit.ly/1fnmyQQ",
+      39
+    ],
+    [
+      "http://tmblr.co/ZyqVSt1FqTXNd",
+      33
+    ],
+    [
+      "http://bit.ly/ZiKORz",
+      26
+    ],
+    [
+      "http://www.roots-cp.com/influx.go?p=102",
+      23
+    ]
+  ],
+  "TopHashtags": [
+    [
+      "nbljosephinevoto",
+      2712
+    ],
+    [
+      "nblnabilavoto",
+      1057
+    ],
+    [
+      "job",
+      381
+    ],
+    [
+      "jobs",
+      306
+    ],
+    [
+      "shooting",
+      183
+    ]
+  ],
+  "TopMentions": [
+    [
+      "...",
+      239
+    ],
+    [
+      "...",
+      149
+    ],
+    [
+      "...",
+      91
+    ],
+    [
+      "...",
+      79
+    ],
+    [
+      "...",
+      68
+    ]
+  ]
+}</pre>
+          
+          <h4>Example Calls</h4>
+          <ul>
+            <li>
+              Return the top five urls, hashtags and user mentions for category 370:
+              <code><span class="replace_me_with_url">HI</span>/api/getentities?categoryID=370&limit=5</code>
+            </li>
+            <li>
+              Return the top twenty five urls from category 370 and category 389 from May 25th 2014  (timestamp:1400976000)
+              <code><span class="replace_me_with_url"></span>/api/getentities?categoryID=370&categoryID=389&start_time=1400976000&Types=TopUrls</code>
+            </li>
+            <li>
+              Return the top five urls and hashtags from category 370 from within the United States
+              <code><span class="replace_me_with_url"></span>/api/getentities?categoryID=370&geobox=-125.0011,24.9493,-66.9326,49.5904&Types=TopUrls&Types=TopHashtags&limit=5</code>
+            </li>
+            <li>
+              Return the top five user mentions from category 370 from May 25th 2014  (timestamp:1400976000) to May 27th 2014 (timestamp:1401148800) within the United States.
+              <code><span class="replace_me_with_url"></span>/api/getentities?categoryID=370&start_time=1400976000&end_time=1401148800&geobox=-125.0011,24.9493,-66.9326,49.5904&Types=TopMentions&limit=5</code>
+            </li>
+            <li>
+              Return tweets from category 370 containing the word "scrimmage" or "picture":
+              <code><span class="replace_me_with_url"></span>/api/getentities?categoryID=370&keyword=scrimmage&keyword=picture</code>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    <div class="container">
+      <!-- Example row of columns -->
+
+        <a name="trendlines"></a><h2>Get Trendlines</h2>
+        <div class="highlight">
+          <h4>Resource URL</h4>
+          <span class="replace_me_with_url"></span>/api/gettrendline
+          <h4>Parameters</h4>
+          <table class="table table-striped">
+            <tr>
+              <th>Parameter</th>
+              <th>Type</th>
+              <th>Takes Multiple</th>
+              <th>Required</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+              <td><code>categoryID</code></td>
+              <td>Integer</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>N/A</td>
+              <td>Category IDs that you want to retrieve. These are the "categoryID" field as returned by the getJobs call. Separate trendlines are provided for each category</td>
+            </tr>
+            <tr>
+              <td><code>start_time</code></td>
+              <td>Integer</td>
+              <td>No</td>
+              <td>No</td>
+              <td>Jan. 1, 1970</td>
+              <td>The start time of the query as a Unix timestamp without milliseconds. Constructs trendlines for tweets created after this time.</td>
+            </tr>
+            <tr>
+              <td><code>end_time</code></td>
+              <td>Integer</td>
+              <td>No</td>
+              <td>No</td>
+              <td>Current Time</td>
+              <td>The end time of the query as a Unix timestamp without milliseconds. Constructs trendlines for tweets before this time.</td>
+            </tr>
+            <tr>
+              <td><code>keyword</code></td>
+              <td>String</td>
+              <td>Yes</td>
+              <td>No</td>
+              <td>N/A</td>
+              <td>Searches for this keyword in the text. If multiple are provided, separate trendlines are provided for each keyword in each category.</td>
+            </tr>
+            <tr>
+              <td><code>granularity</code></td>
+              <td>Integer (&ge; 1)</td>
+              <td>No</td>
+              <td>No</td>
+              <td>1</td>
+              <td>Time intervals at which the tweets are sampled and aggregated. The lowest granularity is 1 hour and integer multiples of 1 hour are accepted.</td>
+            </tr>
+         </table>
+          <h4>Output</h4>
+          This call returns a JSON Object containing the trendlines of the tweets matching the query. The time intervals along with each trendlines for each categories/keywords are provided. An example request along with the response is as follows:
+         <table class="table table-striped">
+            <tr>
+            <td><code>GET</code></td>
+			<td><code><span class="replace_me_with_url">HI</span>/api/gettrendline?categoryID=332&start_time=1400976000&granularity=12</code></td>
+		  </table>
+		<pre>
+{
+  332: {
+    'trends': [
+      73065,
+      113828,
+      24302,
+      50881,
+      29703,
+      40316,
+      23710,
+      39397,
+      25569
+    ],
+    'times': [
+      'Sat May 24  17:00:00 +0000 2014',
+      'Sun May 25  05:00:00 +0000 2014',
+      'Sun May 25  17:00:00 +0000 2014',
+      'Mon May 26  05:00:00 +0000 2014',
+      'Mon May 26  17:00:00 +0000 2014',
+      'Tue May 27  05:00:00 +0000 2014',
+      'Tue May 27  17:00:00 +0000 2014',
+      'Wed May 28  05:00:00 +0000 2014',
+      'Wed May 28  17:00:00 +0000 2014'
+    ]
+  }
+}</pre>
+         
+          <h4>Example Calls</h4>
+          <ul>
+            <li>
+              Return the trendlines from category 332 from May 25th 2014  (timestamp:1400976000):
+              <code><span class="replace_me_with_url">HI</span>/api/gettrendline?categoryID=370&start_time=1400976000</code>
+            </li>
+            <li>
+              Return the trendlines from category 370 from May 25th 2014  (timestamp:1400976000) with time intervals of 4 hours:
+              <code><span class="replace_me_with_url">HI</span>/api/gettrendline?categoryID=370&start_time=1400976000&granularity=4</code>
+            </li>
+            <li>
+              Return the trendlines from category 370 and category 389 from May 25th 2014  (timestamp:1400976000)
+              <code><span class="replace_me_with_url"></span>/api/gettrendline?categoryID=370&categoryID=389&start_time=1400976000</code>
+            </li>
+            <li>
+              Return the trendlines from category 370 from May 25th 2014  (timestamp:1400976000) to May 27th 2014 (timestamp:1401148800)
+              <code><span class="replace_me_with_url"></span>/api/gettrendline?categoryID=370&start_time=1400976000&end_time=1401148800</code>
+            </li>
+            <li>
+              Return the trendlines from category 332 from May 25th 2014  (timestamp:1400976000) for the keyword "ukraine"
+              <code><span class="replace_me_with_url"></span>/api/gettrendline?categoryID=332&start_time=1400976000&keyword=ukraine</code>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    <div class="container">
+    <a name="box_search"></a><h2>Box Search</h2>
+    <div class="highlight">
+        <h4>Resource URL</h4>
+        <span class="replace_me_with_url"></span>/api/three_search
+        <h4>Description</h4>
+        <p>
+            Box Search is the backend implementation of the search provided on Search/Export.
+        </p>
+        <h4>Parameters</h4>
+        <table class="table table-striped">
+            <tr>
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Takes Multiple</th>
+                <th>Required</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><code>begin_time</code></td>
+                <td><code>Integer</code></td>
+                <td>No</td>
+                <td>Yes</td>
+                <td>N/A</td>
+                <td>The start time of the query as a Unix timestamp without milliseconds. Fetches tweets created after this time</td>
+            </tr>
+            <tr>
+                <td><code>end_time</code></td>
+                <td><code>Integer</code></td>
+                <td>No</td>
+                <td>Yes</td>
+                <td>N/A</td>
+                <td>The end time of the query as a Unix timestamp without milliseconds. Fetches tweets created before this time.</td>
+            </tr>
+            <tr>
+                <td><code>job_ids</code></td>
+                <td><code>Integer</code></td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>N/A</td>
+                <td>The list of job ids to search from</td>
+            </tr>
+            <tr>
+                <td><code>query</code></td>
+                <td><code><a href="#box_query">BoxQuery</a></code></td>
+                <td>No</td>
+                <td>Yes</td>
+                <td>N/A</td>
+                <td>The query to execute against the database.</td>
+            </tr>
+            <tr>
+                <td><code>limit</code></td>
+                <td><code>Integer</code></td>
+                <td>No</td>
+                <td>No</td>
+                <td><code>50</code></td>
+                <td>The number of results to return from the query.</td>
+            </tr>
+            <tr>
+                <td><code>skip</code></td>
+                <td><code>Integer</code></td>
+                <td>No</td>
+                <td>No</td>
+                <td><code>0</code></td>
+                <td>The number of results to skip before returning the results in the response.</td>
+            </tr>
+            <tr>
+                <td><code>response_type</code></td>
+                <td><code>{ "XML", "JSON" }</code></td>
+                <td>No</td>
+                <td>No</td>
+                <td>"JSON"</td>
+                <td>The type of encoding you want for your response, either JSON or XML.</td>
+            </tr>
+        </table>
+        <h4><a name="box_query">BoxQuery</a></h4>
+        <p>
+            This is a description of the BoxQuery object that is part of the request parameters. The logic is to take
+            tweets matching box1 AND box2 AND NOT box3.
+        </p>
+        <table class="table table-striped">
+            <tr>
+                <th>Property</th>
+                <th>Type</th>
+                <th>Required</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><code>box1</code></td>
+                <td><code><a href="#box">Array[BoxParam]</a></code></td>
+                <td>Yes</td>
+                <td>The first box of parameters.</td>
+            </tr>
+            <tr>
+                <td><code>box2</code></td>
+                <td><code><a href="#box">Array[BoxParam]</a></code></td>
+                <td>Yes</td>
+                <td>The second box of parameters.</td>
+            </tr>
+            <tr>
+                <td><code>box3</code></td>
+                <td><code><a href="#box">Array[BoxParam]</a></code></td>
+                <td>Yes</td>
+                <td>The third box of parameters. This box is different in that it contains parameters that must NOT be met.</td>
+            </tr>
+        </table>
+        <h4><a name="box">Box Param</a></h4>
+        <p>
+            This is a description for the BoxParam object that is part of the BoxQuery.
+        </p>
+        <table class="table table-striped">
+            <tr>
+                <th>Property</th>
+                <th>Type</th>
+                <th>Required</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><code>type</code></td>
+                <td><code>{ "user", "key", "geo" }</code></td>
+                <td>Yes</td>
+                <td>This property describes what type of parameter this is.</td>
+            </tr>
+            <tr>
+                <td><code>data</code></td>
+                <td><code>String | <a href="#Geobox">Geobox</a></code></td>
+                <td>Yes</td>
+                <td>The actual parameter. If <code>type</code> is <code>user</code> or <code>keyword</code> then this is
+                just a string of the screen name or keyword. If <code>type</code> is <code>"geobox"</code> then this is
+                a <a href="#Geobox"><code>Geobox</code></a>.</td>
+            </tr>
+        </table>
+        <h4>Output</h4>
+        This call returns a JSON list of data pulled from tweets for display in the Search/Export tab. The returned object
+        has the following format.
+        <table class="table table-striped">
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><code>count</code></td>
+                <td><code>Integer</code></td>
+                <td>This property states how many tweets match the query. This is useful for pagination.</td>
+            </tr>
+            <tr>
+                <td><code>tweets</code></td>
+                <td><code>Array[<a href="#search_tweet">SearchTweet</a>]</code></td>
+                <td>The actual tweets that match the query. See the SearchTweet object for more info</td>
+            </tr>
+        </table>
+        <h4><a name="search_tweet">SearchTweet</a></h4>
+        The format of tweets returned from the search API
+        <table class="table table-striped">
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><code>geo</code></td>
+                <td><code>Boolean</code></td>
+                <td>Boolean indicating if the tweet is geotagged.</td>
+            </tr>
+            <tr>
+                <td><code>text</code></td>
+                <td><code>String</code></td>
+                <td>The actual text of the tweet.</td>
+            </tr>
+            <tr>
+                <td><code>timestamp</code></td>
+                <td><code>Integer</code></td>
+                <td>The UNIX timestamp of when the tweet was published.</td>
+            </tr>
+            <tr>
+                <td><code>screen_name</code></td>
+                <td><code>String</code></td>
+                <td>The screen name of the user who submitted the tweet.</td>
+            </tr>
+            <tr>
+                <td><code>id</code></td>
+                <td><code>String</code></td>
+                <td>The unique id of the tweet as assigned by Twitter.</td>
+            </tr>
+            <tr>
+                <td><code>job_id</code></td>
+                <td><code>Integer</code></td>
+                <td>The id of the job that this tweet matched.</td>
+            </tr>
+            <tr>
+                <td><code>lat</code></td>
+                <td><code>Real</code></td>
+                <td>The lattitude of the tweet, if available</td>
+            </tr>
+            <tr>
+                <td><code>lng</code></td>
+                <td><code>Real</code></td>
+                <td>The longitude of the tweet, if available</td>
+            </tr>
+            <tr>
+                <td><code>catime</code></td>
+                <td><code>String</code></td>
+                <td>A special indexing field for the tweets database used to make subsequent requests to particular endpoints.</td>
+            </tr>
+            <tr>
+                <td><code>lang</code></td>
+                <td><code>Integer</code></td>
+                <td>Twitter's assigned language for the tweet</td>
+            </tr>
+            <tr>
+                <td><code>entities</code></td>
+                <td><code><a href="https://dev.twitter.com/docs/platform-objects/entities">TwitterEntities</a></code></td>
+                <td>The entities attached to the Tweet by Twitter (see the link for more info).</td>
+            </tr>
+            <tr>
+                <td><code>user</code></td>
+                <td><code><a href="https://dev.twitter.com/docs/platform-objects/users">TwitterUser</a></code></td>
+                <td>The user object attached to the Tweet by Twitter (see the link for more info).</td>
+            </tr>
+        </table>
+        <h4>Example Call</h4>
+        <table class="table table-striped">
+            <tr>
+                <td><code>GET</code></td>
+                <td><code><span class="replace_me_with_url"></span>/api/three_search?begin_time=1407913200&end_time=1407949892&job_ids=66&query={%22box1%22:[{%22type%22:%22key%22,%22data%22:%22syria%22}],%22box2%22:[],%22box3%22:[]}&skip=0</code></td>
+            </tr>
+        </table>
+        <pre>{
+  "count": 30,
+  "tweets": [
+    {
+      "catime": "3330661407917315",
+      "entities": {
+        "hashtags": [
+          {
+            "text": "mountsinjar"
+          },
+          {
+            "text": "pkk"
+          },
+          {
+            "text": "pyd"
+          },
+          {
+            "text": "syria"
+          }
+        ]
+      },
+      "geo": false,
+      "id": "499467539727253504",
+      "job_id": 66,
+      "lang": 9,
+      "lat": 0,
+      "lng": 0,
+      "retweet_count": 0,
+      "screen_name": "samiramadani1",
+      "text": "Urgt 89: Important to note most #MountSinjar refugees were defended and taken to Syria by fighters of #PKK from Turkey and #PYD from #Syria",
+      "timestamp": 1407917315000,
+      "user": {
+        "followers_count": 533,
+        "id": 581026899,
+        "location": "London. Photo: Tigris-Baghdad",
+        "screen_name": "SamiRamadani1",
+        "verified": false
+      }
+    }, ... ]}
+        </pre>
+    </div>
+    </div>
+    <div class="container">
+        <a name="get_tweet"></a><h2>Get Tweet</h2>
+        <h4>Resource URL</h4>
+        <span class="replace_me_with_url"></span>/api/tweet/:index
+        <h4>Description</h4>
+        <p>
+            This endpoint gets a single tweet when given an index string (which is the concatenation of the Twitter ID
+            of the tweet and the catime). The job id portion of the catime must identify a job that the user is
+            permitted to read from. The format of the index string is "&lt;Twitter ID&gt;-&lt;catime&gt;".
+        </p>
+        <h4>Parameters</h4>
+        <table class="table table-striped">
+            <tr>
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Required</th>
+                <th>Accepts Multiple</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><code>response_type</code></td>
+                <td><code>{ "XML", "JSON" }</code></td>
+                <td>No</td>
+                <td>No</td>
+                <td>"JSON"</td>
+                <td>The type of encoding you want for your response, either JSON or XML.</td>
+            </tr>
+        </table>
+        <h4>Output</h4>
+        <p>
+            The JSON output of the call has the following format:
+        </p>
+        <table class="table table-striped">
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><code>tweet</code></td>
+                <td><code><a href="#search_tweet">SearchTweet</a></code></td>
+                <td>The tweet requested. Follows the same format as the results returned by Box Search.</td>
+            </tr>
+        </table>
+        <h4>Example Call</h4>
+        <table class="table table-striped">
+            <tr>
+                <th>HTTP Method</th>
+                <th>URL</th>
+            </tr>
+            <tr>
+                <td><code>GET</code></td>
+                <td><code><span class="replace_me_with_url"></span>/api/tweet/492927596888616960-661406358071</code></td>
+            </tr>
+        </table>
+        <pre>{
+  "tweet": {
+    "catime": 661406358071,
+    "entities": {
+      "hashtags": [
+        {
+          "text": "gaza"
+        },
+        {
+          "text": "ukrain"
+        },
+        {
+          "text": "syria"
+        },
+        {
+          "text": "isis"
+        },
+        {
+          "text": "nigeria"
+        }
+      ],
+      "urls": [
+        {
+          "expanded_url": "http://www.economist.com/news/middle-east-and-africa/21608804-conquering-jihadists-are-evicting-or-killing-mosuls-last-christians-nearly-all?fsrc=scn/fb/wl/pe/nearlyallgone"
+        }
+      ]
+    },
+    "geo": true,
+    "id": 492927596888616960,
+    "job_id": 66,
+    "lang": 9,
+    "lat": 46.958778,
+    "lng": 7.452536,
+    "retweet_count": 0,
+    "screen_name": "herr_bandy",
+    "text": "With #Gaza, #Ukrain covering our media space, we forget #Syria, #ISIS, #Nigeria. They deserve pur attention too. http://t.co/SAUy2ToP23",
+    "timestamp": 1406358071000,
+    "user": {
+      "followers_count": 108,
+      "id": 712570987,
+      "location": "Breitsch, 3014, eis-vier",
+      "screen_name": "Herr_Bandy",
+      "verified": false
+    }
+  }
+}
+        </pre>
+    </div>
+    <div class="container">
+        <a name="get_tweets"></a><h2>Get Tweets</h2>
+        <h4>Resource URL</h4>
+        POST <span class="replace_me_with_url"></span>/api/tweet
+        <h4>Description</h4>
+        <p>
+            This endpoint gets multiple tweets using the same tweet index format as <a href="#get_tweet">Get Tweet</a>.
+        </p>
+        <h4>Parameters</h4>
+        <table class="table table-striped">
+            <tr>
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Required</th>
+                <th>Accepts Multiple</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>tweet_indices</td>
+                <td>String</td>
+                <td>Yes</td>
+                <td>N/A (JSON format POST body)</td>
+                <td>N/A</td>
+                <td>An array of Tweet Index formatted strings to specify which tweets to retrieve (see Get Tweet).</td>
+            </tr>
+            <tr>
+                <td><code>response_type</code></td>
+                <td><code>{ "XML", "JSON" }</code></td>
+                <td>No</td>
+                <td>No</td>
+                <td>"JSON"</td>
+                <td>The type of encoding you want for your response, either JSON or XML.</td>
+            </tr>
+        </table>
+        <h4>Output</h4>
+        <p>
+            The JSON output of the call has the following format:
+        </p>
+        <table class="table table-striped">
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><code>tweets</code></td>
+                <td><code><a href="#search_tweet">Array[SearchTweet]</a></code></td>
+                <td>The tweets requested. Follows the same format as the results returned by Box Search.</td>
+            </tr>
+        </table>
+        <h4>Example Call</h4>
+        <table class="table table-striped">
+            <tr>
+                <th>HTTP Method</th>
+                <th>URL</th>
+                <th>Request Body</th>
+            </tr>
+            <tr>
+                <td><code>POST</code></td>
+                <td><code><span class="replace_me_with_url"></span>/api/tweet</code></td>
+                <td><code>{"tweet_indices": ["492927596888616960-661406358071"]}</code></td>
+            </tr>
+        </table>
+        <pre>{
+  "tweets": [{
+    "catime": 661406358071,
+    "entities": {
+      "hashtags": [
+        {
+          "text": "gaza"
+        },
+        {
+          "text": "ukrain"
+        },
+        {
+          "text": "syria"
+        },
+        {
+          "text": "isis"
+        },
+        {
+          "text": "nigeria"
+        }
+      ],
+      "urls": [
+        {
+          "expanded_url": "http://www.economist.com/news/middle-east-and-africa/21608804-conquering-jihadists-are-evicting-or-killing-mosuls-last-christians-nearly-all?fsrc=scn/fb/wl/pe/nearlyallgone"
+        }
+      ]
+    },
+    "geo": true,
+    "id": 492927596888616960,
+    "job_id": 66,
+    "lang": 9,
+    "lat": 46.958778,
+    "lng": 7.452536,
+    "retweet_count": 0,
+    "screen_name": "herr_bandy",
+    "text": "With #Gaza, #Ukrain covering our media space, we forget #Syria, #ISIS, #Nigeria. They deserve pur attention too. http://t.co/SAUy2ToP23",
+    "timestamp": 1406358071000,
+    "user": {
+      "followers_count": 108,
+      "id": 712570987,
+      "location": "Breitsch, 3014, eis-vier",
+      "screen_name": "Herr_Bandy",
+      "verified": false
+    }
+  }
+}]
+        </pre>
+    </div>
+    <div class="container">
+        <a name="get_locations"></a><h2>Get Locations</h2>
+        <h4>Resource URL</h4>
+        <span class="replace_me_with_url"></span>/api/entities/locations
+        <h4>Description</h4>
+        <p>
+            This endpoint retrieves the lat/lng coordinates of geotagged tweets from the provided jobs in a set time
+            period. You must be authorized to read from all of the jobs that are passed in the job_ids parameter.
+        </p>
+        <h4>Parameters</h4>
+        <table class="table table-striped">
+            <tr>
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Required</th>
+                <th>Accepts Multiple</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><code>categoryID</code></td>
+                <td><code>Integer</code></td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>N/A</td>
+                <td>The jobs to get locations from.</td>
+            </tr>
+            <tr>
+                <td><code>begin_time</code></td>
+                <td><code>Integer</code></td>
+                <td>Yes</td>
+                <td>No</td>
+                <td>N/A</td>
+                <td>The UNIX timestamp of the beginning of the time period to get locations from.</td>
+            </tr>
+            <tr>
+                <td><code>end_time</code></td>
+                <td><code>Integer</code></td>
+                <td>Yes</td>
+                <td>No</td>
+                <td>N/A</td>
+                <td>The UNIX timestamp of the end of the time period to get locations from.</td>
+            </tr>
+        </table>
+        <h4>Output</h4>
+        <p>
+            The response to a successful request has the following format:
+        </p>
+        <table class="table table-striped">
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><code>locations</code></td>
+                <td><code><a href="#location">Array[Location]</a></code></td>
+                <td>The requested Tweet locations</td>
+            </tr>
+        </table>
+        <a name="location"><h4>Location</h4></a>
+        <table class="table table-striped">
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><code>lat</code></td>
+                <td><code>Real</code></td>
+                <td>The lattitude of the tweet, if available</td>
+            </tr>
+            <tr>
+                <td><code>lng</code></td>
+                <td><code>Real</code></td>
+                <td>The longitude of the tweet, if available</td>
+            </tr>
+            <tr>
+                <td><code>index</code></td>
+                <td><code>String</code></td>
+                <td>
+                    This is an indexing string that can be used in a subsequent call to <a href="#get_tweet">get_tweet</a>
+                    to retrieve more information about this Tweet.
+                </td>
+            </tr>
+        </table>
+        <h4>Example Call</h4>
+        <table class="table table-striped">
+            <tr>
+                <th>HTTP Method</th>
+                <th>URL</th>
+            </tr>
+            <tr>
+                <td><code>GET</code></td>
+                <td><code><span class="replace_me_with_url"></span>/api/entities/locations?begin_time=1406358000&end_time=1406405251&categoryID=66</code></td>
+            </tr>
+        </table>
+        <pre>{"locations":[
+    {
+        "index":"492927596888616960-661406358071",
+        "lat":46.958778,
+        "lng":7.452536
+    },{
+        "index":"492927840862896128-661406358130",
+        "lat":36.620317,
+        "lng":36.210502
+    }, ...
+]}
+        </pre>
+    </div>
+    
+      <hr>
+
+      <footer>
+        <p style="margin-left:50px">&copy; Arizona Board of Regents 2014</p>
+      </footer> <!-- /container -->
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+
+      // Replace text in example boxes with proper root URL
+      var serverRoot = "http://blogtrackers.fulton.asu.edu:5000";
+
+      $(document).ready(function(){
+        var spansToReplace = document.getElementsByClassName("replace_me_with_url");
+        for(var i = 0; i < spansToReplace.length; i++){
+          spansToReplace[i].innerHTML = serverRoot;
+        }
+
+        $("a.scrollUpALittle").click(function(event){
+          event.preventDefault();
+
+          var spot = $(this).attr("href"),
+              spotName = spot.substring(1),
+              togoElem = $('a[name="' + spotName + '"]'),
+              howFarToGo = togoElem.position().top - 50;
+          
+          $("body").animate({"scrollTop": howFarToGo}, 500);
+        });
+      });
+      
+    </script>
+  </body>
+</html>

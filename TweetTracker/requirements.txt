@@ -1,0 +1,12 @@
+dicttoxml
+flask
+Flask-Compressor
+gensim
+mstranslator
+numpy
+passlib
+pymongo
+scipy
+twython
+python-twitter
+sklearn

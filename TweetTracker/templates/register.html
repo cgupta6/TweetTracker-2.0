@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}TweetTracker{% endblock %}
+{% block head %}{{ super() }}
+{% endblock %}
+{% block content %}
+<form id="submission_form" class="form-horizontal" role="form">
+    <fieldset>
+        <legend>Register</legend>
+        <div class="form-group">
+            <label for="email_input" class="col-lg-2 control-label">Email Address</label>
+            <div class="col-lg-10">
+                <input type="email" class="form-control" id="email_input" name="email" placeholder="Enter Email" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password_input" class="col-lg-2 control-label">Password</label>
+            <div class="col-lg-10">
+                <input type="password" class="form-control" id="password_input" name="password" placeholder="Enter Password" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="confirm_password_input" class="col-lg-2 control-label">Confirm Password</label>
+            <div class="col-lg-10">
+                <input type="password" class="form-control" id="confirm_password_input" name="confirm_password" placeholder="Enter Password Again" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-10">
+                <button id="submit_button" type="submit" class="btn btn-default">Sign Up</button>
+            </div>
+        </div>
+    </fieldset>
+</form>
+
+<p>Already have an account? <a href="/login">Login</a></p>
+
+<!-- Dynamically change the active tab in the navbar -->
+<script type="text/javascript">
+    $('#login_nav').addClass('active');
+    $('#submit_button').click(function(e) {
+        e.preventDefault();
+
+        var data = JSON.stringify({
+            email: $('#email_input').val(),
+            password: $('#password_input').val(),
+        });
+        $.ajax(
+            '/register',
+            {
+                async: false,
+                cache: false,
+                data: data,
+                processData: false,
+                mimeType: 'application/json',
+                contentType: 'application/json',
+                type: 'POST',
+                success: function(result, status, xhr){
+                    if (result.result == 'failed')
+                    {
+                        toastr.error('Registration failed! Username may already be registered.', "Error", {onHidden: function() {location.reload()}});
+                    }
+                    else if(result.result == 'success')
+                    {
+                        // return to the login page
+                        window.location.replace('/login');
+                    }
+                },
+                error: function(xhr, status, error){
+                    console.log("e: " + error);
+                }
+            }
+        )
+    });
+</script>
+{% endblock %}

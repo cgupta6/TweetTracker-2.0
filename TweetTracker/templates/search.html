@@ -1,0 +1,23 @@
+{% extends "analysis.html" %}
+{% block title %}TweetTracker -- Search{% endblock %}
+{% block head %}
+{{ super() }}
+<script src='/static/js/libs/jquery-ui.js'></script>
+<script src='/static/js/libs/jquery.tagsinput.min.js'></script>
+<link rel="stylesheet" media="screen" href="/static/stylesheets/jquery.tagsinput.css" />
+<script src='/static/js/app/ttutilities/directives.js'></script>
+<script src='/static/js/app/search/search.js'></script>
+{% endblock %}
+{% block content %}
+{{ super() }}
+{% endblock %}
+{% block analysis_content %}
+<div id="search">
+    <div data-ng-view></div>
+</div>
+
+<!-- Dynamically change the active tab in the navbar -->
+<script type="text/javascript">
+    $('#search_nav').addClass('active');
+</script>
+{% endblock %}

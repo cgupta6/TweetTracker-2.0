@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}TweetTracker{% endblock %}
+{% block head %}{{ super() }}{% endblock %}
+{% block content %}
+<form class="form-horizontal" action="/login" method="POST">
+    <fieldset>
+        <legend>Your Account Information</legend>
+        <div class="form-group">
+      <ul>
+        <li>The number of jobs you already created is: </a></li>
+        <li>The number of tweets you already crawled is: </a></li>
+        <li>The number of remaining tweets you can crawl is: </a></li>
+      </ul>
+        </div>
+    </fieldset>
+</form>

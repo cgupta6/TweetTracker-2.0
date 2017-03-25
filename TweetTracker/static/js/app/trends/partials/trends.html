@@ -1,0 +1,63 @@
+<div id="trendlinesPage">
+    <div class="row">
+		<div class="col-lg-9" data-ng-show="loading">
+			<br />
+			<center><i class="fa fa-circle-o-notch fa-spin"></i> Loading ...</center>
+		</div>
+		<div class="col-lg-9">
+            <div id="trendArea" data-trendline data-ng-model="trendData" style="height:30em;width:45em"></div>
+        </div>
+        <div class="col-lg-3">
+            <div id="job_panel">
+                <p><strong>Job Panel</strong></p>
+                <label for="begin_date">Begin Date/Time:</label>
+                <div class="input-group">
+                    <input id="begin_date" type="text" class="form-control" datepicker-popup="{{ dateFormatString }}" ng-model="dtBegin" is-open="beginOpened" min-date="minDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" data-ng-click="beginOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+                </div>
+                <br />
+                <label for="end_date">End Date/Time:</label>
+                <div class="input-group">
+                    <input id="end_date" type="text" class="form-control" datepicker-popup="{{ dateFormatString }}" data-ng-model="dtEnd" is-open="endOpened" min-date="minDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" data-ng-click="endOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+                </div>
+                <hr />
+                <input class="form-control" type="text" placeholder="Job Selection Search" data-ng-model="jobSearch" />
+                <div class="job-list" style="height:15em">
+                    <label data-ng-repeat="job in jobs | filter:jobSearch | orderBy:['!selected', '!crawling', 'name']"><input data-ng-model="job.selected" type="checkbox" /> <span data-ng-show="job.crawling" class="crawling-job">{{ job.name }}</span><span data-ng-show="!job.crawling" class="non-crawling-job">{{ job.name }}</span></label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="trendControls">
+        <form id="trendsControlsForm" role="form">
+            <div class="form-group">
+                <label for="trendsKeywords">Keywords</label>
+                <div style="width:33%"><input data-jqtags type="text" class="form-control" id="trendsKeywords" data-ng-model="keywords"></div>
+            </div>
+            <label for="trendsInterval">Interval</label>
+            <select id="trendsInterval" data-ng-model="granularity">
+                <option value="1">Hour</option>
+                <option value="12">Half-Day</option>
+                <option value="24">Day</option>
+                <option value="168">Week</option>
+                <option value="336">Two-Week</option>
+                <option value="720">Month</option>
+            </select>
+            <br>
+            <label>Type of Media:</label><br>
+            <input type="checkbox" id="tweetTrends" data-ng-model="tweetTrends">&nbsp;
+            <label for="tweetTrends">Tweets</label><br>
+            <input type="checkbox" id="imageTrends" data-ng-model="imageTrends">&nbsp;
+            <label for="imageTrends">Images</label><br>
+            <input type="checkbox" id="videoTrends" data-ng-model="videoTrends">&nbsp;
+            <label for="videoTrends">Videos</label><br>
+            <br>
+            <a><button id="generateTrendlinesButton"  type="submit" class="btn btn-primary" data-ng-click="getTrendlines()">Generate Trendline</button></a>
+        </form>
+    </div>
+</div>
