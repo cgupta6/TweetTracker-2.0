@@ -84,10 +84,10 @@
                     <span class="form-group ">
                         <span class="form-group col-md-6 ">
                             <select type="text" name="contact_name" class="form-control" id="input6">
-                                <option value="volvo">Language 1</option>
-                                <option value="saab">Language 2</option>
-                                <option value="mercedes">Language 3</option>
-                                <option value="audi">Language 4</option>
+                                <option value="volvo">English (en)</option>
+                                <option value="saab">Spanish (sp)</option>
+                                <option value="mercedes">French (fr)</option>
+                                <option value="audi">German (de)</option>
                             </select>
                         </span>
                     </span>
@@ -131,8 +131,7 @@
                         </span>
                     </span>
                 </div>
-
-
+                
                 <div class="row">
                     <span class="form-group col-md-3 col-md-offset-2 ">
                         <h3><b>Places</b></h3>
@@ -150,7 +149,6 @@
                     </span>
                 </div>
 
-
                 <div class="row">
                     <span class="form-group col-md-3 col-md-offset-2 ">
                         <h3><b>Dates</b></h3>
@@ -158,60 +156,13 @@
 
                 </div>
 
-
                 <div class="row">
                     <span class="form-group col-md-3 col-md-offset-2 ">
-                        <label for="input10">Near this place</label>
+                        <label for="input10">Run Crawl Until</label>
                     </span>
                     <span class="form-group ">
                         <span class="form-group col-sm-4 input-group input-daterange" style="padding-left: 13px">
-                            <input type="text" class="form-control" value="2012-04-05">
-                            <div class="input-group-addon">to</div>
-                            <input type="text" class="form-control" value="2012-04-19">
-                        </span>
-                    </span>
-                </div>
-
-                <div class="row">
-                    <span class="form-group col-md-3 col-md-offset-2 ">
-                        <h3><b>Other</b></h3>
-                    </span>
-                </div>
-
-                <div class="row">
-                    <span class="form-group col-md-3 col-md-offset-2 ">
-                        <label for="input10">Select</label>
-                    </span>
-                    <span class="form-group ">
-                        <span class="form-group"  style="padding-left: 13px">
-                            <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" value="">
-                                Positive:)
-                            </label>
-                        </span>
-                    </span>
-                    <span class="form-group " style="padding-left: 40px">
-                        <span class="form-group" >
-                            <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" value="">
-                                Negative:(
-                            </label>
-                        </span>
-                    </span>
-                    <span class="form-group " style="padding-left: 40px">
-                        <span class="form-group">
-                            <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" value="">
-                                Questions?
-                            </label>
-                        </span>
-                    </span>
-                    <span class="form-group " style="padding-left: 40px">
-                        <span class="form-group" >
-                            <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" value="">
-                                Include Retweets
-                            </label>
+                            <input type="text" class="form-control" value="{{date | date:'yyyy-MM-dd'}}">
                         </span>
                     </span>
                 </div>
