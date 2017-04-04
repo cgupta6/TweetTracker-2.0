@@ -33,7 +33,8 @@ app.config(['$routeProvider', function ($routeProvider) {
         // Blog
         .when("/blog", {templateUrl: "demo_partials/blog.html", controller: "BlogCtrl"})
         .when("/blog/post", {templateUrl: "demo_partials/blog_item.html", controller: "BlogCtrl"})
-        .when("/myReport", {templateUrl: "demo_partials/cards.html", controller: "AppCtrl"})
+        .when("/myReports", {templateUrl: "demo_partials/MyReports.html", controller: "AppCtrl"})
+        .when("/BasicAnalysis", {templateUrl: "demo_partials/BasicAnalysis.html", controller: "AppCtrl"})
         // else 404
         .otherwise("/404", {templateUrl: "demo_partials/404.html", controller: "PageCtrl"});
 }]);
