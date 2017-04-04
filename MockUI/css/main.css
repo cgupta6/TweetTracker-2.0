@@ -121,10 +121,13 @@ body {
     font-size: 35%;
     font-style: italic;
 }
-
+.container{
+    width: 100%;
+}
 /* Footer Styles */
 footer {
     margin: 50px 0;
+    overflow-y: auto;
 }
 
 /* Responsive Styles */
