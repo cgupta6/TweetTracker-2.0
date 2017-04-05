@@ -17,6 +17,11 @@ db = c['ttsideprojects']
 #db.authenticate('twtuser','!!!asudmml%%%')
 
 def checkCrawl(anId):
+    """
+    
+    :param anId: ID
+    :return: extracted crawl result
+    """
     print 'in check crawl!'
     query = {'primary_id':long(anId)}
 
@@ -39,6 +44,11 @@ def load_tweets(filename):
 '''
 
 def extract_flare(anId):
+    """
+    
+    :param anId: Id
+    :return: extracted flare
+    """
     print 'flare extract' + str(anId)
     def extractChildren(node):
         childList = []
@@ -92,6 +102,11 @@ def extract_flare(anId):
     return json.dumps(flareList)
     
 def crawl_tweet(anId):
+    """
+    
+    :param anId: Id
+    :return: none
+    """
     import twitter
     import ujson as json
     import re

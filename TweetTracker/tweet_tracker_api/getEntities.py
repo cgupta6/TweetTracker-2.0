@@ -1,3 +1,6 @@
+"""
+Module to get entities
+"""
 from flask import Flask
 from flask import request
 from flask import jsonify
@@ -12,13 +15,24 @@ from time import time
 import logging
 
 class Entities(TweetTrackerAPIClass):
-
+    """
+        class to get the Entities
+    """
     def __init__(self, config):
+        """
+
+        :param config: configuration 
+        """
         super(Entities, self).__init__(config)
         
 
 
     def getEntities(self, queryargs):
+        """
+
+        :param queryargs: query arguments
+        :return: JSON containing top hashtags, mentions, urls
+        """
         print queryargs
         
         try:

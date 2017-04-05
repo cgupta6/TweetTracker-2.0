@@ -1,0 +1,279 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>twokenize module &#8212; TweetTracker 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="userlimit module" href="userlimit.html" />
+    <link rel="prev" title="lda_func module" href="lda_func.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="userlimit.html" title="userlimit module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="lda_func.html" title="lda_func module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">TweetTracker 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-twokenize">
+<span id="twokenize-module"></span><h1>twokenize module<a class="headerlink" href="#module-twokenize" title="Permalink to this headline">¶</a></h1>
+<p>Twokenize &#8211; a tokenizer designed for Twitter text in English and some other European languages.
+This tokenizer code has gone through a long history:</p>
+<ol class="arabic simple">
+<li><dl class="first docutils">
+<dt>Brendan O&#8217;Connor wrote original version in Python, <a class="reference external" href="http://github.com/brendano/tweetmotif">http://github.com/brendano/tweetmotif</a></dt>
+<dd>TweetMotif: Exploratory Search and Topic Summarization for Twitter.
+Brendan O&#8217;Connor, Michel Krieger, and David Ahn.
+ICWSM-2010 (demo track), <a class="reference external" href="http://brenocon.com/oconnor_krieger_ahn.icwsm2010.tweetmotif.pdf">http://brenocon.com/oconnor_krieger_ahn.icwsm2010.tweetmotif.pdf</a></dd>
+</dl>
+</li>
+</ol>
+<p>(2a) Kevin Gimpel and Daniel Mills modified it for POS tagging for the CMU ARK Twitter POS Tagger
+(2b) Jason Baldridge and David Snyder ported it to Scala
+(3) Brendan bugfixed the Scala port and merged with POS-specific changes</p>
+<blockquote>
+<div>for the CMU ARK Twitter POS Tagger</div></blockquote>
+<ol class="arabic simple" start="4">
+<li>Tobi Owoputi ported it back to Java and added many improvements (2012-06)</li>
+</ol>
+<p>Current home is <a class="reference external" href="http://github.com/brendano/ark-tweet-nlp">http://github.com/brendano/ark-tweet-nlp</a> and <a class="reference external" href="http://www.ark.cs.cmu.edu/TweetNLP">http://www.ark.cs.cmu.edu/TweetNLP</a></p>
+<p>There have been at least 2 other Java ports, but they are not in the lineage for the code here.</p>
+<p>Ported to Python by Myle Ott &lt;<a class="reference external" href="mailto:myleott&#37;&#52;&#48;gmail&#46;com">myleott<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;.</p>
+<dl class="function">
+<dt id="twokenize.addAllnonempty">
+<code class="descclassname">twokenize.</code><code class="descname">addAllnonempty</code><span class="sig-paren">(</span><em>master</em>, <em>smaller</em><span class="sig-paren">)</span><a class="headerlink" href="#twokenize.addAllnonempty" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>master</strong> &#8211; master</li>
+<li><strong>smaller</strong> &#8211; smaller</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">master</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="twokenize.normalizeTextForTagger">
+<code class="descclassname">twokenize.</code><code class="descname">normalizeTextForTagger</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="headerlink" href="#twokenize.normalizeTextForTagger" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text</strong> &#8211; text</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">unescaped text</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="twokenize.regex_or">
+<code class="descclassname">twokenize.</code><code class="descname">regex_or</code><span class="sig-paren">(</span><em>*items</em><span class="sig-paren">)</span><a class="headerlink" href="#twokenize.regex_or" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>items</strong> &#8211; items</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">regex result</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="twokenize.simpleTokenize">
+<code class="descclassname">twokenize.</code><code class="descname">simpleTokenize</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="headerlink" href="#twokenize.simpleTokenize" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text</strong> &#8211; text</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">zipped string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="twokenize.splitEdgePunct">
+<code class="descclassname">twokenize.</code><code class="descname">splitEdgePunct</code><span class="sig-paren">(</span><em>input</em><span class="sig-paren">)</span><a class="headerlink" href="#twokenize.splitEdgePunct" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>input</strong> &#8211; input</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">updated input</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="twokenize.splitToken">
+<code class="descclassname">twokenize.</code><code class="descname">splitToken</code><span class="sig-paren">(</span><em>token</em><span class="sig-paren">)</span><a class="headerlink" href="#twokenize.splitToken" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>token</strong> &#8211; token</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">split tokens</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="twokenize.squeezeWhitespace">
+<code class="descclassname">twokenize.</code><code class="descname">squeezeWhitespace</code><span class="sig-paren">(</span><em>input</em><span class="sig-paren">)</span><a class="headerlink" href="#twokenize.squeezeWhitespace" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>input</strong> &#8211; input</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">trimmed input</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="twokenize.tokenize">
+<code class="descclassname">twokenize.</code><code class="descname">tokenize</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="headerlink" href="#twokenize.tokenize" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text</strong> &#8211; text</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">tokenized strings</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="twokenize.tokenizeRawTweetText">
+<code class="descclassname">twokenize.</code><code class="descname">tokenizeRawTweetText</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="headerlink" href="#twokenize.tokenizeRawTweetText" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text</strong> &#8211; Text</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">tokens</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="lda_func.html"
+                        title="previous chapter">lda_func module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="userlimit.html"
+                        title="next chapter">userlimit module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/twokenize.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="userlimit.html" title="userlimit module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="lda_func.html" title="lda_func module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">TweetTracker 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Ashutosh Bhadke.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.3.
+    </div>
+  </body>
+</html>

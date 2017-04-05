@@ -2,7 +2,11 @@ from pymongo import *
 import ujson as json
 
 def getUserLimit(id):
-
+	"""
+	
+	:param id: id
+	:return: json dump of result
+	"""
 	c = MongoClient('149.169.226.104:27020')
 	db = c['tweettracker']
 	db.authenticate('twtuser','!!!asudmml%%%')

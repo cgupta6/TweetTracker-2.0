@@ -405,6 +405,11 @@ def interpret_box(box, switch=False):
 
 
 def translate_tweet(tweet):
+    """
+    
+    :param tweet: tweet
+    :return: translated tweet
+    """
     language = translator.detect_lang(tweet)
     if language == "en":
         return tweet
@@ -412,6 +417,14 @@ def translate_tweet(tweet):
         return translator.translate(tweet, lang_to='en')
 
 def get_image(username, image_id, catime, config):
+    """
+    
+    :param username: username
+    :param image_id: image id
+    :param catime: catime
+    :param config: configuration
+    :return: image
+    """
     projection = {
         "tags": 1,
         "link": 1,
@@ -436,6 +449,14 @@ def get_image(username, image_id, catime, config):
     return jsonify(response_object)
 
 def get_images(username, image_indices, config, response_type):
+    """
+    
+    :param username: user name
+    :param image_indices: image indices
+    :param config: configuration
+    :param response_type: response type
+    :return: images result
+    """
     projection = {
         "tags": 1,
         "link": 1,
@@ -478,6 +499,14 @@ def get_images(username, image_indices, config, response_type):
         abort(400)
 
 def get_video(username, video_id, catime, config):
+    """
+    
+    :param username: user name
+    :param video_id: video id
+    :param catime: catime
+    :param config: configuration
+    :return: video
+    """
     projection = {
         "id": 1,
         "title": 1,
@@ -504,6 +533,14 @@ def get_video(username, video_id, catime, config):
     return jsonify(response_object)
 
 def get_videos(username, video_indices, config, response_type):
+    """
+    
+    :param username: username
+    :param video_indices: video indices 
+    :param config: configuration
+    :param response_type: response type
+    :return: videos result
+    """
     projection = {
         "id": 1,
         "title": 1,
@@ -546,6 +583,11 @@ def get_videos(username, video_indices, config, response_type):
         abort(400)
 
 def convert_keywords_to_tags(query):
+    """
+    
+    :param query: query
+    :return: 
+    """
     for key in query:
         if key == "keywords":
             query["tags"] = query.pop(key)

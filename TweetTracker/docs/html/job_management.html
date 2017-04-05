@@ -1,0 +1,652 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>job_management package &#8212; TweetTracker 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="lda_func module" href="lda_func.html" />
+    <link rel="prev" title="hdx package" href="hdx.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="lda_func.html" title="lda_func module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="hdx.html" title="hdx package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">TweetTracker 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="job-management-package">
+<h1>job_management package<a class="headerlink" href="#job-management-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-job_management.api_support">
+<span id="job-management-api-support-module"></span><h2>job_management.api_support module<a class="headerlink" href="#module-job_management.api_support" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="job_management.api_support.crawl_parameters">
+<code class="descclassname">job_management.api_support.</code><code class="descname">crawl_parameters</code><span class="sig-paren">(</span><em>username</em><span class="sig-paren">)</span><a class="headerlink" href="#job_management.api_support.crawl_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function returns the parameters of all categories</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>username</strong> &#8211; user name</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">username parameter json</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="job_management.api_support.create_job">
+<code class="descclassname">job_management.api_support.</code><code class="descname">create_job</code><span class="sig-paren">(</span><em>name</em>, <em>users</em>, <em>keywords</em>, <em>geoboxes</em>, <em>username</em>, <em>yakmarkers=[]</em>, <em>public=False</em>, <em>crisisflag=False</em>, <em>sources=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#job_management.api_support.create_job" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function creates a new job on the database then redirects</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> &#8211; The name of the new job</li>
+<li><strong>users</strong> &#8211; The users to put into the new job</li>
+<li><strong>keywords</strong> &#8211; The keywords to put into the new job</li>
+<li><strong>geoboxes</strong> &#8211; The geoboxes to track with the new job</li>
+<li><strong>username</strong> &#8211; The user creating the job
+:param sources: The sources from which the job should be crawled</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A redirect response to view the new job</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="job_management.api_support.delete_job">
+<code class="descclassname">job_management.api_support.</code><code class="descname">delete_job</code><span class="sig-paren">(</span><em>username</em>, <em>job_id</em><span class="sig-paren">)</span><a class="headerlink" href="#job_management.api_support.delete_job" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes the job from its owner so it won&#8217;t appear in their job list.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>username</strong> &#8211; The user seeking to delete a job</li>
+<li><strong>job_id</strong> &#8211; The job to delete</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">An HTTP status code indicating success/failure</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="job_management.api_support.get_all">
+<code class="descclassname">job_management.api_support.</code><code class="descname">get_all</code><span class="sig-paren">(</span><em>email</em><span class="sig-paren">)</span><a class="headerlink" href="#job_management.api_support.get_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>This generates a response that gets all of the jobs of a user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>email</strong> &#8211; The user to retrieve jobs for</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">An HTTP 200 response with the json objects</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="job_management.api_support.get_all_classic">
+<code class="descclassname">job_management.api_support.</code><code class="descname">get_all_classic</code><span class="sig-paren">(</span><em>username=None</em><span class="sig-paren">)</span><a class="headerlink" href="#job_management.api_support.get_all_classic" title="Permalink to this definition">¶</a></dt>
+<dd><p>This gets all of the jobs for a user by their username.</p>
+<p>This is named &#8220;classic&#8221; because this is how the old TweetTracker works. We
+were going to change this to use the email (see get_all).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>username</strong> &#8211; The user to get the jobs for.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Either the public jobs (if no user) or the user&#8217;s jobs.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="job_management.api_support.get_job">
+<code class="descclassname">job_management.api_support.</code><code class="descname">get_job</code><span class="sig-paren">(</span><em>job_id</em>, <em>username=None</em><span class="sig-paren">)</span><a class="headerlink" href="#job_management.api_support.get_job" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>job_id</strong> &#8211; job id</li>
+<li><strong>username</strong> &#8211; user name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">jsonified job</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="job_management.api_support.handle_get_job">
+<code class="descclassname">job_management.api_support.</code><code class="descname">handle_get_job</code><span class="sig-paren">(</span><em>job_id</em>, <em>email</em><span class="sig-paren">)</span><a class="headerlink" href="#job_management.api_support.handle_get_job" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>job_id</strong> &#8211; job id</li>
+<li><strong>email</strong> &#8211; email</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>:return:jsonified job</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="job_management.api_support.set_crawl">
+<code class="descclassname">job_management.api_support.</code><code class="descname">set_crawl</code><span class="sig-paren">(</span><em>username</em>, <em>job_id</em>, <em>crawl</em><span class="sig-paren">)</span><a class="headerlink" href="#job_management.api_support.set_crawl" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the backing function for the set_crawl enpoint.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>username</strong> &#8211; The username of the user currently logged in</li>
+<li><strong>job_id</strong> &#8211; The ID of the job we are changing</li>
+<li><strong>crawl</strong> &#8211; Whether to start or stop the crawling of this job</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Response code indicating success/failure</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="job_management.api_support.update_job">
+<code class="descclassname">job_management.api_support.</code><code class="descname">update_job</code><span class="sig-paren">(</span><em>job_id</em>, <em>name</em>, <em>users</em>, <em>keywords</em>, <em>geoboxes</em>, <em>username</em>, <em>yakmarkers=[]</em>, <em>public=None</em>, <em>crisisflag=None</em>, <em>sources=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#job_management.api_support.update_job" title="Permalink to this definition">¶</a></dt>
+<dd><p>This sets all of the properties of the specified job with the arguments.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>job_id</strong> &#8211; The job to update</li>
+<li><strong>name</strong> &#8211; The new name of the job</li>
+<li><strong>users</strong> &#8211; The new users for the job to track</li>
+<li><strong>keywords</strong> &#8211; The new keywords for the job to track</li>
+<li><strong>geoboxes</strong> &#8211; The new geoboxes for the job to track</li>
+<li><strong>username</strong> &#8211; The username of the user seeking to update the job
+:param sources: The sources from which the job should be crawled</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="job_management.api_support.validate_job_name">
+<code class="descclassname">job_management.api_support.</code><code class="descname">validate_job_name</code><span class="sig-paren">(</span><em>job_name</em><span class="sig-paren">)</span><a class="headerlink" href="#job_management.api_support.validate_job_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>This backend function validates the job name for uniqueness.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>job_name</strong> &#8211; The job name to validate</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">An appropriate HTTP response</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-job_management.job">
+<span id="job-management-job-module"></span><h2>job_management.job module<a class="headerlink" href="#module-job_management.job" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="job_management.job.authenticated_set_crawl">
+<code class="descclassname">job_management.job.</code><code class="descname">authenticated_set_crawl</code><span class="sig-paren">(</span><em>user_id</em>, <em>job_id</em>, <em>crawl</em><span class="sig-paren">)</span><a class="headerlink" href="#job_management.job.authenticated_set_crawl" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>user_id</strong> &#8211; user id</li>
+<li><strong>job_id</strong> &#8211; job id</li>
+<li><strong>crawl</strong> &#8211; crawl</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">updates job</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="job_management.job.clean_job">
+<code class="descclassname">job_management.job.</code><code class="descname">clean_job</code><span class="sig-paren">(</span><em>job</em><span class="sig-paren">)</span><a class="headerlink" href="#job_management.job.clean_job" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cleans a MongoDB job for sending to the client</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>job</strong> &#8211; The raw MongoDB object</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The cleaned job object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="job_management.job.convert_geo_from_tt">
+<code class="descclassname">job_management.job.</code><code class="descname">convert_geo_from_tt</code><span class="sig-paren">(</span><em>geobox</em><span class="sig-paren">)</span><a class="headerlink" href="#job_management.job.convert_geo_from_tt" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>geobox</strong> &#8211; geo box</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">converted geobox</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="job_management.job.convert_geo_from_ui">
+<code class="descclassname">job_management.job.</code><code class="descname">convert_geo_from_ui</code><span class="sig-paren">(</span><em>geobox</em><span class="sig-paren">)</span><a class="headerlink" href="#job_management.job.convert_geo_from_ui" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>geobox</strong> &#8211; geobox</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="job_management.job.convert_yak_from_tt">
+<code class="descclassname">job_management.job.</code><code class="descname">convert_yak_from_tt</code><span class="sig-paren">(</span><em>yakpin</em><span class="sig-paren">)</span><a class="headerlink" href="#job_management.job.convert_yak_from_tt" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>yakpin</strong> &#8211; yak pin</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">yak lat n long</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="job_management.job.convert_yak_from_ui">
+<code class="descclassname">job_management.job.</code><code class="descname">convert_yak_from_ui</code><span class="sig-paren">(</span><em>yakpin</em><span class="sig-paren">)</span><a class="headerlink" href="#job_management.job.convert_yak_from_ui" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>yikyakpins</strong> &#8211; yakpin</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<p>print yakpin</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="job_management.job.create">
+<code class="descclassname">job_management.job.</code><code class="descname">create</code><span class="sig-paren">(</span><em>name</em>, <em>keywords</em>, <em>users</em>, <em>geoboxes</em>, <em>user_id</em>, <em>yakmarkers</em>, <em>public</em>, <em>crisisflag</em>, <em>sources</em><span class="sig-paren">)</span><a class="headerlink" href="#job_management.job.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function creates a new job with specified parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> &#8211; The name of the Job to be created</li>
+<li><strong>keywords</strong> &#8211; The list of keywords</li>
+<li><strong>users</strong> &#8211; The list of users</li>
+<li><strong>geoboxes</strong> &#8211; The list of Geoboxes</li>
+<li><strong>user_id</strong> &#8211; The user that this Job is being created for
+:param sources: The sources from which the job should be crawled</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The ID of the Job as stored in MongoDB</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="job_management.job.delete">
+<code class="descclassname">job_management.job.</code><code class="descname">delete</code><span class="sig-paren">(</span><em>user_id</em>, <em>job_id</em><span class="sig-paren">)</span><a class="headerlink" href="#job_management.job.delete" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>user_id</strong> &#8211; user id</li>
+<li><strong>job_id</strong> &#8211; job id</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="job_management.job.get_all_by_user">
+<code class="descclassname">job_management.job.</code><code class="descname">get_all_by_user</code><span class="sig-paren">(</span><em>username</em><span class="sig-paren">)</span><a class="headerlink" href="#job_management.job.get_all_by_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function gets all of the jobs a user can read from. If the user is admin (id = 6), ALL jobs (besides deleted ones) should be returned</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>username</strong> &#8211; The username of the user</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The list of Job objects from MongoDB</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="job_management.job.get_all_parameters">
+<code class="descclassname">job_management.job.</code><code class="descname">get_all_parameters</code><span class="sig-paren">(</span><em>username</em><span class="sig-paren">)</span><a class="headerlink" href="#job_management.job.get_all_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function returns all parameters in the database for crawling.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">An object containing all parameters of the DB</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="job_management.job.get_by_id">
+<code class="descclassname">job_management.job.</code><code class="descname">get_by_id</code><span class="sig-paren">(</span><em>job_id</em><span class="sig-paren">)</span><a class="headerlink" href="#job_management.job.get_by_id" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>job_id</strong> &#8211; job id</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">job category</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="job_management.job.get_job_with_user">
+<code class="descclassname">job_management.job.</code><code class="descname">get_job_with_user</code><span class="sig-paren">(</span><em>job_id</em>, <em>username=None</em><span class="sig-paren">)</span><a class="headerlink" href="#job_management.job.get_job_with_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the job with the given username. If None, assume it&#8217;s a public req</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>job_id</strong> &#8211; The job to retrieve</li>
+<li><strong>username</strong> &#8211; The user retrieving the job or None if public</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The job or None if the permissions aren&#8217;t correct</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="job_management.job.get_public">
+<code class="descclassname">job_management.job.</code><code class="descname">get_public</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#job_management.job.get_public" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves all public jobs from the database.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">An object containing all public jobs cleaned up</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="job_management.job.lookup_twitter_users">
+<code class="descclassname">job_management.job.</code><code class="descname">lookup_twitter_users</code><span class="sig-paren">(</span><em>screen_names</em><span class="sig-paren">)</span><a class="headerlink" href="#job_management.job.lookup_twitter_users" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>screen_names</strong> &#8211; screen name</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">user details</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="job_management.job.next_job_id">
+<code class="descclassname">job_management.job.</code><code class="descname">next_job_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#job_management.job.next_job_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function gets the next categoryID for a future job.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The integer representing the new categoryID.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="job_management.job.setup">
+<code class="descclassname">job_management.job.</code><code class="descname">setup</code><span class="sig-paren">(</span><em>collection</em>, <em>twython_o</em><span class="sig-paren">)</span><a class="headerlink" href="#job_management.job.setup" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>collection</strong> &#8211; collection</li>
+<li><strong>twython_o</strong> &#8211; twython_o</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="job_management.job.update">
+<code class="descclassname">job_management.job.</code><code class="descname">update</code><span class="sig-paren">(</span><em>user_id</em>, <em>job_id</em>, <em>name</em>, <em>keywords</em>, <em>users</em>, <em>geoboxes</em>, <em>yakmarkers</em>, <em>public</em>, <em>crisisflag</em>, <em>sources</em><span class="sig-paren">)</span><a class="headerlink" href="#job_management.job.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function updates the parameters of a Job</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> &#8211; The name to use for the Job</li>
+<li><strong>keywords</strong> &#8211; The keywords to use for the Job</li>
+<li><strong>users</strong> &#8211; The users to set for the Job</li>
+<li><strong>geoboxes</strong> &#8211; The locations to set for the Job</li>
+<li><strong>user_id</strong> &#8211; The user doing the update</li>
+<li><strong>job_id</strong> &#8211; The ID of the job we&#8217;re updating
+:param sources: The sources from which the job should be crawled</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True if successful, None otherwise</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="job_management.job.validate_job_name">
+<code class="descclassname">job_management.job.</code><code class="descname">validate_job_name</code><span class="sig-paren">(</span><em>job_name</em><span class="sig-paren">)</span><a class="headerlink" href="#job_management.job.validate_job_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check mongodb for the job name.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>job_name</strong> &#8211; The job name to check for</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if the job name is acceptable, false otherwise</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-job_management">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-job_management" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">job_management package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-job_management.api_support">job_management.api_support module</a></li>
+<li><a class="reference internal" href="#module-job_management.job">job_management.job module</a></li>
+<li><a class="reference internal" href="#module-job_management">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="hdx.html"
+                        title="previous chapter">hdx package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="lda_func.html"
+                        title="next chapter">lda_func module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/job_management.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="lda_func.html" title="lda_func module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="hdx.html" title="hdx package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">TweetTracker 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Ashutosh Bhadke.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.3.
+    </div>
+  </body>
+</html>

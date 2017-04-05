@@ -52,11 +52,11 @@ def create_catimes(job_ids, begin_time, end_time):
 def get_all_entities(username, job_ids, begin_time, end_time, limit):
     """
 
-    :param username:
-    :param job_ids:
-    :param begin_time:
-    :param end_time:
-    :param limit:
+    :param username: username
+    :param job_ids: job ids
+    :param begin_time: begin time
+    :param end_time: end time
+    :param limit: limit
     :return:
     """
     # Check that our user can query all selected jobs
@@ -286,11 +286,11 @@ def generate_word_cloud(username, job_ids, begin_time, end_time, limit=50):
 def generate_time_lines(categories, start_time, end_time, granularity, keywords):
     """
 
-    :param categories:
-    :param start_time:
-    :param end_time:
-    :param granularity:
-    :param keywords:
+    :param categories: categories
+    :param start_time: start time
+    :param end_time: end time
+    :param granularity: granularity
+    :param keywords: keywords
     :return:
     """
 

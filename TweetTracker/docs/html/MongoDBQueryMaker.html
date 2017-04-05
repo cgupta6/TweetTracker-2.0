@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>MongoDBQueryMaker module &#8212; TweetTracker 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="QueryMakerHelper module" href="QueryMakerHelper.html" />
+    <link rel="prev" title="MongoDBFacade module" href="MongoDBFacade.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="QueryMakerHelper.html" title="QueryMakerHelper module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="MongoDBFacade.html" title="MongoDBFacade module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">TweetTracker 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-MongoDBQueryMaker">
+<span id="mongodbquerymaker-module"></span><h1>MongoDBQueryMaker module<a class="headerlink" href="#module-MongoDBQueryMaker" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="MongoDBQueryMaker.MongoDBQueryMaker">
+<em class="property">class </em><code class="descclassname">MongoDBQueryMaker.</code><code class="descname">MongoDBQueryMaker</code><a class="headerlink" href="#MongoDBQueryMaker.MongoDBQueryMaker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>MongoDB query maker class</p>
+<dl class="method">
+<dt id="MongoDBQueryMaker.MongoDBQueryMaker.addGeoboxes">
+<code class="descname">addGeoboxes</code><span class="sig-paren">(</span><em>longitudeField</em>, <em>latitudeField</em>, <em>geoboxes</em><span class="sig-paren">)</span><a class="headerlink" href="#MongoDBQueryMaker.MongoDBQueryMaker.addGeoboxes" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>longitudeField</strong> &#8211; longitude</li>
+<li><strong>latitudeField</strong> &#8211; tatitude</li>
+<li><strong>geoboxes</strong> &#8211; geoboxes</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">none</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="MongoDBQueryMaker.MongoDBQueryMaker.addMembershipCondition">
+<code class="descname">addMembershipCondition</code><span class="sig-paren">(</span><em>fieldName</em>, <em>listToCheck</em><span class="sig-paren">)</span><a class="headerlink" href="#MongoDBQueryMaker.MongoDBQueryMaker.addMembershipCondition" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fieldName</strong> &#8211; field name</li>
+<li><strong>listToCheck</strong> &#8211; list to check</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">none</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="MongoDBQueryMaker.MongoDBQueryMaker.buildQuery">
+<code class="descname">buildQuery</code><span class="sig-paren">(</span><em>categoryIds</em>, <em>start_time</em>, <em>end_time</em>, <em>has_location=False</em><span class="sig-paren">)</span><a class="headerlink" href="#MongoDBQueryMaker.MongoDBQueryMaker.buildQuery" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>categoryIds</strong> &#8211; category ids</li>
+<li><strong>start_time</strong> &#8211; start time</li>
+<li><strong>end_time</strong> &#8211; end time</li>
+<li><strong>has_location</strong> &#8211; has location</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">query</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="MongoDBFacade.html"
+                        title="previous chapter">MongoDBFacade module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="QueryMakerHelper.html"
+                        title="next chapter">QueryMakerHelper module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/MongoDBQueryMaker.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="QueryMakerHelper.html" title="QueryMakerHelper module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="MongoDBFacade.html" title="MongoDBFacade module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">TweetTracker 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Ashutosh Bhadke.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.3.
+    </div>
+  </body>
+</html>

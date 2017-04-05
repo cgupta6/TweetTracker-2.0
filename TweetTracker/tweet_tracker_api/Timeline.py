@@ -18,13 +18,23 @@ from flask import session
 import logging
 
 class Timeline(TweetTrackerAPIClass):
+    """
+        Class for TimeLine
+    """
     def __init__(self, config):
+        """
+        
+        :param config: configuration
+        """
         super(Timeline, self).__init__(config)
 
 
     def getTrends(self,queryargs):
-        #get inputs
-
+        """
+        
+        :param queryargs: query arguments
+        :return: category count
+        """
         #print "HERE"
         self.databaseName=self.dist_db
         categories= queryargs.getlist('categoryID')
@@ -132,6 +142,15 @@ class Timeline(TweetTrackerAPIClass):
             return (True,catsobj)
 
     def queryTrendsNoKeywords(self, categories, start_time, end_time, granularity, types):
+        """
+        
+        :param categories: categories
+        :param start_time: start time
+        :param end_time: end time
+        :param granularity: granularity
+        :param types: types
+        :return: category count
+        """
         catsobj={}
         starttimes=(start_time-(start_time%3600)) 
         endtimes=(end_time+3600-(end_time%3600))
@@ -181,6 +200,22 @@ class Timeline(TweetTrackerAPIClass):
         return  (True,catsobj)
 
     def queryDatabaseForTypeTrend(self, mediaType, catarr, starttimes, endtimes, countarr, categories, times, timecount, granularity, firstTime, catdiff, numbins):
+        """
+        
+        :param mediaType: Media type
+        :param catarr: category array
+        :param starttimes: start times
+        :param endtimes: end times
+        :param countarr: count array
+        :param categories: categories
+        :param times: times
+        :param timecount: time count
+        :param granularity: granularity
+        :param firstTime: first time
+        :param catdiff: category difference
+        :param numbins: numbers in
+        :return: count array
+        """
         if "tweet" == mediaType:
             print starttimes
             print endtimes
@@ -243,12 +278,24 @@ class Timeline(TweetTrackerAPIClass):
         return countarr.copy()
 
     def clearArrays(self, countarr, timecount, categories):
+        """
+        
+        :param countarr: count array
+        :param timecount: time count
+        :param categories: categories
+        :return: none
+        """
         for cat in categories:
             countarr[cat] = []
             timecount[cat] = 0
     
     #this function is only used to get the minutely and hourly trendlines for the crawler monitoring webpage
     def getMonitoringTrendlines(self, queryargs):
+        """
+        
+        :param queryargs: query arguments 
+        :return: object with hours and minute counts
+        """
         currentTime = int(round(time.time()))
         lastHour = currentTime - (currentTime % 3600)
         lastMinute = currentTime - (currentTime % 60)

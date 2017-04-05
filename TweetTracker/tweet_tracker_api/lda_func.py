@@ -1,3 +1,6 @@
+"""
+Program to get LDA
+"""
 import json
 import os.path
 import os
@@ -19,7 +22,12 @@ config = json.load(open("config.json", "r"))
 
 
 def getlda(cats, username=None):
-
+    """
+    
+    :param cats: categories
+    :param username: user name
+    :return: json of ldas
+    """
     catsArr = []
     distArr = []
     for cat in cats:
@@ -40,7 +48,15 @@ def getlda(cats, username=None):
 
 
 def getrel(cat, distid, max, username=None):
-    #run lda classifications on the category, sort into best fits, return
+    """
+    run lda classifications on the category, sort into best fits, return
+    :param cat: category
+    :param distid: dist id
+    :param max: max
+    :param username: user name
+    :return: tweets
+    """
+
     client = MongoClient(config["mongo_ram_server"], config["mongo_ram_port"])
     db = client.tweettracker
     db.authenticate(config["mongo_ram_username"], config["mongo_ram_password"])

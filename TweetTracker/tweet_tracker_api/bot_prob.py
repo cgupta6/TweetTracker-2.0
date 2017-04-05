@@ -19,6 +19,13 @@ new_db = client['ttsideprojects']
 
 
 def find_jobs_bot_prob(job_ids, classifier, lda1):
+    """
+
+    :param job_ids: job ids
+    :param classifier: classifier
+    :param lda1: lda
+    :return: bots
+    """
     if job_ids is None:
         return (False, 'No Category IDs Found.')
 
@@ -60,9 +67,21 @@ def find_jobs_bot_prob(job_ids, classifier, lda1):
 
 
 def find_bot_prob(job_id, collection, collection_userlabels, dictionary, classifier, lda, punctuations, stop_word_list):
+
+    """
     # Check whether the data is recent enough, we retrieve the probability from
     # database.
 
+    :param job_id: job id
+    :param collection: collection
+    :param collection_userlabels: user labels 
+    :param dictionary: dictionary
+    :param classifier: classifier
+    :param lda: lda
+    :param punctuations: punctuations
+    :param stop_word_list: stop word list
+    :return: bots
+    """
     pattern = '%Y-%m-%d'
     curr_date = time.strftime('%Y-%m-%d', time.localtime(int(time.time())))
     curr_date_epoch = int(time.mktime(time.strptime(curr_date, pattern)))
@@ -123,6 +142,11 @@ def find_bot_prob(job_id, collection, collection_userlabels, dictionary, classif
 
 
 def find_top_users(job_id):
+    """
+
+    :param job_id: job id
+    :return: top users
+    """
     db = client['ttsideprojects']
     #db.authenticate('twtuser', '!!!asudmml%%%')
     collection = db['botuserlabels']

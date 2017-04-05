@@ -24,9 +24,9 @@ def get_all_classic(username=None):
 def get_job(job_id, username=None):
     """
 
-    :param job_id:
-    :param username:
-    :return:
+    :param job_id: job id
+    :param username: user name
+    :return: jsonified job
     """
     my_job = job.get_job_with_user(job_id, username)
     if my_job is None:
@@ -87,9 +87,9 @@ def update_job(job_id, name, users, keywords, geoboxes, username, yakmarkers=[],
 def handle_get_job(job_id, email):
     """
 
-    :param job_id:
-    :param email:
-    :return:
+    :param job_id: job id
+    :param email: email
+    :return:jsonified job
     """
     my_job = job.get_by_id(job_id)
 
@@ -152,8 +152,8 @@ def set_crawl(username, job_id, crawl):
 def crawl_parameters(username):
     """ This function returns the parameters of all categories
 
-    :param username:
-    :return:
+    :param username: user name
+    :return: username parameter json
     """
     user_id = username_to_id(username)
     if user_id is None:

@@ -11,6 +11,12 @@ USER_ID_BATCH_SIZE = 100
 
 
 def setup(collection, twython_o):
+    """
+    
+    :param collection: collection
+    :param twython_o: twython_o
+    :return: 
+    """
     global jobs
     global twython_obj
     jobs = collection
@@ -18,6 +24,11 @@ def setup(collection, twython_o):
 
 
 def lookup_twitter_users(screen_names):
+    """
+    
+    :param screen_names: screen name
+    :return: user details
+    """
     if len(screen_names) == 0:
         return []
     response = []
@@ -151,8 +162,8 @@ def get_all_parameters(username):
 def get_by_id(job_id):
     """
 
-    :param job_id:
-    :return:
+    :param job_id: job id
+    :return: job category
     """
     return jobs.find_one({'categoryID': job_id})
 
@@ -244,8 +255,8 @@ def get_job_with_user(job_id, username=None):
 def convert_geo_from_tt(geobox):
     """
 
-    :param geobox:
-    :return:
+    :param geobox: geo box
+    :return: converted geobox
     """
     return {
         'nwLat': geobox['latlngne'][0],
@@ -260,11 +271,10 @@ def convert_geo_from_tt(geobox):
 
 def convert_yak_from_tt(yakpin):  # converts yak pins found in mongodb to a format used by leaflet map
     """
-
-    :param geobox:
-    :return:
+    
+    :param yakpin:  yak pin
+    :return:  yak lat n long
     """
-
     return {
         'yaklat': yakpin['pinlat'],
         'yaklong': yakpin['pinlong']
@@ -273,8 +283,8 @@ def convert_yak_from_tt(yakpin):  # converts yak pins found in mongodb to a form
 def convert_geo_from_ui(geobox):
     """
 
-    :param geobox:
-    :return:
+    :param geobox: geobox
+    :return: 
     """
     return {
         'latlngne': [geobox['neLat'], geobox['neLng']],
@@ -284,7 +294,7 @@ def convert_geo_from_ui(geobox):
 def convert_yak_from_ui(yakpin): # converts yak pins created on the leaflet map for storage in mongodb
     """
 
-    :param yikyakpins:
+    :param yikyakpins: yakpin
     :return:
     print yakpin
     """
@@ -298,8 +308,8 @@ def convert_yak_from_ui(yakpin): # converts yak pins created on the leaflet map 
 def delete(user_id, job_id):
     """
 
-    :param user_id:
-    :param job_id:
+    :param user_id: user id
+    :param job_id: job id
     :return:
     """
     job = jobs.find_one({"creator": user_id, "categoryID": job_id})
@@ -317,10 +327,10 @@ def delete(user_id, job_id):
 def authenticated_set_crawl(user_id, job_id, crawl):
     """
 
-    :param user_id:
-    :param job_id:
-    :param crawl:
-    :return:
+    :param user_id: user id
+    :param job_id: job id
+    :param crawl: crawl
+    :return: updates job
     """
     job = None
     if user_id == 6:

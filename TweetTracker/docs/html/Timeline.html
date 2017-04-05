@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Timeline module &#8212; TweetTracker 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="auth package" href="auth.html" />
+    <link rel="prev" title="SearchAPI package" href="SearchAPI.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="auth.html" title="auth package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="SearchAPI.html" title="SearchAPI package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">TweetTracker 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-Timeline">
+<span id="timeline-module"></span><h1>Timeline module<a class="headerlink" href="#module-Timeline" title="Permalink to this headline">¶</a></h1>
+<p>Created on May 9, 2014</p>
+<p>&#64;author: srangan8</p>
+<dl class="class">
+<dt id="Timeline.Timeline">
+<em class="property">class </em><code class="descclassname">Timeline.</code><code class="descname">Timeline</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#Timeline.Timeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="APIClass.html#APIClass.TweetTrackerAPIClass" title="APIClass.TweetTrackerAPIClass"><code class="xref py py-class docutils literal"><span class="pre">APIClass.TweetTrackerAPIClass</span></code></a></p>
+<p>Class for TimeLine</p>
+<dl class="method">
+<dt id="Timeline.Timeline.clearArrays">
+<code class="descname">clearArrays</code><span class="sig-paren">(</span><em>countarr</em>, <em>timecount</em>, <em>categories</em><span class="sig-paren">)</span><a class="headerlink" href="#Timeline.Timeline.clearArrays" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>countarr</strong> &#8211; count array</li>
+<li><strong>timecount</strong> &#8211; time count</li>
+<li><strong>categories</strong> &#8211; categories</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">none</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Timeline.Timeline.getMonitoringTrendlines">
+<code class="descname">getMonitoringTrendlines</code><span class="sig-paren">(</span><em>queryargs</em><span class="sig-paren">)</span><a class="headerlink" href="#Timeline.Timeline.getMonitoringTrendlines" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>queryargs</strong> &#8211; query arguments</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">object with hours and minute counts</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Timeline.Timeline.getTrends">
+<code class="descname">getTrends</code><span class="sig-paren">(</span><em>queryargs</em><span class="sig-paren">)</span><a class="headerlink" href="#Timeline.Timeline.getTrends" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>queryargs</strong> &#8211; query arguments</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">category count</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Timeline.Timeline.queryDatabaseForTypeTrend">
+<code class="descname">queryDatabaseForTypeTrend</code><span class="sig-paren">(</span><em>mediaType</em>, <em>catarr</em>, <em>starttimes</em>, <em>endtimes</em>, <em>countarr</em>, <em>categories</em>, <em>times</em>, <em>timecount</em>, <em>granularity</em>, <em>firstTime</em>, <em>catdiff</em>, <em>numbins</em><span class="sig-paren">)</span><a class="headerlink" href="#Timeline.Timeline.queryDatabaseForTypeTrend" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>mediaType</strong> &#8211; Media type</li>
+<li><strong>catarr</strong> &#8211; category array</li>
+<li><strong>starttimes</strong> &#8211; start times</li>
+<li><strong>endtimes</strong> &#8211; end times</li>
+<li><strong>countarr</strong> &#8211; count array</li>
+<li><strong>categories</strong> &#8211; categories</li>
+<li><strong>times</strong> &#8211; times</li>
+<li><strong>timecount</strong> &#8211; time count</li>
+<li><strong>granularity</strong> &#8211; granularity</li>
+<li><strong>firstTime</strong> &#8211; first time</li>
+<li><strong>catdiff</strong> &#8211; category difference</li>
+<li><strong>numbins</strong> &#8211; numbers in</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">count array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Timeline.Timeline.queryTrendsNoKeywords">
+<code class="descname">queryTrendsNoKeywords</code><span class="sig-paren">(</span><em>categories</em>, <em>start_time</em>, <em>end_time</em>, <em>granularity</em>, <em>types</em><span class="sig-paren">)</span><a class="headerlink" href="#Timeline.Timeline.queryTrendsNoKeywords" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>categories</strong> &#8211; categories</li>
+<li><strong>start_time</strong> &#8211; start time</li>
+<li><strong>end_time</strong> &#8211; end time</li>
+<li><strong>granularity</strong> &#8211; granularity</li>
+<li><strong>types</strong> &#8211; types</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">category count</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="SearchAPI.html"
+                        title="previous chapter">SearchAPI package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="auth.html"
+                        title="next chapter">auth package</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/Timeline.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="auth.html" title="auth package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="SearchAPI.html" title="SearchAPI package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">TweetTracker 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Ashutosh Bhadke.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.3.
+    </div>
+  </body>
+</html>
