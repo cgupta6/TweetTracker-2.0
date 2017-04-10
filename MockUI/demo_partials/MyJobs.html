@@ -34,13 +34,13 @@
             <md-card >
                 <md-card-header md-colors="::{backgroundColor: 'default-primary-900'}">
                     <md-card-header-text>
-                        <span class="md-title">My Search Reports<md-button class="md-raised md-small md-warn pull-right"> <i class="fa fa-plus"></i> New Report</md-button></span>
+                        <span class="md-title">My Search Reports<md-button class="md-raised md-small md-warn pull-right" ng-click="go('/newReport')"> <i class="fa fa-plus"></i> New Report</md-button></span>
                     </md-card-header-text>
                 </md-card-header>
                 <!--<md-card-title>-->
-                    <!--<md-card-title-text>-->
-                        <!--<span class="md-headline">Card header</span>-->
-                    <!--</md-card-title-text>-->
+                <!--<md-card-title-text>-->
+                <!--<span class="md-headline">Card header</span>-->
+                <!--</md-card-title-text>-->
                 <!--</md-card-title>-->
                 <md-card-content>
                     <table ng-table="tableParams2" class="table" >
@@ -54,7 +54,8 @@
                             <td title="'Status'" sortable="'status'">
                                 Completed</td>
                             <td title="'Actions'" sortable="'action'">
-                                <md-button class="md-raised md-small md-warn pull-right"><i class="fa fa-cog"></i>Action</md-button></td>
+                                <action-button></action-button>
+                            </td>
                         </tr>
 
                         <tr>
@@ -67,7 +68,7 @@
                             <td title="'Status'" sortable="'status'">
                                 Incomplete</td>
                             <td title="'Actions'" sortable="'action'">
-                                <md-button class="md-raised md-small md-warn pull-right"><i class="fa fa-cog"></i>Action</md-button></td>
+                                <action-button></action-button>
                         </tr>
 
                         <tr>
@@ -80,7 +81,7 @@
                             <td title="'Status'" sortable="'status'">
                                 Completed</td>
                             <td title="'Actions'" sortable="'action'">
-                                <md-button class="md-raised md-small md-warn pull-right"><i class="fa fa-cog"></i>Action</md-button></td>
+                                <action-button></action-button>
                         </tr>
 
                         <tr>
@@ -93,7 +94,7 @@
                             <td title="'Status'" sortable="'status'">
                                 Completed</td>
                             <td title="'Actions'" sortable="'action'">
-                                <md-button class="md-raised md-small md-warn pull-right"><i class="fa fa-cog"></i>Action</md-button></td>
+                                <action-button></action-button>
                         </tr>
                     </table>
 
@@ -109,13 +110,13 @@
             <md-card >
                 <md-card-header md-colors="::{backgroundColor: 'default-primary-900'}">
                     <md-card-header-text>
-                        <span class="md-title">Sample Reports<md-button class="md-raised md-small md-warn pull-right"> <i class="fa fa-plus"></i> New Report</md-button></span>
+                        <span class="md-title">Sample Reports<md-button class="md-raised md-small md-warn pull-right" ng-click="go('/newReport')"> <i class="fa fa-plus"></i> New Report</md-button></span>
                     </md-card-header-text>
                 </md-card-header>
                 <!--<md-card-title>-->
-                    <!--<md-card-title-text>-->
-                        <!--<span class="md-headline">Card header</span>-->
-                    <!--</md-card-title-text>-->
+                <!--<md-card-title-text>-->
+                <!--<span class="md-headline">Card header</span>-->
+                <!--</md-card-title-text>-->
                 <!--</md-card-title>-->
                 <md-card-content>
                     <table ng-table="tableParams" class="table" >
@@ -158,13 +159,13 @@
             <md-card >
                 <md-card-header md-colors="::{backgroundColor: 'default-primary-900'}">
                     <md-card-header-text>
-                        <span class="md-title">My Crawls<md-button class="md-raised md-small md-warn pull-right"> <i class="fa fa-plus"></i> New Report</md-button></span>
+                        <span class="md-title">My Crawls<md-button class="md-raised md-small md-warn pull-right" ng-click="go('/newReport')"> <i class="fa fa-plus"></i> New Report</md-button></span>
                     </md-card-header-text>
                 </md-card-header>
                 <!--<md-card-title>-->
-                    <!--<md-card-title-text>-->
-                        <!--<span class="md-headline">Card header</span>-->
-                    <!--</md-card-title-text>-->
+                <!--<md-card-title-text>-->
+                <!--<span class="md-headline">Card header</span>-->
+                <!--</md-card-title-text>-->
                 <!--</md-card-title>-->
                 <md-card-content>
                     <table ng-table="tableParams2" class="table" >
@@ -178,7 +179,7 @@
                             <td title="'Status'" sortable="'status'">
                                 Completed</td>
                             <td title="'Actions'" sortable="'action'">
-                                <md-button class="md-raised md-small md-warn pull-right"><i class="fa fa-cog"></i>Action</md-button></td>
+                                <action-button></action-button>
                         </tr>
 
                         <tr>
@@ -191,7 +192,7 @@
                             <td title="'Status'" sortable="'status'">
                                 Incomplete</td>
                             <td title="'Actions'" sortable="'action'">
-                                <md-button class="md-raised md-small md-warn pull-right"><i class="fa fa-cog"></i>Action</md-button></td>
+                                <action-button></action-button>
                         </tr>
 
                         <tr>
@@ -204,7 +205,7 @@
                             <td title="'Status'" sortable="'status'">
                                 Completed</td>
                             <td title="'Actions'" sortable="'action'">
-                                <md-button class="md-raised md-small md-warn pull-right"><i class="fa fa-cog"></i>Action</md-button></td>
+                                <action-button></action-button>
                         </tr>
 
                         <tr>
@@ -217,7 +218,7 @@
                             <td title="'Status'" sortable="'status'">
                                 Completed</td>
                             <td title="'Actions'" sortable="'action'">
-                                <md-button class="md-raised md-small md-warn pull-right"><i class="fa fa-cog"></i>Action</md-button></td>
+                                <action-button></action-button>
                         </tr>
                     </table>
 

@@ -13,8 +13,9 @@ var app = angular.module('tutorialWebApp', [
         .primaryPalette('grey')
         .accentPalette('orange');
 });
-app.run(function(editableOptions) {
+app.run(function(editableOptions, $location ) {
     editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
+
 });
 // Factory to show/hide report view or analysis Tabs
 app.factory('dynamicHeader', function(){
@@ -67,7 +68,14 @@ app.config(['$routeProvider', function ($routeProvider) {
 app.controller('mainCtrl', function ( $scope, $location, $http,$rootScope ,dynamicHeader) {
     console.log("Header Rendered");
     $scope.isReport=dynamicHeader;
+
     dynamicHeader.setReportTab($location.$$path);
+
+    $scope.$on('$viewContentLoaded', function(){
+        $(".nav").find(".active").removeClass("active");
+        $("#"+$location.$$path.substr(1)).parent().addClass("active");
+    });
+
 });
 
 /**
@@ -101,6 +109,30 @@ app.controller('PageCtrl', function ( $scope, $location, $http ,$rootScope,dynam
     })
 });
 
+
+app.directive("actionButton", function() {
+    return {
+        template : '<div class="btn-group pull-right">\
+                    <md-button class="md-raised md-small md-warn"  data-toggle="dropdown" ><i class="fa fa-cog"></i>Action</md-button>\
+                    </button>\
+                    <ul class="dropdown-menu">\
+                        <li><a href=""><i class="fa fa-copy" style="padding-right: 5px;"></i>Clone Search</a></li>\
+                            <li><a href=""><i class="fa fa-pencil-square-o" style="padding-right: 5px;"></i>Edit Report</a></li>\
+                        <li role="separator" class="divider"></li>\
+                        <li class="disabled" ><a href="""><i class="fa fa-undo" style="padding-right: 5px;"></i>Undo All Edits</a></li>\
+                        <li role="separator" class="divider"></li>\
+                        <li class="disabled" ><a href="""><i class="fa fa-bookmark" style="padding-right: 5px;"></i>Export Bookmarked</a></li>\
+                        <li role="separator" class="divider"></li>\
+                        <li><a href=""><i class="fa fa-share-alt" style="padding-right: 5px;"></i>Share/Unshare</a></li>\
+                        <li><a href=""><i class="fa fa-archive" style="padding-right: 5px;"></i>Archive Report</a></li>\
+                        <li class="disabled" ><a href="""><i class="fa fa-bell" style="padding-right: 5px;"></i>Alerts</a></li>\
+                        <li role="separator" class="divider"></li>\
+                        <li><a href=""><i class="fa fa-trash-o" style="padding-right: 5px;"></i>Delete Report</a></li>\
+                    </ul>\
+                    </div>'
+    };
+});
+
 app.controller('profileCtrl', function ( $scope, $location, $http ,$rootScope,$filter,dynamicHeader) {
     console.log("ProfileCtrl Controller reporting for duty.");
 
@@ -131,8 +163,12 @@ app.controller('profileCtrl', function ( $scope, $location, $http ,$rootScope,$f
 
 app.controller('AppCtrl',[ '$scope','$rootScope','$location','NgTableParams','dynamicHeader', function($scope ,$rootScope, $location, NgTableParams,dynamicHeader) {
 
+
     dynamicHeader.setReportTab($location.$$path);
 
+    $scope.go = function ( path ) {
+        $location.path( path );
+    };
     $scope.imagePath = 'resources/img/washedout.png';
     var data = [{name: "Moroni", age: 50} ,{name: "Morsoni", age: 30},{name: "Moronasi", age: 80},{name: "Morosni", age: 70}];
     $scope.tableParams = new NgTableParams({}, { dataset: data});
