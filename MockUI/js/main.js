@@ -14,6 +14,25 @@ var app = angular.module('tutorialWebApp', [
         .accentPalette('orange');
 });
 
+// Factory to show/hide report view or analysis Tabs
+app.factory('dynamicHeader', function(){
+    var isReportTab;
+    var analysisTabs=["/basicstats","/faq","/about","/myReports"];
+
+    return {
+        isReportTab: function() { return isReportTab; },
+        setReportTab: function(newPath) {
+            if(analysisTabs.indexOf(newPath)!=-1)
+            {
+                isReportTab=true;
+            }
+            else
+            {
+                isReportTab=false;
+            }
+        }
+    };
+});
 
 /**
  * Configure the Routes
@@ -21,12 +40,12 @@ var app = angular.module('tutorialWebApp', [
 app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider
     // Home
-        .when("/", {templateUrl: "demo_partials/home.html", controller: "PageCtrl"})
+        .when("/", {templateUrl: "demo_partials/original_htmls/home.html", controller: "PageCtrl"})
         // Pages
-        .when("/about", {templateUrl: "demo_partials/about.html", controller: "PageCtrl"})
-        .when("/faq", {templateUrl: "demo_partials/faq.html", controller: "PageCtrl"})
+        .when("/about", {templateUrl: "demo_partials/original_htmls/about.html", controller: "PageCtrl"})
+        .when("/faq", {templateUrl: "demo_partials/original_htmls/faq.html", controller: "PageCtrl"})
         .when("/pricing", {templateUrl: "demo_partials/pricing.html", controller: "PageCtrl"})
-        .when("/services", {templateUrl: "demo_partials/services.html", controller: "PageCtrl"})
+        .when("/services", {templateUrl: "demo_partials/original_htmls/services.html", controller: "PageCtrl"})
         .when("/contact", {templateUrl: "demo_partials/contact.html", controller: "PageCtrl"})
         .when("/editReport", {templateUrl: "demo_partials/UpdateReport.html", controller: "PageCtrl"})
         .when("/newReport", {templateUrl: "demo_partials/NewReport.html", controller: "PageCtrl"})
@@ -39,18 +58,31 @@ app.config(['$routeProvider', function ($routeProvider) {
         .otherwise("/404", {templateUrl: "demo_partials/404.html", controller: "PageCtrl"});
 }]);
 
+
 /**
  * Controls the Blog
  */
-app.controller('BlogCtrl', function (/* $scope, $location, $http */) {
+app.controller('mainCtrl', function ( $scope, $location, $http,$rootScope ,dynamicHeader) {
+    console.log("Header Rendered");
+    $scope.isReport=dynamicHeader;
+    dynamicHeader.setReportTab($location.$$path);
+});
+
+/**
+ * Controls the Blog
+ */
+app.controller('BlogCtrl', function ( $scope, $location, $http ,$rootScope,dynamicHeader) {
     console.log("Blog Controller reporting for duty.");
+    dynamicHeader.setReportTab($location.$$path);
 });
 
 /**
  * Controls all other Pages
  */
-app.controller('PageCtrl', function (/* $scope, $location, $http */) {
+app.controller('PageCtrl', function ( $scope, $location, $http ,$rootScope,dynamicHeader) {
     console.log("Page Controller reporting for duty.");
+
+    dynamicHeader.setReportTab($location.$$path);
 
     // Activates the Carousel
     $('.carousel').carousel({
@@ -63,7 +95,10 @@ app.controller('PageCtrl', function (/* $scope, $location, $http */) {
     })
 });
 
-app.controller('AppCtrl',[ '$scope','NgTableParams', function($scope, NgTableParams) {
+app.controller('AppCtrl',[ '$scope','$rootScope','$location','NgTableParams','dynamicHeader', function($scope ,$rootScope, $location, NgTableParams,dynamicHeader) {
+
+    dynamicHeader.setReportTab($location.$$path);
+
     $scope.imagePath = 'resources/img/washedout.png';
     var data = [{name: "Moroni", age: 50} ,{name: "Morsoni", age: 30},{name: "Moronasi", age: 80},{name: "Morosni", age: 70}];
     $scope.tableParams = new NgTableParams({}, { dataset: data});
