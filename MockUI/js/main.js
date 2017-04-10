@@ -19,7 +19,7 @@ app.run(function(editableOptions) {
 // Factory to show/hide report view or analysis Tabs
 app.factory('dynamicHeader', function(){
     var isReportTab;
-    var analysisTabs=["/basicstats","/faq","/about","/myReports"];
+    var analysisTabs=["/basicstats","/faq","/about","/myJobs"];
 
     return {
         isReportTab: function() { return isReportTab; },
