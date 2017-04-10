@@ -1,0 +1,263 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+<style>
+    .top-buffer { margin-top:20px; }
+
+    .md-button.md-small {
+        height: 30px;
+        line-height: 20px;
+        min-height: 20px;
+        vertical-align: top;
+        margin: 0;
+    }
+
+    md-card md-card-header{
+        height: 46px !important;
+        padding: 7px !important;
+    }
+    md-card md-card-footer{
+        height: 40px !important;
+        padding: 7px !important;
+    }
+
+
+</style>
+<div class="container">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header" style="text-align: center">My Profile
+            </h1>
+        </div>
+    </div>
+    <div class="row top-buffer">
+        <div class="col-md-8 col-md-offset-2">
+    <i class="fa fa-user" style="padding-left: 10px"></i> My Profile
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <md-card >
+                <md-card-header md-colors="::{backgroundColor: 'default-primary-900'}">
+                    <md-card-header-text>
+                        <span class="md-title">Basic Information</span>
+                    </md-card-header-text>
+                </md-card-header>
+                <md-card-content>
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            First Name*
+                        </div>
+                        <div class="col-md-4">
+                            <a href="#" editable-text="basic.first_name">{{basic.first_name}}</a>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            Last name*
+                        </div>
+                        <div class="col-md-4">
+                            <a href="#" editable-text="basic.last_name">{{basic.last_name}}</a>
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            Email*
+                        </div>
+                        <div class="col-md-4">
+                            <a href="#" editable-text="basic.email">{{basic.email}}</a>
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            Phone
+                        </div>
+                        <div class="col-md-4">
+                            <a href="#" editable-text="basic.phone">{{basic.phone|| "Set Phone Number"}}</a>
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            Account
+                        </div>
+                        <div class="col-md-4">
+                            <a href="#" editable-text="basic.account">{{basic.account}}</a>
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            Password
+                        </div>
+                        <div class="col-md-4">
+                            <a href="#" editable-text="basic.password">{{basic.password}}</a>
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            Timezone
+                        </div>
+                        <div class="col-md-4">
+                            <a href="#" editable-select="basic.timezone" e-ng-options="s.value as s.text for s in timeZones">
+                                {{ showTimeZones() }}
+                            </a>
+                        </div>
+                    </div>
+
+                </md-card-content>
+            </md-card>
+
+        </div>
+
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <md-card >
+                <md-card-header md-colors="::{backgroundColor: 'default-primary-900'}">
+                    <md-card-header-text>
+                        <span class="md-title">Report Limits</span>
+                    </md-card-header-text>
+                </md-card-header>
+                <md-card-content>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            Number of Search Reports
+                        </div>
+                        <div class="col-md-4">
+                            {{limits.search}}
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            Number of Streaming Search Reports
+                        </div>
+                        <div class="col-md-4">
+                            {{limits.stream}}
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div style="background-color: lightgrey;padding: 5px;padding-left: 16px;border-width: 2px 0px 0px;border-style: solid;border-color: grey;">
+                            <b>Quotas</b>
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            Monthly Post Quota
+                        </div>
+                        <div class="col-md-4">
+                            {{limits.search}}
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            Current Balance
+                        </div>
+                        <div class="col-md-4">
+                            {{limits.stream}}
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <div style="background-color: lightgrey;padding: 5px;padding-left: 16px;border-width: 2px 0px 0px;border-style: solid;border-color: grey;">
+                            <b>Capabilities</b>
+                        </div>
+                    </div>
+<br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            Translation
+                        </div>
+                        <div class="col-md-4">
+                            Not Included
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            Alert
+                        </div>
+                        <div class="col-md-4">
+                            Not Included
+                        </div>
+                    </div>
+
+
+
+
+                </md-card-content>
+            </md-card>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <md-card >
+                <md-card-header md-colors="::{backgroundColor: 'default-primary-900'}">
+                    <md-card-header-text>
+                        <span class="md-title">Manage Account</span>
+                    </md-card-header-text>
+                </md-card-header>
+                <md-card-content>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            Account Created
+                        </div>
+                        <div class="col-md-4">
+                            21 Mar 2017
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6">
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete Account</button>
+                        </div>
+                    </div>
+                    <br>
+
+
+
+                </md-card-content>
+            </md-card>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!--
+Copyright 2016 Google Inc. All Rights Reserved.
+Use of this source code is governed by an MIT-style license that can be foundin the LICENSE file at http://material.angularjs.org/HEAD/license.
+-->
+<!--
+Copyright 2016 Google Inc. All Rights Reserved.
+Use of this source code is governed by an MIT-style license that can be foundin the LICENSE file at http://material.angularjs.org/HEAD/license.
+-->
