@@ -1,4 +1,0 @@
-flask
-Flask-Compressor
-bcrypt
-pymongo
