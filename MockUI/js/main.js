@@ -46,7 +46,7 @@ app.config(['$routeProvider', function ($routeProvider) {
         .when("/", {templateUrl: "demo_partials/original_htmls/home.html", controller: "PageCtrl"})
         // Pages
         .when("/about", {templateUrl: "demo_partials/original_htmls/about.html", controller: "PageCtrl"})
-        .when("/faq", {templateUrl: "demo_partials/original_htmls/faq.html", controller: "PageCtrl"})
+
         .when("/pricing", {templateUrl: "demo_partials/pricing.html", controller: "PageCtrl"})
         .when("/myProfile", {templateUrl: "demo_partials/MyProfile.html", controller: "profileCtrl"})
         .when("/contact", {templateUrl: "demo_partials/contact.html", controller: "PageCtrl"})
@@ -57,6 +57,7 @@ app.config(['$routeProvider', function ($routeProvider) {
         .when("/blog/post", {templateUrl: "demo_partials/blog_item.html", controller: "BlogCtrl"})
         .when("/myJobs", {templateUrl: "demo_partials/MyJobs.html", controller: "AppCtrl"})
         .when("/basicstats", {templateUrl: "partials/basicstats.html", controller: "AppCtrl"})
+        .when("/advancedstats", {templateUrl: "partials/advancedstats.html", controller: "PageCtrl"})
         // else 404
         .otherwise("/404", {templateUrl: "demo_partials/404.html", controller: "PageCtrl"});
 }]);
