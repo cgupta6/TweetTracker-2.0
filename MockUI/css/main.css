@@ -138,3 +138,12 @@ footer {
         /* increases the carousel height so it looks good on phones */
     }
 }
+
+.checkboxList {
+    border:1px solid #000;
+    background-color:#fff;
+    color:#000;
+    width:400px;
+    height: 200px;
+    overflow-y: scroll;
+}

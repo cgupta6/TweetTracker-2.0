@@ -51,11 +51,14 @@ app.config(['$routeProvider', function ($routeProvider) {
         .when("/myProfile", {templateUrl: "demo_partials/MyProfile.html", controller: "profileCtrl"})
         .when("/contact", {templateUrl: "demo_partials/contact.html", controller: "PageCtrl"})
         .when("/editReport", {templateUrl: "demo_partials/UpdateReport.html", controller: "PageCtrl"})
-        .when("/newReport", {templateUrl: "demo_partials/NewReport.html", controller: "PageCtrl"})
+        .when("/newreport", {templateUrl: "partials/newreport.html", controller: "PageCtrl"})
         // Blog
         .when("/blog", {templateUrl: "demo_partials/blog.html", controller: "BlogCtrl"})
         .when("/blog/post", {templateUrl: "demo_partials/blog_item.html", controller: "BlogCtrl"})
         .when("/myJobs", {templateUrl: "demo_partials/MyJobs.html", controller: "AppCtrl"})
+
+        .when("/newreport", {templateUrl: "partials/newreport.html", controller: "reportCtrl"})
+        .when("/newcrawl", {templateUrl: "partials/newcrawl.html", controller: "PageCtrl"})
         .when("/basicstats", {templateUrl: "partials/basicstats.html", controller: "AppCtrl"})
         .when("/advancedstats", {templateUrl: "partials/advancedstats.html", controller: "PageCtrl"})
         // else 404
