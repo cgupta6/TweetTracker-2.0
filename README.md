@@ -7,6 +7,22 @@ It's a sample UI created using [AngularJs] , [Bootstrap] , [jQueryUI] and [Angul
 ##### How to Run:
 Open the Mock UI project in Web Storm and run the index.html from any browser.
 
+##TweetTracker
+Project currently in development using [AngularJs] , [Bootstrap] , [jQueryUI], [Angular-Material], [Python] and [MongoDB].
+
+##How to setup mongoDB:
+1. Install mongodb version 3.4.3
+   https://docs.mongodb.com/master/tutorial/install-mongodb-on-ubuntu/?_ga=1.145819188.1227982745.1492119930
+2. Start mongod service:
+   $sudo mongod --dbpath=[Your data/db folder path]
+
+##### How to Run:
+Open the TweetTracker project in  Pycharm and run the server.py. Then, open "localhost:5000" url from any browser.
+
+From terminal:
+1. Navigate to TweetTracker folder.
+2. Run 'python server.py' command.
+
 ## External Resources
 
 #### 1. [Slack]
