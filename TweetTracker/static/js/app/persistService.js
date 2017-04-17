@@ -17,7 +17,7 @@ app.config(function($routeProvider){
 app.controller('MainCtrl', function($scope, State){
   $scope.formData = State.formData;   
 
-  $scope./* other scope stuff that deal with with your current page*/
+ // $scope./* other scope stuff that deal with with your current page*/
 });
 
 app.controller('SideCtrl', function($scope, State){

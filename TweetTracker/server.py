@@ -75,33 +75,7 @@ def index():
 
 @app.route("/")
 def index():
-    return render_template("index.html", ngApp="tutorialWebApp")
-
-@app.route("/home")
-def home():
-    return render_template("home.html")
-
-@app.route("/header")
-def header():
-    return render_template("header.html")
-
-@app.route("/footer")
-def footer():
-    return render_template("footer.html")
-
-@app.route("/newReport")
-def newReport():
-    return render_template("NewReport.html")
-
-@app.route("/myJobs")
-def myJobs():
-    return render_template("MyJobs.html")
-
-@app.route("/myProfile")
-def myProfile():
-    return render_template("MyProfile.html")
-
-
+    return render_template("index.html")
 
 @app.route("/app")
 @app.route("/app/overview")
