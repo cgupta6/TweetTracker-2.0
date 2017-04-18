@@ -22,7 +22,7 @@ app.config(function ($stateProvider) {
     }).state("rawData",{
         url:"/rawData",
         controller:"rawDataCtrl",
-        templateUrl:"static/templates/about.html"
+        templateUrl:"static/templates/RawData.html"
     }).state("advancedAnalytics",{
         url:"/advancedAnalytics",
         controller:"advancedAnalyticsCtrl",
