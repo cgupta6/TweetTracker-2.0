@@ -26,7 +26,7 @@ app.config(function ($stateProvider) {
     }).state("advancedAnalytics",{
         url:"/advancedAnalytics",
         controller:"advancedAnalyticsCtrl",
-        templateUrl:"static/templates/faq.html"
+        templateUrl:"static/templates/advancedstats.html"
     }).state("myProfile",{
         url:"/myProfile",
         controller:"profileCtrl",
