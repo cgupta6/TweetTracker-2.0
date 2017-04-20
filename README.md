@@ -23,6 +23,14 @@ From terminal:
 1. Navigate to TweetTracker folder.
 2. Run 'python server.py' command.
 
+
+##### How to setup mongodb on a new machine:
+Note: This step is required only on one machine for everyone else, currently hosted at 584AA.
+1. Find your machine hostname:Type:hostname in terminal
+2. Edit the file /<project-directory>/TweettrackWeb/config.json and change mongo_ram_server & mongo_dist_server from "en4054679l.cidse.dhcp.asu.edu" to "<hostname>.cidse.dhcp.asu.edu"
+3. Start MongoDB: sudo mongod --dbpath="/<path to db>/db" --port=28018 --fork --logpath mongodb.log
+
+
 ## External Resources
 
 #### 1. [Slack]
