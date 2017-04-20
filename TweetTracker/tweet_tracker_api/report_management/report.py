@@ -10,7 +10,7 @@ def setup(collection, ram_collection):
     ram_reports = ram_collection
 
 
-def create(name, start_datetime, end_datetime, selectedJobs, filter_by, user_id):
+def create(name, start_datetime, end_datetime, selectedJobs, filter_by, allWords, anyWords, noneWords, user_id):
     """ This function creates a new report with specified parameters.
 
     :param name: The name of the report to be created
@@ -18,6 +18,9 @@ def create(name, start_datetime, end_datetime, selectedJobs, filter_by, user_id)
     :param end_datetime: end date_time
     :param selectedJobs: selected jobs for report
     :param filter_by: The sources for which the report should be filtered
+    :param allWords: all words to be searched 
+    :param anyWords: any word from this list
+    :param noneWords: none of these words should come in the report results
     :param user_id: The user that this Job is being created for
 	:return: The ID of the report as stored in MongoDB
     """
@@ -30,13 +33,16 @@ def create(name, start_datetime, end_datetime, selectedJobs, filter_by, user_id)
         'start_datetime': start_datetime,
         'end_datetime': end_datetime,
         'selectedJobs': selectedJobs,
-        'filter_by': filter_by
+        'filter_by': filter_by,
+        'allWords': allWords,
+        'anyWords': anyWords,
+        'noneWords': noneWords
     })
     return nextReportId if report_id is not None else None
 
 
 
-def update(report_id, name, start_datetime, end_datetime, selectedJobs, filter_by, user_id):
+def update(report_id, name, start_datetime, end_datetime, selectedJobs, filter_by, allWords, anyWords, noneWords, user_id):
     """ This function updates the parameters of a report
     
     :param report_id: The id of the report to be updated
@@ -45,6 +51,9 @@ def update(report_id, name, start_datetime, end_datetime, selectedJobs, filter_b
     :param end_datetime: end date_time
     :param selectedJobs: selected jobs for report
     :param filter_by: The sources for which the report should be filtered
+    :param allWords: all words to be searched 
+    :param anyWords: any word from this list
+    :param noneWords: none of these words should come in the report results
     :param user_id: The user that this Job is being created for
     :return: True if successful, None otherwise
     """
@@ -63,7 +72,10 @@ def update(report_id, name, start_datetime, end_datetime, selectedJobs, filter_b
         'start_datetime': start_datetime,
         'end_datetime': end_datetime,
         'selectedJobs': selectedJobs,
-        'filter_by': filter_by
+        'filter_by': filter_by,
+        'allWords': allWords,
+        'anyWords': anyWords,
+        'noneWords': noneWords
     }
 
     # Perform the actual update
@@ -138,7 +150,10 @@ def clean_report(report):
         "start_datetime": report.get('start_datetime'),
         "end_datetime": report.get('end_datetime'),
         "selectedJobs": report.get('selectedJobs'),
-        "filter_by" : report.get('filter_by')
+        "filter_by" : report.get('filter_by'),
+        'allWords': report.get('allWords'),
+        'anyWords': report.get('anyWords'),
+        'noneWords': report.get('noneWords')
     }
 
 
