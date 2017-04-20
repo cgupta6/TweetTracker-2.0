@@ -55,16 +55,16 @@ app.config(function ($stateProvider) {
 });
 
 app.controller('mainCtrl', function ( $scope, $location, $http,$rootScope ,dynamicHeader,$state) {
-    console.log("Header Rendered");
+    //console.log("Header Rendered");
     $scope.isReport=dynamicHeader;
 
-    dynamicHeader.setReportTab($location.$$path);
+    dynamicHeader.setReportTab($location.$path);
     //$state.includes("contacts")
 
     $scope.$on('$viewContentLoaded', function(){
         $(".nav").find(".active").removeClass("active");
-        if($location.$$path!="/")
-            $("#"+$location.$$path.substr(1).split('/')[0]).parent().addClass("active");
+        if($location.$path!="/"){}
+           // $("#"+$location.$path.substr(1).split('/')[0]).parent().addClass("active");
     });
 });
 

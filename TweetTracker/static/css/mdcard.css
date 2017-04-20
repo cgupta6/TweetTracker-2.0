@@ -14,6 +14,16 @@ CSS for cards displayed on Basic Stats page
     margin: 0;
 }
 
+.md-button.md-small[disabled] {
+    height: 30px;
+    line-height: 20px;
+    min-height: 20px;
+    vertical-align: top;
+    margin: 0;
+    background-color: rgba(107, 103, 91, 0.96);
+    color: white;
+}
+
 md-card md-card-header{
     height: 46px !important;
     padding: 7px !important;
