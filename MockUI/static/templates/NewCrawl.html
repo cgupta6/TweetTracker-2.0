@@ -17,10 +17,9 @@
                 <h3><b>Sources</b></h3>
 
                 <div class="form-group">
-                    <input type="checkbox" name="vehicle"> &nbsp; <i class="fa fa-youtube-play"></i> &nbsp; Twitter &nbsp;
-                    <input type="checkbox" name="vehicle" value="Bike"> &nbsp; <i class="fa fa-youtube-play"></i> &nbsp; Youtube &nbsp;
-                    <input type="checkbox" name="vehicle" value="Bike"> &nbsp; <i class="fa fa-youtube-play"></i> &nbsp; VKontakte &nbsp;
-                    <input type="checkbox" name="vehicle" value="Bike"> &nbsp; <i class="fa fa-youtube-play"></i> &nbsp; Instagram &nbsp;
+                    <input type="checkbox" ng-model="job.sources.tw"> &nbsp; <i class="fa fa-twitter"></i> &nbsp; Twitter &nbsp;
+                    <input type="checkbox" ng-model="job.sources.yt"> &nbsp; <i class="fa fa-youtube-play"></i> &nbsp; Youtube &nbsp;
+                    <input type="checkbox" ng-model="job.sources.vk"> &nbsp; <i class="fa fa-vk"></i> &nbsp; VKontakte &nbsp;
                 </div>
 
                 <div class="row">
@@ -35,7 +34,7 @@
                     </span>
                     <span class="form-group ">
                         <span class="form-group col-md-8 ">
-                            <input type="text" name="contact_name" class="form-control" id="input1">
+                            <input type="text" ng-model="job.exactPhrase" id="input1">
                         </span>
                     </span>
                 </div>
@@ -46,7 +45,7 @@
                     </span>
                     <span class="form-group ">
                         <span class="form-group col-md-8 ">
-                            <input type="text" name="contact_name" class="form-control" id="input2">
+                            <input type="text" ng-model="job.allWords" id="input2">
                         </span>
                     </span>
                 </div>
@@ -57,7 +56,7 @@
                     </span>
                     <span class="form-group ">
                         <span class="form-group col-md-8 ">
-                            <input type="text" name="contact_name" class="form-control" id="input3">
+                            <input type="text" ng-model="job.anyWords" id="input3">
                         </span>
                     </span>
                 </div>
@@ -68,7 +67,7 @@
                     </span>
                     <span class="form-group ">
                         <span class="form-group col-md-8 ">
-                            <input type="text" name="contact_name" class="form-control" id="input4">
+                            <input type="text" ng-model="job.excludedWords" id="input4">
                         </span>
                     </span>
                 </div>
@@ -79,7 +78,7 @@
                     </span>
                     <span class="form-group ">
                         <span class="form-group col-md-8 ">
-                            <input type="text" name="contact_name" class="form-control" id="input5">
+                            <input type="text" ng-model="job.hashtags" id="input5">
                         </span>
                     </span>
                 </div>
@@ -90,11 +89,8 @@
                     </span>
                     <span class="form-group ">
                         <span class="form-group col-md-8 ">
-                            <select type="text" name="contact_name" class="form-control" id="input6">
-                                <option value="volvo">English (en)</option>
-                                <option value="saab">Spanish (sp)</option>
-                                <option value="mercedes">French (fr)</option>
-                                <option value="audi">German (de)</option>
+                            <select name="repeatSelect" id="input6" ng-model="data.model">
+                                <option ng-repeat="language in languages" value="{{language.code}}">{{language.name}}</option>
                             </select>
                         </span>
                     </span>
@@ -108,7 +104,7 @@
                     </span>
                     <span class="form-group ">
                         <span class="form-group col-md-8 ">
-                            <input type="text" name="contact_name" class="form-control" id="input7">
+                            <input type="text" ng-model="job.sourceAccounts" id="input7">
                         </span>
                     </span>
                 </div>
@@ -119,7 +115,7 @@
                     </span>
                     <span class="form-group ">
                         <span class="form-group col-md-8 ">
-                            <input type="text" name="contact_name" class="form-control" id="input8">
+                            <input type="text" ng-model="job.destAccounts" id="input8">
                         </span>
                     </span>
                 </div>
@@ -130,7 +126,7 @@
                     </span>
                     <span class="form-group ">
                         <span class="form-group col-md-8 ">
-                            <input type="text" name="contact_name" class="form-control" id="input9">
+                            <input type="text" ng-model="job.mentionedAccounts" id="input9">
                         </span>
                     </span>
                 </div>
@@ -139,10 +135,11 @@
 
                 <div class="row">
                     <span class="form-group col-md-4 ">
-                        <label for="input10">Near this place</label>
+                        <label for="input10">Near these places</label>
                     </span>
                     <span class="form-group ">
                         <span class="form-group col-sm-4 ">
+                            <input type="text" ng-model="job.geoboxesString" id="input9">
                             <button type="text" name="contact_name" class="form-control" id="input10"><img src="https://cdn1.iconfinder.com/data/icons/map-objects/154/map-object-blue-geo-point-512.png" width="25" style="padding-right: 5px" />Location</button>
                         </span>
                     </span>
@@ -168,7 +165,7 @@
                     </span>
                     <span class="form-group ">
                         <span class="form-group col-sm-4 input-group" style="padding-left: 13px">
-                            <input type="checkbox" name="bootstrapSearch" value="bootstrapSearch">
+                            <input type="checkbox" ng-model="job.existingTweets">
                         </span>
                     </span>
                 </div>
@@ -178,7 +175,7 @@
                 <span class="form-group col-lg-9 ">
                         <button class="btn-lg btn-primary" href="http://www.google.com">Predict Query Output</button>
                     &nbsp; &nbsp; &nbsp; &nbsp;
-                        <button type="submit" class="btn-lg btn-primary">Create Report</button>
+                        <button type="submit" class="btn-lg btn-primary ng-scope" data-ng-click="submitReport()">Create Report</button>
                 </span>
                 </div>
             </form>
