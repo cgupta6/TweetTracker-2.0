@@ -49,7 +49,7 @@ app.controller('newCrawlCtrl', function ( $scope, $location, $http ,$rootScope,d
     //Call the user api
     var userPromise = $http.get('/api/get_user_info');
     userPromise.success(function (data, status, headers, config) {
-        $log.info(data);
+        //$log.info(data);
         $scope.username = data['username'];
         $scope.numOfTweets = data['numoftweets'];
         $scope.userLoaded = true;
