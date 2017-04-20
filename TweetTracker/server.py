@@ -6,6 +6,8 @@ import tweet_tracker_api.APIClass
 import tweet_tracker_api.auth.user
 import tweet_tracker_api.job_management.job
 import tweet_tracker_api.job_management.api_support
+import tweet_tracker_api.report_management.report
+import tweet_tracker_api.report_management.api_support
 from tweet_tracker_api.lda_func import *
 from tweet_tracker_api.getTweets import *
 from tweet_tracker_api.getYaks import *
@@ -39,6 +41,9 @@ tweet_tracker_api.job_management.job.setup(
 tweet_tracker_api.search.api_support.setup(
     config_obj.dist_db.tweets, config_obj.ram_db.tweets)
 tweet_tracker_api.hdx.api_support.setup(config_obj.dist_db, config_obj.ram_db)
+tweet_tracker_api.report_management.report.setup(config_obj.dist_db.reports, config_obj.ram_db.reports)
+
+
 
 """
 Set up API calls
