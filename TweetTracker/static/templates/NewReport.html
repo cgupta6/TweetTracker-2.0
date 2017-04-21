@@ -13,7 +13,7 @@
     <div class="row" layout-padding >
     Enter the Report Name:
 
-    <input name="reportname" type="text" ng-model="reportname" ng-maxlength="8" required />
+    <input name="reportname" type="text" ng-model="report.name" ng-maxlength="8" required />
     </div>
 
 
@@ -47,7 +47,7 @@
             <md-content>
             <h4>Enter Start Date</h4>
             <md-datepicker
-                    ng-model="startDate"
+                    ng-model="report.startDate"
                     md-placeholder="Enter date"
                     md-current-view="year" ></md-datepicker>
             </md-content>
@@ -56,7 +56,7 @@
                 <md-content>
                 <h4>Enter End Date</h4>
                 <md-datepicker
-                        ng-model="endDate"
+                        ng-model="report.endDate"
                         md-placeholder="Enter date"
                         md-current-view="year" ></md-datepicker>
             </md-content>
@@ -74,7 +74,7 @@
                 <div class="row">
                 <label><input
                         type="checkbox"
-                        name="tweetMapFilter"
+                        id="tweetMapFilter"
                         value="Tweets"
                         checked="checked"
                 /> Tweets
@@ -83,7 +83,7 @@
                 <div class="row">
                 <label><input
                         type="checkbox"
-                        name="imageMapFilter"
+                        id="imageMapFilter"
                         value="Images"
                         checked="checked"
                 /> Images
@@ -93,7 +93,7 @@
                 <div class="row">
                 <label><input
                         type="checkbox"
-                        name="videoMapFilter"
+                        id="videoMapFilter"
                         value="Videos"
                         checked="checked"
                 /> Videos
@@ -129,7 +129,7 @@
                     </span>
         <span class="form-group ">
                         <span class="form-group col-md-3 ">
-                            <input type="text" name="contact_name" class="form-control" id="input2">
+                            <input type="text" name="contact_name" ng-model="report.allWords" class="form-control" id="input2">
                         </span>
                     </span>
     </div>
@@ -140,7 +140,7 @@
                     </span>
         <span class="form-group ">
                         <span class="form-group col-md-3 ">
-                            <input type="text" name="contact_name" class="form-control" id="input3">
+                            <input type="text" name="contact_name" ng-model="report.anyWords" class="form-control" id="input3">
                         </span>
                     </span>
     </div>
@@ -151,7 +151,7 @@
                     </span>
         <span class="form-group ">
                         <span class="form-group col-md-3 ">
-                            <input type="text" name="contact_name" class="form-control" id="input4">
+                            <input type="text" name="contact_name" ng-model="report.excludedWords" class="form-control" id="input4">
                         </span>
                     </span>
     </div>
@@ -160,7 +160,7 @@
     <div class="row" layout-align="center center" style="text-align: center;">
 
 
-            <span ><md-button class="md-raised md-small md-warn" ng-disabled="newreportform.$invalid" type="submit">Create Report</md-button></span>
+            <span ><md-button class="md-raised md-small md-warn" data-ng-click="submitReport()" ng-disabled="newreportform.$invalid" type="submit">Create Report</md-button></span>
 
 
 

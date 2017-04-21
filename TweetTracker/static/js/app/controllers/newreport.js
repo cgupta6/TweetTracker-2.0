@@ -2,13 +2,12 @@
  * Created by anjoy92 on 4/14/17.
  */
 
-app.controller('newReportCtrl', function ( $scope, $location, $http ,$rootScope,dynamicHeader) {
+app.controller('newReportCtrl', function ( $scope, $location, $http ,$rootScope, $log,dynamicHeader) {
     dynamicHeader.setReportTab($location.$$path);
 
 
-    //$scope.showDetails=false;
-    $scope.report.startDate = new Date();
-    $scope.report.endDate = new Date();
+    $scope.showDetails=false;
+
     $scope.parameterError = false;
     $scope.nameValidationError = true;
     $scope.edit = false;
@@ -16,8 +15,8 @@ app.controller('newReportCtrl', function ( $scope, $location, $http ,$rootScope,
     $scope.report = {
         id: 0,
         name: "",
-        start_datetime: "",
-        end_datetime: "",
+        startDate: "",
+        endDate: "",
         selectedJobs: [],
         sources: {tw:true,yt:false,'in':false,vk:false},
         allWords: [],
@@ -36,60 +35,69 @@ app.controller('newReportCtrl', function ( $scope, $location, $http ,$rootScope,
 
     };
 
+    $scope.report.startDate = new Date();
+    $scope.report.endDate = new Date();
 
     // Post the new report, then redirect to the job listings
     $scope.submitReport = function () {
-        /*if ($scope.job.users.length + $scope.job.keywords.length +
-            $scope.job.geoboxes.length === 0) {
-            $scope.parameterError = true;
-            return;
-        }
 
-        if ($scope.nameValidationError)
-            return;
-`       */
         var jobSources = [];
+        $scope.selectedJobs = [];
 
-        for (k in $scope.report.sources){
-            if($scope.report.sources[k]){
+        var mapTweets = document.getElementById("tweetMapFilter").checked;
+        var mapImages = document.getElementById("imageMapFilter").checked;
+        var mapVideos = document.getElementById("videoMapFilter").checked;
+
+        var tw_searchData = {
+            filterTweets : mapTweets,
+            filterImages : mapImages,
+            filterVideos : mapVideos,
+            }
+        for (k in tw_searchData){
+            if(tw_searchData[k]){
                 jobSources.push(k);
             }
         }
+
 
         var sendObj = {
             name: $scope.report.name,
             start_datetime: $scope.report.startDate,
             end_datetime: $scope.report.endDate,
-            selectedJobs :$scope.report.selectedJobs,
+            selectedJobs :$scope.selectedJobs,
             filter_by: jobSources,
             allWords: $scope.report.allWords,
             anyWords: $scope.report.anyWords,
             noneWords: $scope.report.excludedWords,
-            username: 'Justin'
+            username: 'Justin'    //session fetch
         };
 
         $log.info('The user agent is: ' + navigator.userAgent);
 
-        $log.info('Attempt to create job with name ' + $scope.job.name);
+        $log.info('Attempt to create report with name ' + $scope.report.name);
 
-        var postPromise = $http.post('/api/job', sendObj);
+        var postPromise = $http.post('/api/report', sendObj);
         $log.info(sendObj);
-        toastr.options.positionClass = 'toast-top-center';
+        //toastr.options.positionClass = 'toast-top-center';
         postPromise.success(function (data, status, headers, config) {
-            $log.info("Created job successfully!");
-            toastr.success('Created job successfully!');
+            $log.info("Created report successfully!");
+            //toastr.success('Created job successfully!');
         });
         postPromise.error(function (data, status, headers, config) {
-            $log.info("Failed to create job!");
-            toastr.error('Failed to create job!');
+            $log.info("Failed to create report!");
+            //toastr.error('Failed to create job!');
         });
         setTimeout(function(){
-            document.location.href = "/app/jobmanager";
-        }, 2000);
+            $scope.currentPath = $location.path('/myJobs');
+        }, 0);
     };
 
 
-    var jobsPromise = $http.get('/api/job');
+     var getJobName = function(job) {
+        return job.catname
+    };
+
+     var jobsPromise = $http.get('/api/job');
     jobsPromise.success(function(data, status, headers, config) {
         $scope.jobs = data.jobs.map(getJobName);
 
@@ -100,30 +108,22 @@ app.controller('newReportCtrl', function ( $scope, $location, $http ,$rootScope,
 
     });
 
+     // Watch for changes in selected jobs
+    $scope.$watch('jobs|filter:{selected:true}', function(newValue, oldValue) {
+        if (oldValue === newValue)
+            return;
+        $scope.selectedJobs = newValue;
+    }, true);
+
     //TODO: JS modification on form submission
-    $scope.submit = function() {
+    /*$scope.submit = function() {
         if ($scope.jobname) {
             $scope.list.push(this.text);
             $scope.text = '';
         }
-    };
+    };*/
 
-     $scope.$watch('jobs|filter:{selected:true}', function(newValue, oldValue) {
-        if (oldValue === newValue)
-            return;
-        $scope.selectedJobs = newValue;
-       // if (oldValue.length === 0 && newValue.length === 1){
-       //     firstSelect();
-       //     }
-        //if (newValue.length === 0)
-        //    $('#update-button').attr('disabled', 'disabled');
-        //else
-        //    $('#update-button').attr('disabled', false);
-        //if(oldValue != newValue && oldValue.length != 0){
-            sessionStorage.clear();
-            storeSearchResults();
-            }
-    }, true);
+
 
 
 

@@ -162,6 +162,45 @@ def register():
     else:
         abort(404)
 
+# Report management routes start here
+
+@app.route('/api/report', methods=['POST'])
+def create_report_request():
+    """ Request creates a new report.
+
+    :return: HTTP response as appropriate
+    """
+    #username = session.get('username')
+    username= request.json.get('username')
+    name = request.json.get('name')
+    start_datetime = request.json.get('start_datetime')
+    end_datetime = request.json.get('end_datetime')
+    selectedJobs = request.json.get('selectedJobs')
+    filter_by = request.json.get('filter_by')
+    allWords = request.json.get('allWords')
+    anyWords = request.json.get('anyWords')
+    noneWords = request.json.get('noneWords')
+
+    if username is None:
+        abort(401)
+    if name is None:
+        abort(400)
+    if selectedJobs is None:
+        keywords = []
+    if allWords is None:
+        allWords = []
+    if anyWords is None:
+        anyWords = ""
+    if noneWords is None:
+        noneWords = []
+    if filter_by is None:
+        filter_by = []
+
+    return tweet_tracker_api.report_management.api_support.create_report(name, start_datetime, end_datetime, selectedJobs,
+                                                                         filter_by, allWords, anyWords, noneWords, username)
+
+
+
 
 # Job Management routes start here
 @app.route("/api/job", methods=['GET'])
