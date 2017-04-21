@@ -237,7 +237,8 @@ def create_job_request():
 
     :return: HTTP response as appropriate
     """
-    username = session.get('username')
+    #username = session.get('username')
+    username= 'Justin'
     name = request.json.get('name')
     keywords = request.json.get('keywords')
     users = request.json.get('users')

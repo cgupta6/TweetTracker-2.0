@@ -2,7 +2,7 @@
  * Created by anjoy92 on 4/14/17.
  */
 
-app.controller('newCrawlCtrl', function ( $scope, $location, $http ,$rootScope,dynamicHeader) {
+app.controller('newCrawlCtrl', function ( $scope, $location, $http ,$log, $rootScope,dynamicHeader) {
     dynamicHeader.setReportTab($location.$$path);
 
     // NOTE: all commented lines removed by Christophe
@@ -47,21 +47,24 @@ app.controller('newCrawlCtrl', function ( $scope, $location, $http ,$rootScope,d
     $scope.userLoaded = false;
 
     //Call the user api
-    var userPromise = $http.get('/api/get_user_info');
+    /*var userPromise = $http.get('/api/get_user_info');
     userPromise.success(function (data, status, headers, config) {
         //$log.info(data);
         $scope.username = data['username'];
         $scope.numOfTweets = data['numoftweets'];
         $scope.userLoaded = true;
-    });
+    });*/
+    $scope.username = 'Justin';
+    $scope.numOfTweets = 1234;
+    $scope.userLoaded = true;
 
-    userPromise.error(function (data, status, headers, config) {
+   /* userPromise.error(function (data, status, headers, config) {
         $log.info("Failed to get user information!");
     });
-
+    */
     // Post the new Job, then redirect to the job listings
-    $scope.submitReport = function () {
-        if ($scope.job.users.length + $scope.job.keywords.length +
+    $scope.submitJob = function () {
+        /*if ($scope.job.users.length + $scope.job.keywords.length +
             $scope.job.geoboxes.length === 0) {
             $scope.parameterError = true;
             return;
@@ -69,7 +72,7 @@ app.controller('newCrawlCtrl', function ( $scope, $location, $http ,$rootScope,d
 
         if ($scope.nameValidationError)
             return;
-
+        */
         var jobSources = [];
 
         for (k in $scope.job.sources){
@@ -80,10 +83,10 @@ app.controller('newCrawlCtrl', function ( $scope, $location, $http ,$rootScope,d
 
         var sendObj = {
             name: $scope.job.name,
-            users: $scope.job.users,
-            keywords: $scope.job.keywords,
-            geoboxes: $scope.job.geoboxes,
-            yakmarkers: $scope.job.yakmarkers,
+            users: $scope.job.sourceAccounts,
+            keywords: $scope.job.exactPhrase,
+            geoboxes: [],
+            yakmarkers: [],
             'public': $scope.job.public,
             'crisisflag': $scope.job.crisisflag,
             sources: jobSources
@@ -95,17 +98,18 @@ app.controller('newCrawlCtrl', function ( $scope, $location, $http ,$rootScope,d
 
         var postPromise = $http.post('/api/job', sendObj);
         $log.info(sendObj);
-        toastr.options.positionClass = 'toast-top-center';
+        //toastr.options.positionClass = 'toast-top-center';
         postPromise.success(function (data, status, headers, config) {
             $log.info("Created job successfully!");
-            toastr.success('Created job successfully!');
+           // toastr.success('Created job successfully!');
         });
         postPromise.error(function (data, status, headers, config) {
             $log.info("Failed to create job!");
-            toastr.error('Failed to create job!');
+           // toastr.error('Failed to create job!');
         });
         setTimeout(function(){
-            document.location.href = "/app/jobmanager";
+            $scope.currentPath = $location.path('/myJobs');
+
         }, 2000);
     };
 
