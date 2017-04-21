@@ -186,8 +186,8 @@ def create_report_request():
     """
     #TODO: Change when authorization module is in place
     #username = session.get('username')
-    username= ''
-    name = 'Justin'
+    username= 'Justin'
+    name = request.json.get('name')
     start_datetime = request.json.get('start_datetime')
     end_datetime = request.json.get('end_datetime')
     selectedJobs = request.json.get('selectedJobs')

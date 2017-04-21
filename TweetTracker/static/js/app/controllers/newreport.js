@@ -81,15 +81,13 @@ app.controller('newReportCtrl', function ( $scope, $location, $http ,$rootScope,
         //toastr.options.positionClass = 'toast-top-center';
         postPromise.success(function (data, status, headers, config) {
             $log.info("Created report successfully!");
+            $scope.currentPath = $location.path('/myJobs');
             //toastr.success('Created job successfully!');
         });
         postPromise.error(function (data, status, headers, config) {
             $log.info("Failed to create report!");
             //toastr.error('Failed to create job!');
         });
-        setTimeout(function(){
-            $scope.currentPath = $location.path('/myJobs');
-        }, 0);
     };
 
 
