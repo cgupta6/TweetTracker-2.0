@@ -14,6 +14,6 @@ app.controller('rawDataCtrl',[ '$scope','$rootScope','$location','$http','$state
     var data=[{url:link , timeStamp: "11:51 AM - 3 Dec 2012"},{url:link , timeStamp: "11:51 AM - 3 Dec 2012"},{url:link , timeStamp: "11:51 AM - 3 Dec 2012"},{url:link , timeStamp: "11:51 AM - 3 Dec 2012"},{url:link , timeStamp: "11:51 AM - 3 Dec 2012"},{url:link , timeStamp: "11:51 AM - 3 Dec 2012"},{url:link , timeStamp: "11:51 AM - 3 Dec 2012"},{url:link , timeStamp: "11:51 AM - 3 Dec 2012"},{url:link , timeStamp: "11:51 AM - 3 Dec 2012"},{url:link , timeStamp: "11:51 AM - 3 Dec 2012"},{url:link , timeStamp: "11:51 AM - 3 Dec 2012"},{url:link , timeStamp: "11:51 AM - 3 Dec 2012"},{url:link , timeStamp: "11:51 AM - 3 Dec 2012"},{url:link , timeStamp: "11:51 AM - 3 Dec 2012"}];
     $scope.tableParams = new NgTableParams({ page: 1,
                 count: 5}, {  counts: [5,10,15,20],dataset:data});
-    $scope.reportCount=data.length;
+    $scope.crawlCount=data.length;
 }]);
 
