@@ -163,16 +163,31 @@ def register():
         abort(404)
 
 # Report management routes start here
+@app.route("/api/report", methods=['GET'])
+def all_reports():
+    """ Request gets all reports for the user.
+
+    This request should return a JSON object containing all reports that the user
+    can read from.
+    """
+    # TODO: Change when authorization module is in place
+    #username = session.get('username')
+    #import pdb
+    #pdb.set_trace()
+    return tweet_tracker_api.report_management.api_support.get_all_reports(username='Justin')
 
 @app.route('/api/report', methods=['POST'])
 def create_report_request():
+    #import pdb
+    #pdb.set_trace()
     """ Request creates a new report.
 
     :return: HTTP response as appropriate
     """
+    #TODO: Change when authorization module is in place
     #username = session.get('username')
-    username= request.json.get('username')
-    name = request.json.get('name')
+    username= ''
+    name = 'Justin'
     start_datetime = request.json.get('start_datetime')
     end_datetime = request.json.get('end_datetime')
     selectedJobs = request.json.get('selectedJobs')
@@ -196,6 +211,8 @@ def create_report_request():
     if filter_by is None:
         filter_by = []
 
+
+    #return tweet_tracker_api.job_management.api_support.get_all_classic(username)
     return tweet_tracker_api.report_management.api_support.create_report(name, start_datetime, end_datetime, selectedJobs,
                                                                          filter_by, allWords, anyWords, noneWords, username)
 
