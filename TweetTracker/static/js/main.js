@@ -63,15 +63,15 @@ app.controller('mainCtrl', function ( $scope, $location, $http,$rootScope ,dynam
 
     $scope.$on('$viewContentLoaded', function(){
         $(".nav").find(".active").removeClass("active");
-        if($location.$path!="/"){}
-           // $("#"+$location.$path.substr(1).split('/')[0]).parent().addClass("active");
+        if($location.$$path!="/"){}
+            $("#"+$location.$$path.substr(1).split('/')[0]).parent().addClass("active");
     });
 });
 
 // Factory to show/hide report view or analysis Tabs
 app.factory('dynamicHeader', function(){
     var isReportTab;
-    var analysisTabs=["/basicstats","/advancedAnalytics","/rawData","/myJobs"];
+    var analysisTabs=["/basicstats","/advancedAnalytics","/rawData"];
 
     return {
         isReportTab: function() { return isReportTab; },
