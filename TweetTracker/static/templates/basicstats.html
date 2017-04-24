@@ -10,25 +10,125 @@
             </h1>
         </div>
     </div>
+    <div class="row top-buffer">
+        <div class="col-md-8 col-md-offset-1 btn-link" style="width: auto;color: black"  onclick="console.log('CLICKS'); window.location.reload(false);" >
+    <i class="fa fa-bar-chart" style="padding-left: 10px"></i> Basic Statistics /
+        </div>
+    </div>
 
+    <div class="row">
 
-        <div class="col-sm-3">
-            <md-card >
+        <div class="col-sm-1">
+        </div>
+        <div class="col-lg-7">
+             <md-card >
                 <md-card-header md-colors="::{backgroundColor: 'default-primary-900'}">
                     <md-card-header-text>
                         <span class="md-title">Top Keywords</span>
                     </md-card-header-text>
                 </md-card-header>
-
                 <md-card-content>
-                    This would contain the word web drawing
+                   <div style="height:253px;" data-wordcloud data-ng-model="topics"></div>
                 </md-card-content>
                 <md-card-footer md-colors="::{backgroundColor: 'default-primary-200'}" >
-                    <span><b>Summary:</b></span>
+                    <span><b></b></span>
                 </md-card-footer>
-
             </md-card>
+        </div>
+        <div class="col-lg-3">
 
+             <md-card >
+            <md-card-header md-colors="::{backgroundColor: 'default-primary-900'}">
+                <md-card-header-text>
+                    <span class="md-title">Top Users</span>
+                </md-card-header-text>
+            </md-card-header>
+
+            <md-card-content>
+                <table ng-table="tableParamsUser" class="table" >
+                        <tr ng-repeat="user in $data">
+                            <td  align="center"  title="'User'">
+                                <a target="_blank" href="https://www.twitter.com/{{ user.user }}"> {{user.user}}</a></td>
+                            <td  align="center" title="'Mentions'">
+                                {{user.count}}</td>
+                        </tr>
+                    </table>
+            </md-card-content>
+            <md-card-footer md-colors="::{backgroundColor: 'default-primary-200'}" >
+                <span><b>5 of {{ users.length }} users</b>  <md-button class="md-raised md-small md-warn pull-right">  Details<i class="fa fa-chevron-right"></i></md-button>  </span>
+            </md-card-footer>
+
+        </md-card>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="row">
+
+        <div class="col-sm-1">
+        </div>
+       <div class="col-lg-3">
+          <md-card >
+            <md-card-header md-colors="::{backgroundColor: 'default-primary-900'}">
+                <md-card-header-text>
+                    <span class="md-title">Top Hashtags</span>
+                </md-card-header-text>
+            </md-card-header>
+
+            <md-card-content>
+                <table ng-table="tableParamsHashtags" class="table" >
+                        <tr ng-repeat="tags in $data">
+                            <td  align="center"  title="'tag'">
+                                {{tags.hashtag}}</td>
+                            <td  align="center" title="'tagCount'">
+                                {{tags.count}}</td>
+                        </tr>
+                    </table>
+            </md-card-content>
+            <md-card-footer md-colors="::{backgroundColor: 'default-primary-200'}" >
+                <span><b>5 of {{ hashtags.length }} Hashtags</b>  <md-button class="md-raised md-small md-warn pull-right">  Details<i class="fa fa-chevron-right"></i></md-button>  </span>
+            </md-card-footer>
+
+        </md-card>
+
+       </div>
+
+        <div class="col-lg-3">
+          <md-card >
+            <md-card-header md-colors="::{backgroundColor: 'default-primary-900'}">
+                <md-card-header-text>
+                    <span class="md-title">Top Links</span>
+                </md-card-header-text>
+            </md-card-header>
+
+            <md-card-content>
+                <table ng-table="tableParamsLinks" class="table" >
+                        <tr ng-repeat="link in $data">
+                            <td  align="center"  title="'link'">
+                                <a href="{{ link.link }}" >{{link.link}}</a></td>
+                            <td  align="center" title="'linkCount'">
+                                {{link.count}}</td>
+                        </tr>
+                    </table>
+            </md-card-content>
+            <md-card-footer md-colors="::{backgroundColor: 'default-primary-200'}" >
+                <span><b>5 of {{ links.length }} Links</b>  <md-button class="md-raised md-small md-warn pull-right">  Details<i class="fa fa-chevron-right"></i></md-button>  </span>
+            </md-card-footer>
+
+        </md-card>
+
+       </div>
+
+       </div>
+
+
+
+
+
+    <!--    <div class="col-sm-3">
 
             <md-card>
                 <md-card-header md-colors="::{backgroundColor: 'default-primary-900'}">
@@ -70,51 +170,7 @@
         </div>
 
     <div class="col-sm-3">
-        <md-card >
-            <md-card-header md-colors="::{backgroundColor: 'default-primary-900'}">
-                <md-card-header-text>
-                    <span class="md-title">Top Users</span>
-                </md-card-header-text>
-            </md-card-header>
 
-            <md-card-content>
-                <table ng-table="tableParams2" class="table" >
-                    <tr>
-                        <td title="'User'" ><a>  user1</a></td>
-                        <td title="'Mentions'" align="center">  1</td>
-                    </tr>
-
-                    <tr>
-                        <td title="'User'" ><a>  user2</a></td>
-                        <td title="'Mentions'" align="center">  1</td>
-                    </tr>
-
-                    <tr>
-                        <td title="'User'" ><a>  user3</a></td>
-                        <td title="'Mentions'" align="center">  1</td>
-                    </tr>
-
-
-                    <tr>
-                        <td title="'User'" ><a>  user4</a></td>
-                        <td title="'Mentions'" align="center">  1</td>
-                    </tr>
-
-
-
-
-
-
-
-
-
-                </table>
-            </md-card-content>
-            <md-card-footer md-colors="::{backgroundColor: 'default-primary-200'}" >
-                <span><b>0 of 0 brand reports used</b></span>
-            </md-card-footer>
-
-        </md-card>
 
 
         <md-card>
@@ -317,6 +373,8 @@
         </md-card>
 
     </div>
+
+    -->
 
 </div>
 <!--
