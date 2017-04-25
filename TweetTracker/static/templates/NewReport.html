@@ -28,16 +28,17 @@
                         type="checkbox"
                         name="jobname"
                         value="{{jobname}}"
-                        ng-checked="false"
+
                         ng-checked="selection.indexOf(jobname) > -1"
-                        ng-click="toggleSelection(jobname)"
+                        data-ng-model="job.selected"
+
+                        ng-click="toggleJobSelection(jobname)"
                         ng-trim="false"
                 /> {{jobname}}
                 </label>
 
             </div>
             </div>
-
 
         </div>
 
@@ -114,7 +115,7 @@
 
     </div>
 
-<div class="row" >
+<div class="row" layout-padding >
     <div class="row" layout-padding >
                     <span class="form-group col-md-3">
                         <h3><b>Words</b></h3>

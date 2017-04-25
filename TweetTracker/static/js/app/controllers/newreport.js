@@ -7,8 +7,9 @@ app.controller('newReportCtrl', function ( $scope, $location, $http ,$rootScope,
 
 
     $scope.showDetails=false;
-
-    $scope.parameterError = false;
+    $scope.selectedJobs=[];
+    $scope.user ={};
+        $scope.parameterError = false;
     $scope.nameValidationError = true;
     $scope.edit = false;
 
@@ -42,7 +43,7 @@ app.controller('newReportCtrl', function ( $scope, $location, $http ,$rootScope,
     $scope.submitReport = function () {
 
         var jobSources = [];
-        $scope.selectedJobs = [];
+        //$scope.selectedJobs = [];
 
         var mapTweets = document.getElementById("tweetMapFilter").checked;
         var mapImages = document.getElementById("imageMapFilter").checked;
@@ -107,11 +108,20 @@ app.controller('newReportCtrl', function ( $scope, $location, $http ,$rootScope,
     });
 
      // Watch for changes in selected jobs
-    $scope.$watch('jobs|filter:{selected:true}', function(newValue, oldValue) {
-        if (oldValue === newValue)
-            return;
-        $scope.selectedJobs = newValue;
-    }, true);
+    $scope.toggleJobSelection = function toggleJobSelection(jobname) {
+        var idx = $scope.selectedJobs.indexOf(jobname);
+
+        // Is currently selected
+        if (idx > -1) {
+            $scope.selectedJobs.splice(idx, 1);
+        }
+
+        // Is newly selected
+        else {
+            $scope.selectedJobs.push(jobname);
+        }
+    };
+
 
     //TODO: JS modification on form submission
     /*$scope.submit = function() {
