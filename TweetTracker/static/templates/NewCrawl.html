@@ -154,7 +154,7 @@
 
                 <div class="row">
                     <span class="form-group col-md-4">
-                        <label for="jobName">Job Name</label>
+                        <label for="jobName">Crawl Name</label>
                     </span>
                     <span class="form-group ">
                         <span class="form-group col-md-8 ">
@@ -165,7 +165,7 @@
 
                 <div class="row form-group">
                     <span class="form-group col-md-4">
-                        <label for="jobName">Sources</label>
+                        <label>Sources</label>
                     </span>
                     <span class="col-md-8 ">
                         <input type="checkbox" ng-model="job.sources.tw"> &nbsp; <i class="fa fa-twitter"></i> &nbsp; Twitter &nbsp;
@@ -175,24 +175,28 @@
                 </div>
 
                 <div class="row form-group">
-                    <span class="col-md-6 col-md-offset-3">
-                        <label for="input10">Public?</label> &nbsp;
-                        <input type="checkbox" ng-model="job.public"> &nbsp; &nbsp; &nbsp;
-                        <label for="input10">Related to a crisis?</label> &nbsp;
-                        <input type="checkbox" ng-model="job.crisisflag"> &nbsp;
+                    <span class="col-md-8 col-md-offset-4">
+                        <input type="checkbox" ng-model="job.public">
+                        <label aria-label="Public jobs can be viewed and accessed by anyone.">Public?</label> &nbsp;&nbsp; &nbsp;
+                        <input type="checkbox" ng-model="job.crisisflag">
+                        <label aria-label='If locations are included we will predict whether untagged tweets
+originate inside the provided regions.  This feature only works well
+within true crisis regions (Finding Eyewitness Tweets During Crises).'>Crisis?</label> &nbsp; &nbsp;
+                        <input type="checkbox" ng-model="job.existingTweets">
+                        <label aria-label="Although we normally only stream new records, we can pre-load a job
+with existing records (up to 3,000 for Twitter).  Some records may be
+missing, and the amount of time included will depend on the search terms.">Include existing?</label> &nbsp;
                     </span>
                 </div>
 
                 <div class="row form-group">
                     <span class="col-md-8 col-md-offset-3">
-                        <label for="input10">Include up to 3,000 existing Tweets?</label> &nbsp;
-                        <input type="checkbox" ng-model="job.existingTweets"> &nbsp; &nbsp; &nbsp;
                     </span>
                 </div>
 
                 <div class="row">
-                <span class="form-group col-md-9 col-md-offset-1">
-                        <span type="submit"><md-button data-ng-click="submitJob()" class="md-raised md-small md-warn">Create Crawl</md-button></span>
+                <span class="form-group col-md-9 col-md-offset-1" style="text-align: center">
+                        <md-button data-ng-click="submitJob()" class="md-raised md-small md-warn">Create Crawl</md-button>
                 </span>
                 </div>
             </form>
