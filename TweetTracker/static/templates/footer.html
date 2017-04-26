@@ -2,10 +2,12 @@
     <div class="container">
         <div class="navbar navbar-default navbar-fixed-bottom text-center" layout-align="center center">
 
-                <p id="copyright">
-                    <small>© 2016 Arizona Board of Regents on Behalf of ASU</small>
-                </p>
+            <p id="copyright">
+            </p>
 
+            <script type="text/javascript">
+                document.getElementById("copyright").innerHTML = "<small>© " + new Date().getFullYear() + " Arizona Board of Regents on Behalf of ASU</small>";
+            </script>
         </div>
     </div>
 </footer>
