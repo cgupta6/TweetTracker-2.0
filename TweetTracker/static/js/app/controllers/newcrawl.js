@@ -34,7 +34,6 @@ app.controller('newCrawlCtrl', function ( $scope, $location, $http ,$log, $rootS
         hashtags: "", // also keywords?
         language: "",
         sourceAccounts: [],
-        destAccounts: [],
         mentionedAccounts: [],
         endDate: "",
         geoboxesString: "", // this will need to be converted to geoboxes before submission

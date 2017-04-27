@@ -1,9 +1,9 @@
-[aria-label] {
+[tooltip] {
     position: relative;
 }
 
-[aria-label]:after {
-    content: attr(aria-label);
+[tooltip]:after {
+    content: attr(tooltip);
     display: none;
     position: absolute;
     top: 110%;
@@ -30,6 +30,6 @@
     white-space: normal;
 }
 
-[aria-label]:hover:after, [aria-label]:focus:after {
+[tooltip]:hover:after, [tooltip]:focus:after {
     display: block;
 }

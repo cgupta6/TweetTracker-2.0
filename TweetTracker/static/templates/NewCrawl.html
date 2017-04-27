@@ -53,35 +53,11 @@
 
                 <div class="row">
                     <span class="form-group col-md-4 ">
-                        <label for="input4">None of these words</label>
-                    </span>
-                    <span class="form-group ">
-                        <span class="form-group col-md-8 ">
-                            <input type="text" ng-model="job.excludedWords" id="input4" style="width:100%">
-                        </span>
-                    </span>
-                </div>
-
-                <div class="row">
-                    <span class="form-group col-md-4 ">
                         <label for="input5">These hashtags</label>
                     </span>
                     <span class="form-group ">
                         <span class="form-group col-md-8 ">
                             <input type="text" ng-model="job.hashtags" id="input5" style="width:100%">
-                        </span>
-                    </span>
-                </div>
-
-                <div class="row">
-                    <span class="form-group col-md-4 ">
-                        <label for="input6">Written in</label>
-                    </span>
-                    <span class="form-group ">
-                        <span class="form-group col-md-8 ">
-                            <select name="repeatSelect" id="input6" ng-model="data.model" style="width:100%">
-                                <option ng-repeat="language in languages" value="{{language.code}}">{{language.name}}</option>
-                            </select>
                         </span>
                     </span>
                 </div>
@@ -95,17 +71,6 @@
                     <span class="form-group ">
                         <span class="form-group col-md-8 ">
                             <input type="text" ng-model="job.sourceAccounts" id="input7" style="width:100%">
-                        </span>
-                    </span>
-                </div>
-
-                <div class="row">
-                    <span class="form-group col-md-4 ">
-                        <label for="input8">To these accounts</label>
-                    </span>
-                    <span class="form-group ">
-                        <span class="form-group col-md-8 ">
-                            <input type="text" ng-model="job.destAccounts" id="input8" style="width:100%">
                         </span>
                     </span>
                 </div>
@@ -175,17 +140,17 @@
                 </div>
 
                 <div class="row form-group">
-                    <span class="col-md-8 col-md-offset-4">
+                    <span class="col-md-9 col-md-offset-4">
                         <input type="checkbox" ng-model="job.public">
-                        <label aria-label="Public jobs can be viewed and accessed by anyone.">Public?</label> &nbsp;&nbsp; &nbsp;
+                        <label tooltip="Public jobs can be viewed and accessed by anyone.">Public?</label> &nbsp;&nbsp; &nbsp;
                         <input type="checkbox" ng-model="job.crisisflag">
-                        <label aria-label='If locations are included we will predict whether untagged tweets
+                        <label tooltip='If locations are included we will predict whether untagged tweets
 originate inside the provided regions.  This feature only works well
 within true crisis regions (Finding Eyewitness Tweets During Crises).'>Crisis?</label> &nbsp; &nbsp;
                         <input type="checkbox" ng-model="job.existingTweets">
-                        <label aria-label="Although we normally only stream new records, we can pre-load a job
+                        <label tooltip="Although we normally only stream new records, we can pre-load a job
 with existing records (up to 3,000 for Twitter).  Some records may be
-missing, and the amount of time included will depend on the search terms.">Include existing?</label> &nbsp;
+missing, and the amount of time included will depend on the search terms.">Include Recent Historical?</label> &nbsp;
                     </span>
                 </div>
 
