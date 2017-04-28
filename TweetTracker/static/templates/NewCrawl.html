@@ -29,7 +29,29 @@
                     </span>
                 </div>
 
-                <div class="row">
+                 <div class="row form-group">
+                    <span class="col-md-4">
+                        <label for="input2">All of these words</label>
+                    </span>
+                        <span class="col-md-8 ">
+                            <input type="text" autocomplete="off" id="input2" ng-model="job.allWords" style="width:100%">
+                        </span>
+
+                    <script>
+			    	    $('#input2').selectize({
+		    			    plugins: ['remove_button'],
+	    				    persist: false,
+    					    create: function(input) {
+                            return {
+                                value: input,
+                                text: input
+                                }
+                            }
+				        });
+				    </script>
+			    </div>
+
+             <!--   <div class="row">
                     <span class="form-group col-md-4">
                         <label for="input2">All of these words</label>
                     </span>
@@ -39,7 +61,7 @@
                         </span>
                     </span>
                 </div>
-
+            -->
                 <div class="row">
                     <span class="form-group col-md-4 ">
                         <label for="input3">Any of these words</label>
@@ -158,6 +180,9 @@ missing, and the amount of time included will depend on the search terms.">Inclu
                     <span class="col-md-8 col-md-offset-3">
                     </span>
                 </div>
+
+
+
 
                 <div class="row">
                 <span class="form-group col-md-9 col-md-offset-1" style="text-align: center">

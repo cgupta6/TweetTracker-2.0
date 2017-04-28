@@ -52,7 +52,8 @@
                                     <div class="btn btn-link" ng-click="go('/basicstats')">{{report.reportname}}</div></center></td>
                             <td title="'Created On'" sortable="'createdOn'">
                                 <center>{{report.createtime}}</center></td>
-
+                                <td title="'Crawls'" sortable="'createdOn'">
+                                <center>{{report.selectedJobs.join(", ")}}</center></td>
                         </tr>
                     </table>
                 </md-card-content>

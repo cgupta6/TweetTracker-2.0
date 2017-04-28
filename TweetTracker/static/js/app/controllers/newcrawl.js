@@ -83,7 +83,7 @@ app.controller('newCrawlCtrl', function ( $scope, $location, $http ,$log, $rootS
         var sendObj = {
             name: $scope.job.name,
             users: $scope.job.sourceAccounts,
-            keywords: $scope.job.exactPhrase,
+            keywords: $scope.job.allWords.split(","),
             geoboxes: [],
             yakmarkers: [],
             'public': $scope.job.public,
@@ -100,16 +100,15 @@ app.controller('newCrawlCtrl', function ( $scope, $location, $http ,$log, $rootS
         //toastr.options.positionClass = 'toast-top-center';
         postPromise.success(function (data, status, headers, config) {
             $log.info("Created job successfully!");
+            $scope.currentPath = $location.path('/myJobs');
+
            // toastr.success('Created job successfully!');
         });
         postPromise.error(function (data, status, headers, config) {
             $log.info("Failed to create job!");
            // toastr.error('Failed to create job!');
         });
-        setTimeout(function(){
-            $scope.currentPath = $location.path('/myJobs');
 
-        }, 2000);
     };
 
     // Watch the job name and validate it if left after a cutoff
