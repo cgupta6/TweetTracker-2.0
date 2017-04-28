@@ -138,3 +138,20 @@ footer {
         /* increases the carousel height so it looks good on phones */
     }
 }
+
+label {
+    font-weight: normal;
+}
+
+/* reduce bottom margin between rows to conserve some space*/
+.row-bottom-margin {
+    margin-bottom:8px !important;
+}
+
+.row {
+    margin-bottom:8px !important;
+}
+
+.form-horizontal .control-group {
+    margin-bottom: 8px !important;
+}
