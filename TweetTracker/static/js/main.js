@@ -2,7 +2,7 @@
  * Main AngularJS Web Application
  */
 var app = angular.module('tweetTrackerApp', [
-    'ngMaterial', 'ngMessages', 'material.svgAssetsCache','ngTable','xeditable','ui.router'
+    'ngMaterial', 'ngMessages', 'material.svgAssetsCache','ngTable','xeditable','ui.router', 'selectize'
 ]).config(function($mdThemingProvider) {
     $mdThemingProvider.theme('default')
         .primaryPalette('grey')
