@@ -45,7 +45,7 @@
             </md-card-header>
 
             <md-card-content>
-                <table ng-table="tableParamsUser" class="table" >
+                <table ng-table="tableParamsUser" class="table" style="word-wrap:break-word;table-layout: fixed;">
                         <tr ng-repeat="user in $data">
                             <td  align="center"  title="'User'">
                                 <a target="_blank" href="https://www.twitter.com/{{ user.user }}"> {{user.user}}</a></td>
@@ -79,7 +79,7 @@
             </md-card-header>
 
             <md-card-content>
-                <table ng-table="tableParamsHashtags" class="table" >
+                <table ng-table="tableParamsHashtags" class="table"  style="word-wrap:break-word;table-layout: fixed;">
                         <tr ng-repeat="tags in $data">
                             <td  align="center"  title="'tag'">
                                 {{tags.hashtag}}</td>
@@ -104,12 +104,12 @@
                 </md-card-header-text>
             </md-card-header>
 
-            <md-card-content>
-                <table ng-table="tableParamsLinks" class="table" >
+            <md-card-content style="width: 100%">
+                <table ng-table="tableParamsLinks" class="table" style="word-wrap:break-word;table-layout: fixed;">
                         <tr ng-repeat="link in $data">
-                            <td  align="center"  title="'link'">
+                            <td  align="center"  title="'link'" >
                                 <a href="{{ link.link }}" >{{link.link}}</a></td>
-                            <td  align="center" title="'linkCount'">
+                            <td  align="center" title="'linkCount'" >
                                 {{link.count}}</td>
                         </tr>
                     </table>
