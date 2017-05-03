@@ -19,6 +19,10 @@ app.config(function ($stateProvider) {
         url:"/",
         controller:"homeCtrl",
         templateUrl:"static/templates/home.html"
+    }).state("hm",{
+        url:"",
+        controller:"homeCtrl",
+        templateUrl:"static/templates/home.html"
     }).state("rawData",{
         url:"/rawData",
         controller:"rawDataCtrl",
