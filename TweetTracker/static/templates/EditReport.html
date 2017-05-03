@@ -2,7 +2,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header" style="text-align: center">Create New Report
+            <h1 class="page-header" style="text-align: center">Edit Report
             </h1>
         </div>
     </div>
@@ -242,8 +242,8 @@
                 </div>
                    <div class="row" layout-align="center center" style="text-align: center;">
          <span>
-            <md-button class="md-raised md-small md-warn" data-ng-click="submitReport()"
-                       type="submit">Create Report</md-button>
+            <md-button class="md-raised md-small md-warn" data-ng-click="updateReport()"
+                       type="submit">Update Report</md-button>
          </span>
                 </div>
             </form>
@@ -257,41 +257,5 @@
 <script>
     $(document).ready(function () {
         $('.input-daterange input').datepicker({});
-    });
-
-    $('#input2').selectize({
-        plugins: ['remove_button'],
-        delimiter: ',',
-        persist: false,
-        create: function(input) {
-            return {
-                value: input,
-                text: input
-            }
-        }
-    });
-
-    $('#input3').selectize({
-        plugins: ['remove_button'],
-        delimiter: ',',
-        persist: false,
-        create: function(input) {
-            return {
-                value: input,
-                text: input
-            }
-        }
-    });
-
-   $('#input4').selectize({
-       plugins: ['remove_button'],
-        delimiter: ',',
-        persist: false,
-        create: function(input) {
-            return {
-                value: input,
-                text: input
-            }
-        }
     });
 </script>

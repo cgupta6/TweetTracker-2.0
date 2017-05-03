@@ -34,7 +34,7 @@ app.config(function ($stateProvider) {
     }).state("editReport",{
         url:"/editReport/:reportId",
         controller:"editReportCtrl",
-        templateUrl:"static/templates/UpdateReport.html"
+        templateUrl:"static/templates/EditReport.html"
     }).state("newReport",{
         url:"/newReport",
         controller:"newReportCtrl",

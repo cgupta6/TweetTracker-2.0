@@ -31,7 +31,7 @@
     </div>
     <div class="row top-buffer">
         <div class="col-md-8 col-md-offset-1 btn-link" style="width: auto;color: black"  onclick="console.log('CLICKS'); window.location.reload(false);" >
-    <i class="fa fa-home" style="padding-left: 20px"></i> My Jobs
+            <i class="fa fa-home" style="padding-left: 20px"></i> My Jobs
         </div>
 
     </div>
@@ -52,10 +52,10 @@
                                     <div class="btn btn-link" ng-click="go('/basicstats')">{{report.reportname}}</div></center></td>
                             <td title="'Created On'" sortable="'createdOn'">
                                 <center>{{report.createtime}}</center></td>
-                                <td title="'Crawls'" sortable="'createdOn'">
+                            <td title="'Crawls'" sortable="'createdOn'">
                                 <center>{{report.selectedJobs.join(", ")}}</center></td>
                             <td title="'Actions'" sortable="'action'">
-                                <report:actionbutton></report:actionbutton>
+                                <report:actionbutton reportid="{{ report.reportID }}"></report:actionbutton>
                             </td>
                         </tr>
                     </table>
@@ -92,7 +92,7 @@
                             <td  width="200px" title="'Users'" sortable="'users'">
                                 {{job.users.join(', ')}}</td>
                             <td title="'Actions'" sortable="'action'">
-                                <action-button></action-button>
+                                <action-button crawlid="35"></action-button>
                             </td>
                         </tr>
                     </table>
@@ -106,7 +106,6 @@
     </div>
 
 </div>
-
 <!--
 Copyright 2016 Google Inc. All Rights Reserved.
 Use of this source code is governed by an MIT-style license that can be foundin the LICENSE file at http://material.angularjs.org/HEAD/license.

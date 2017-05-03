@@ -1,3 +1,5 @@
+from mercurial.dispatch import request
+
 from flask import *
 from flask.ext.compressor import Compressor
 
@@ -174,7 +176,60 @@ def all_reports():
     #username = session.get('username')
     #import pdb
     #pdb.set_trace()
-    return tweet_tracker_api.report_management.api_support.get_all_reports(username='Justin')
+    reportId = request.args.get('report_id')
+    if reportId is None:
+        return tweet_tracker_api.report_management.api_support.get_all_reports(username='Justin')
+    else:
+        return tweet_tracker_api.report_management.api_support.get_report(reportId,username='Justin')
+
+
+@app.route('/api/deleteReport',methods=['GET'])
+def delete_report_request():
+
+    return
+
+@app.route('/api/updateReport', methods=['POST'])
+def update_report_request():
+    #import pdb
+    #pdb.set_trace()
+    """ Request creates a new report.
+
+    :return: HTTP response as appropriate
+    """
+    #TODO: Change when authorization module is in place
+    #username = session.get('username')
+    username= 'Justin'
+    name = request.json.get('name')
+    start_datetime = request.json.get('start_datetime')
+    end_datetime = request.json.get('end_datetime')
+    selectedJobs = request.json.get('selectedJobs')
+    filter_by = request.json.get('filter_by')
+    allWords = request.json.get('allWords')
+    anyWords = request.json.get('anyWords')
+    noneWords = request.json.get('noneWords')
+    report_id = int(request.json.get('report_id'))
+
+    print report_id
+    print name
+    if username is None:
+        abort(401)
+    if name is None:
+        abort(400)
+    if selectedJobs is None:
+        keywords = []
+    if allWords is None:
+        allWords = []
+    if anyWords is None:
+        anyWords = ""
+    if noneWords is None:
+        noneWords = []
+    if filter_by is None:
+        filter_by = []
+
+
+    #return tweet_tracker_api.job_management.api_support.get_all_classic(username)
+    return tweet_tracker_api.report_management.api_support.update_report(report_id,name, start_datetime, end_datetime, selectedJobs,
+                                                                         filter_by, allWords, anyWords, noneWords, username)
 
 @app.route('/api/report', methods=['POST'])
 def create_report_request():

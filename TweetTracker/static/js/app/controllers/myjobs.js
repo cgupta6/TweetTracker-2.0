@@ -10,8 +10,6 @@ app.controller('myJobCtrl',[ '$scope','$rootScope','$location','$http','$state',
         $location.path( path );
     };
 
-
-
     // Load the current user's jobs from the server
     $scope.jobs = [];
     $scope.allJobs = [];
@@ -22,10 +20,7 @@ app.controller('myJobCtrl',[ '$scope','$rootScope','$location','$http','$state',
         var tempdate=new Date(report.createtime);
         report.createtime=tempdate.toUTCString();
         return report;
-
-
-
-    }
+    };
 
 
 
@@ -73,8 +68,6 @@ app.controller('myJobCtrl',[ '$scope','$rootScope','$location','$http','$state',
     var reportCheck = $http.get('/api/report');
     reportCheck.success(function(data, status, headers, config) {
         $scope.reports = data.reports.map(convertDate);
-
-
     });
     reportCheck.error(function(data, status, headers, config) {
         //TODO: Add a backup input for this
@@ -112,10 +105,14 @@ app.directive("actionButton", function() {
                         <li role="separator" class="divider"></li>\
                         <li><a href=""><i class="fa fa-trash-o" style="padding-right: 5px;"></i>Delete Report</a></li>\
                     </ul>\
-                    </div>'
+                    </div>',
+
+         scope: {
+            crawlId:"@crawlid"
+        }
+
     };
 });
-
 
 app.directive("reportActionbutton", function() {
     return {
@@ -123,7 +120,7 @@ app.directive("reportActionbutton", function() {
                     <md-button class="md-raised md-small md-warn"  data-toggle="dropdown" ><i class="fa fa-cog"></i>Action</md-button>\
                     </button>\
                     <ul class="dropdown-menu">\
-                        <li><a href=""><i class="fa fa-pencil-square-o" style="padding-right: 5px;"></i>Edit Report</a></li>\
+                        <li><a href="/#/editReport/{{reportId}}"><i class="fa fa-pencil-square-o" style="padding-right: 5px;"></i>Edit Report</a></li>\
                         <li role="separator" class="divider"></li>\
                         <li><a href=""><i class="fa fa-share-alt" style="padding-right: 5px;"></i>Share/Unshare</a></li>\
                         <li><a href=""><i class="fa fa-archive" style="padding-right: 5px;"></i>Archive Report</a></li>\
@@ -131,7 +128,11 @@ app.directive("reportActionbutton", function() {
                         <li role="separator" class="divider"></li>\
                         <li><a href=""><i class="fa fa-trash-o" style="padding-right: 5px;"></i>Delete Report</a></li>\
                     </ul>\
-                    </div>'
+                    </div>',
+         scope: {
+            reportId:"@reportid"
+        }
+
     };
 });
 
