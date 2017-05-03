@@ -7,7 +7,7 @@
 app.controller('basicStatsCtrl',[ '$scope','$rootScope','$location','NgTableParams','dynamicHeader', function($scope ,$rootScope, $location, NgTableParams,dynamicHeader) {
 
     dynamicHeader.setReportTab($location.$$path);
-
+    $scope.showPopup2=false;
     $scope.go = function ( path ) {
         $location.path( path );
     };

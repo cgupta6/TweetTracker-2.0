@@ -155,3 +155,7 @@ label {
 .form-horizontal .control-group {
     margin-bottom: 8px !important;
 }
+
+.modal-header{
+    background-color: rgba(107, 103, 91, 0.96);
+}

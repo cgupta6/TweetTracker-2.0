@@ -2,6 +2,9 @@
 <link rel="stylesheet"; href="static/css/mdcard.css">
 <div class="container">
 
+        <!-- Modal content -->
+        <!-- Modal -->
+
 
     <div class="row">
 
@@ -35,6 +38,15 @@
                 </md-card-footer>
             </md-card>
         </div>
+
+
+
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-lg-1"></div>
         <div class="col-lg-3">
 
              <md-card >
@@ -54,22 +66,47 @@
                         </tr>
                     </table>
             </md-card-content>
+
+            <div class="modal fade" id="userModal" role="dialog">
+                <div class="modal-dialog">
+
+                 <!-- Modal content-->
+                 <div class="modal-content">
+                     <div class="modal-header">
+                         <button type="button" class="close" data-dismiss="modal">&times;</button>
+                         <h4 class="modal-title">Top Users</h4>
+                     </div>
+                     <div class="modal-body">
+                         <table ng-table="tableParamsUser" class="table" >
+                             <tr ng-repeat="user in $data">
+                                 <td  align="center"  title="'User'">
+                                     <a target="_blank" href="https://www.twitter.com/{{ user.user }}"> {{user.user}}</a></td>
+                                 <td  align="center" title="'Mentions'">
+                                     {{user.count}}</td>
+                             </tr>
+                         </table>
+                     </div>
+                     <div class="modal-footer">
+                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                     </div>
+                 </div>
+
+            </div>
+            </div>
             <md-card-footer md-colors="::{backgroundColor: 'default-primary-200'}" >
-                <span><b>5 of {{ users.length }} users</b>  <md-button class="md-raised md-small md-warn pull-right">  Details<i class="fa fa-chevron-right"></i></md-button>  </span>
+                <span><b>5 of {{ users.length }} users</b>
+                    <md-button class="md-raised md-small md-warn pull-right" data-toggle="modal" data-target="#userModal">
+                        More
+                        <i class="fa fa-chevron-right"></i></md-button>  </span>
             </md-card-footer>
 
         </md-card>
 
         </div>
 
-    </div>
 
 
 
-    <div class="row">
-
-        <div class="col-sm-1">
-        </div>
        <div class="col-lg-3">
           <md-card >
             <md-card-header md-colors="::{backgroundColor: 'default-primary-900'}">
@@ -88,8 +125,37 @@
                         </tr>
                     </table>
             </md-card-content>
+          <div class="modal fade" id="hashModal" role="dialog">
+              <div class="modal-dialog">
+
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title">Top Hashtags</h4>
+                      </div>
+                      <div class="modal-body">
+                          <table ng-table="tableParamsHashtags" class="table" >
+                              <tr ng-repeat="tags in hashtags">
+                                  <td  align="center"  title="'tag'">
+                                      {{tags.hashtag}}</td>
+                                  <td  align="center" title="'tagCount'">
+                                      {{tags.count}}</td>
+                              </tr>
+                          </table>
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                  </div>
+
+              </div>
+          </div>
             <md-card-footer md-colors="::{backgroundColor: 'default-primary-200'}" >
-                <span><b>5 of {{ hashtags.length }} Hashtags</b>  <md-button class="md-raised md-small md-warn pull-right">  Details<i class="fa fa-chevron-right"></i></md-button>  </span>
+                <span><b>5 of {{ hashtags.length }} Hashtags</b>
+                    <md-button class="md-raised md-small md-warn pull-right" data-toggle="modal" data-target="#hashModal">
+                        More
+                        <i class="fa fa-chevron-right"></i></md-button>  </span>
             </md-card-footer>
 
         </md-card>
@@ -108,14 +174,46 @@
                 <table ng-table="tableParamsLinks" class="table" >
                         <tr ng-repeat="link in $data">
                             <td  align="center"  title="'link'">
-                                <a href="{{ link.link }}" >{{link.link}}</a></td>
+                                <a href="{{ link.link }}" >{{link.link | cut:true:15:' ...'}}</a></td>
                             <td  align="center" title="'linkCount'">
                                 {{link.count}}</td>
                         </tr>
                     </table>
             </md-card-content>
-            <md-card-footer md-colors="::{backgroundColor: 'default-primary-200'}" >
-                <span><b>5 of {{ links.length }} Links</b>  <md-button class="md-raised md-small md-warn pull-right">  Details<i class="fa fa-chevron-right"></i></md-button>  </span>
+
+          <div class="modal fade" id="linkModal" role="dialog">
+              <div class="modal-dialog">
+
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title">Top Links</h4>
+                      </div>
+                      <div class="modal-body">
+                          <table ng-table="tableParamsLinks" class="table" >
+                              <tr ng-repeat="link in $data">
+                                  <td  align="center"  title="'link'">
+                                      <a href="{{ link.link }}" >{{link.link | cut:true:15:' ...'}}</a></td>
+                                  <td  align="center" title="'linkCount'">
+                                      {{link.count}}</td>
+                              </tr>
+                          </table>
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                  </div>
+
+              </div>
+          </div>
+
+
+              <md-card-footer md-colors="::{backgroundColor: 'default-primary-200'}" >
+                <span><b>5 of {{ links.length }} Links</b>
+                    <md-button class="md-raised md-small md-warn pull-right"  data-toggle="modal" data-target="#linkModal">
+                    More
+                    <i class="fa fa-chevron-right"></i></md-button>  </span>
             </md-card-footer>
 
         </md-card>

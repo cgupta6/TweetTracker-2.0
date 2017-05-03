@@ -6,9 +6,10 @@
 app.controller('advancedAnalyticsCtrl',[ '$scope','$rootScope','$location', '$mdSidenav','NgTableParams','dynamicHeader', function($scope ,$rootScope, $location,$mdSidenav, NgTableParams,dynamicHeader) {
     dynamicHeader.setReportTab($location.$$path);
     $scope.showPopup=false;
-    $scope.showMainMenu=false;
+    $scope.showMainMenu=true;
 
     $scope.toggleLeft = buildToggler('left');
+    $scope.toggleBack = restoreToggler('left');
     $scope.currentReport="";
 
 
@@ -22,6 +23,14 @@ app.controller('advancedAnalyticsCtrl',[ '$scope','$rootScope','$location', '$md
     function buildToggler(componentId) {
         return function() {
             $mdSidenav(componentId).toggle();
+            $scope.showMainMenu=false;
+        };
+    }
+
+    function restoreToggler(componentId) {
+        return function() {
+            $mdSidenav(componentId).toggle();
+            $scope.showMainMenu=true;
         };
     }
 
