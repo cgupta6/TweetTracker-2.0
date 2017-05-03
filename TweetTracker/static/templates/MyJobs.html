@@ -54,6 +54,9 @@
                                 <center>{{report.createtime}}</center></td>
                                 <td title="'Crawls'" sortable="'createdOn'">
                                 <center>{{report.selectedJobs.join(", ")}}</center></td>
+                            <td title="'Actions'" sortable="'action'">
+                                <report:actionbutton></report:actionbutton>
+                            </td>
                         </tr>
                     </table>
                 </md-card-content>

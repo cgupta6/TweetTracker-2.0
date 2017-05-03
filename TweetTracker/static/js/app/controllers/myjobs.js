@@ -115,3 +115,47 @@ app.directive("actionButton", function() {
                     </div>'
     };
 });
+
+
+app.directive("reportActionbutton", function() {
+    return {
+        template : '<div class="btn-group pull-right">\
+                    <md-button class="md-raised md-small md-warn"  data-toggle="dropdown" ><i class="fa fa-cog"></i>Action</md-button>\
+                    </button>\
+                    <ul class="dropdown-menu">\
+                        <li><a href=""><i class="fa fa-pencil-square-o" style="padding-right: 5px;"></i>Edit Report</a></li>\
+                        <li role="separator" class="divider"></li>\
+                        <li><a href=""><i class="fa fa-share-alt" style="padding-right: 5px;"></i>Share/Unshare</a></li>\
+                        <li><a href=""><i class="fa fa-archive" style="padding-right: 5px;"></i>Archive Report</a></li>\
+                        <li class="disabled" ><a href="""><i class="fa fa-bell" style="padding-right: 5px;"></i>Alerts</a></li>\
+                        <li role="separator" class="divider"></li>\
+                        <li><a href=""><i class="fa fa-trash-o" style="padding-right: 5px;"></i>Delete Report</a></li>\
+                    </ul>\
+                    </div>'
+    };
+});
+
+app.directive('popup', function(){
+    return{
+        transclude:true,
+        restrict:'E',
+        templateUrl:'static/templates/helper/popup.html',
+        controller : function($scope){
+            this.addItem = function(val){
+                console.log(val);
+            }
+        }
+    }
+});
+
+app.directive('inner',function(){
+    return{
+        restrict:'E',
+        require : '^popup',
+        template : '<div><h1>i am a inner</h1></div>',
+        link:function(scope,elem,attr,outercontrol){
+            outercontrol.addItem(1);
+        }
+    }
+});
+
