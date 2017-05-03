@@ -1,4 +1,17 @@
-
+<style>
+   .md-tab, .md-tabs-canvas, .md-active {
+    background: rgb(255,87,34) !important;
+}
+    md-tabs > md-tabs-wrapper {
+  background-color: rgb(255,87,34)  !important;
+}
+    md-tabs > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]) {
+  color: #fff !important;
+}
+    md-tabs > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active, md-tabs > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active md-icon, md-tabs.md-accent > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active md-icon, md-tabs.md-default-theme.md-accent > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused, md-tabs.md-default-theme.md-accent > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused md-icon {
+  color: #222 !important;
+}
+</style>
 <div class="container">
 
     <div class="row">
@@ -7,12 +20,12 @@
         <div class="col-sm-2" />
 
         <div class="col-sm-8" >
-            <md-content class="md-padding">
+            <md-content class="md-padding" >
                 <md-tabs class="md-accent" md-selected="data.selectedIndex" md-dynamic-height md-border-bottom >
-                    <md-tab ng-repeat="video in videos" label="{{video.name}}">
-                        <md-content class="md-padding">
-                            <iframe width="560" height="315" ng-src="{{video.url | trusted}}"
-                                    frameborder="0" allowfullscreen></iframe>
+                    <md-tab ng-repeat="video in videos" label="{{video.name}}" md-colors="::{backgroundColor: 'default-primary-900'}" >
+                        <md-content class="md-padding" layout-xs="column" layout="row" layout-align="center center">
+                           <iframe width="900" height="500" ng-src="{{video.url | trusted}}"
+                                         frameborder="0" allowfullscreen></iframe>
                         </md-content>
                     </md-tab>
                 </md-tabs>

@@ -25,21 +25,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="basicstats.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/templates/basicstats.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="334">
-              <caret line="138" column="61" lean-forward="false" selection-start-line="138" selection-start-column="61" selection-end-line="138" selection-end-column="61" />
-              <folding>
-                <element signature="e#2732#2739#1" expanded="true" />
-                <element signature="e#5252#5259#1" expanded="true" />
-                <element signature="e#7778#7785#1" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="advancedanalytics.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="advancedanalytics.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/js/app/controllers/advancedanalytics.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="450">
@@ -102,9 +88,27 @@
       <file leaf-file-name="main.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/js/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="767">
-              <caret line="105" column="3" lean-forward="false" selection-start-line="105" selection-start-column="3" selection-end-line="105" selection-end-column="3" />
+            <state relative-caret-position="392">
+              <caret line="59" column="0" lean-forward="true" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="basicstats.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/static/templates/basicstats.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4375">
+              <caret line="175" column="0" lean-forward="true" selection-start-line="175" selection-start-column="0" selection-end-line="175" selection-end-column="0" />
+              <folding>
+                <element signature="n#style#0;n#table#0;n#md-card-content#0;n#md-card#0;n#div#1;n#div#3;n#div#0;n#!!top" expanded="true" />
+                <element signature="e#2781#2788#1" expanded="true" />
+                <element signature="n#style#0;n#table#0;n#md-card-content#0;n#md-card#0;n#div#2;n#div#3;n#div#0;n#!!top" expanded="true" />
+                <element signature="e#5351#5358#1" expanded="true" />
+                <element signature="n#style#0;n#md-card-content#0;n#md-card#0;n#div#3;n#div#3;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#table#0;n#md-card-content#0;n#md-card#0;n#div#3;n#div#3;n#div#0;n#!!top" expanded="true" />
+                <element signature="e#7948#7955#1" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -139,10 +143,10 @@
       <find>makeTabsVisible</find>
       <find>first</find>
       <find>firstselect</find>
-      <find>filt</find>
       <find>details</find>
       <find>data</find>
       <find>my</find>
+      <find>filt</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -155,10 +159,10 @@
         <option value="$PROJECT_DIR$/static/js/main.js" />
         <option value="$PROJECT_DIR$/static/templates/advancedstats.html" />
         <option value="$PROJECT_DIR$/static/js/app/controllers/basicstats.js" />
-        <option value="$PROJECT_DIR$/static/templates/basicstats.html" />
         <option value="$PROJECT_DIR$/static/css/main.css" />
         <option value="$PROJECT_DIR$/static/templates/advancedanalytics.html" />
         <option value="$PROJECT_DIR$/static/js/app/controllers/advancedanalytics.js" />
+        <option value="$PROJECT_DIR$/static/templates/basicstats.html" />
       </list>
     </option>
   </component>
@@ -406,12 +410,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6726000" />
+    <option name="totallyTimeSpent" value="7354000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="1934" height="1042" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32992035" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -794,14 +799,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="767">
-          <caret line="105" column="3" lean-forward="false" selection-start-line="105" selection-start-column="3" selection-end-line="105" selection-end-column="3" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/templates/advancedanalytics.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="355">
@@ -818,31 +815,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/app/controllers/basicstats.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-100">
-          <caret line="9" column="28" lean-forward="false" selection-start-line="9" selection-start-column="28" selection-end-line="9" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/css/main.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3755">
           <caret line="159" column="47" lean-forward="false" selection-start-line="159" selection-start-column="47" selection-end-line="159" selection-end-column="47" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/templates/basicstats.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="334">
-          <caret line="138" column="61" lean-forward="false" selection-start-line="138" selection-start-column="61" selection-end-line="138" selection-end-column="61" />
-          <folding>
-            <element signature="e#2732#2739#1" expanded="true" />
-            <element signature="e#5252#5259#1" expanded="true" />
-            <element signature="e#7778#7785#1" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -868,6 +845,38 @@
             <marker date="1493834771031" expanded="true" signature="1292:1534" ph="..." />
             <marker date="1493834771031" expanded="true" signature="1336:1435" ph="..." />
             <marker date="1493834771031" expanded="true" signature="1482:1519" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/js/app/controllers/basicstats.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-100">
+          <caret line="9" column="28" lean-forward="false" selection-start-line="9" selection-start-column="28" selection-end-line="9" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/js/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="392">
+          <caret line="59" column="0" lean-forward="true" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/templates/basicstats.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4375">
+          <caret line="175" column="0" lean-forward="true" selection-start-line="175" selection-start-column="0" selection-end-line="175" selection-end-column="0" />
+          <folding>
+            <element signature="n#style#0;n#table#0;n#md-card-content#0;n#md-card#0;n#div#1;n#div#3;n#div#0;n#!!top" expanded="true" />
+            <element signature="e#2781#2788#1" expanded="true" />
+            <element signature="n#style#0;n#table#0;n#md-card-content#0;n#md-card#0;n#div#2;n#div#3;n#div#0;n#!!top" expanded="true" />
+            <element signature="e#5351#5358#1" expanded="true" />
+            <element signature="n#style#0;n#md-card-content#0;n#md-card#0;n#div#3;n#div#3;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#table#0;n#md-card-content#0;n#md-card#0;n#div#3;n#div#3;n#div#0;n#!!top" expanded="true" />
+            <element signature="e#7948#7955#1" expanded="true" />
           </folding>
         </state>
       </provider>
