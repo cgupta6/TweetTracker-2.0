@@ -47,6 +47,10 @@ app.config(function ($stateProvider) {
         url:"/newCrawl",
         controller:"newCrawlCtrl",
         templateUrl:"static/templates/NewCrawl.html"
+    }).state("editCrawl",{
+        url:"/editCrawl/:jobId",
+        controller:"editCrawlCtrl",
+        templateUrl:"static/templates/EditCrawl.html"
     }).state("myJobs",{
         url:"/myJobs",
         controller:"myJobCtrl",

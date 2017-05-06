@@ -92,7 +92,8 @@
                             <td  width="200px" title="'Users'" sortable="'users'">
                                 {{job.users.join(', ')}}</td>
                             <td title="'Actions'" sortable="'action'">
-                                <action-button crawlid="35"></action-button>
+                                <!--<action-button crawlid="35"></action-button>-->
+                                 <job:actionbutton jobid="{{job.id}}"></job:actionbutton>
                             </td>
                         </tr>
                     </table>

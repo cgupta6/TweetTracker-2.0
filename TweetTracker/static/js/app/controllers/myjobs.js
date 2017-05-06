@@ -48,7 +48,7 @@ app.controller('myJobCtrl',[ '$scope','$rootScope','$location','$http','$state',
             sources: sourceObj
         }
     };
- $scope.crawlCount=0;
+    $scope.crawlCount=0;
     var crawlCheck = $http.get('/api/job');
     crawlCheck.success(function(data, status, headers, config) {
        $scope.jobs = data.jobs.map(cleanJob);
@@ -68,18 +68,12 @@ app.controller('myJobCtrl',[ '$scope','$rootScope','$location','$http','$state',
     var reportCheck = $http.get('/api/report');
     reportCheck.success(function(data, status, headers, config) {
         $scope.reports = data.reports.map(convertDate);
+        console.log($scope.reports);
     });
     reportCheck.error(function(data, status, headers, config) {
         //TODO: Add a backup input for this
         console.log("DB not reachable.")
     });
-
-
-
-
-
-
-
 
     $scope.imagePath = 'resources/img/washedout.png';
 
@@ -113,6 +107,31 @@ app.directive("actionButton", function() {
 
     };
 });
+
+
+app.directive("jobActionbutton", function() {
+    return {
+        template : '<div class="btn-group pull-right">\
+                    <md-button class="md-raised md-small md-warn"  data-toggle="dropdown" ><i class="fa fa-cog"></i>Action</md-button>\
+                    </button>\
+                    <ul class="dropdown-menu">\
+                        <li><a href="/#/editCrawl/{{jobId}}"><i class="fa fa-pencil-square-o" style="padding-right: 5px;"></i>Edit Crawl</a></li>\
+                        <li role="separator" class="divider"></li>\
+                        <li><a href=""><i class="fa fa-share-alt" style="padding-right: 5px;"></i>Share/Unshare</a></li>\
+                        <li><a href=""><i class="fa fa-archive" style="padding-right: 5px;"></i>Archive Report</a></li>\
+                        <li class="disabled" ><a href="""><i class="fa fa-bell" style="padding-right: 5px;"></i>Alerts</a></li>\
+                        <li role="separator" class="divider"></li>\
+                        <li><a href=""><i class="fa fa-trash-o" style="padding-right: 5px;"></i>Delete Report</a></li>\
+                    </ul>\
+                    </div>',
+         scope: {
+            jobId:"@jobid"
+        }
+
+    };
+});
+
+
 
 app.directive("reportActionbutton", function() {
     return {

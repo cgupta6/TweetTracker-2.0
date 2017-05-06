@@ -1,0 +1,264 @@
+<!-- Page Content -->
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <h1 class="page-header" style="text-align: center">Edit Crawl
+            </h1>
+        </div>
+    </div>
+    <!-- /.row -->
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <form role="form">
+
+                <div class="row">
+                    <span class=" col-md-4">
+                        <h3><b>Words</b></h3>
+                    </span>
+                </div>
+
+                <div class="row ">
+                    <span class="col-md-4">
+                        <label for="input1">This exact phrase</label>
+                    </span>
+                        <span class="col-md-8 ">
+                            <input type="text" ng-model="job.exactPhrase" id="input1" style="width:100%">
+                    </span>
+                </div>
+
+                 <div class="row ">
+                    <span class="col-md-4">
+                        <label for="input2">All of these words*</label>
+                    </span>
+                        <span class="col-md-8 ">
+                            <input type="text" autocomplete="off" id="input2" ng-model="job.allWords" style="width:100%" required>
+                        </span>
+			    </div>
+
+             <!--   <div class="row">
+                    <span class=" col-md-4">
+                        <label for="input2">All of these words</label>
+                    </span>
+                    <span class=" ">
+                        <span class=" col-md-8 ">
+                            <input type="text" ng-model="job.allWords" id="input2" style="width:100%">
+                        </span>
+                    </span>
+                </div>
+            -->
+                <div class="row ">
+                    <span class=" col-md-4 ">
+                        <label for="input3">Any of these words</label>
+                    </span>
+                    <span >
+                        <span class=" col-md-8 ">
+                            <input type="text" ng-model="job.anyWords" id="input3" style="width:100%">
+                        </span>
+                    </span>
+                </div>
+
+                <div class="row ">
+                    <span class=" col-md-4 ">
+                        <label for="input5">These hashtags</label>
+                    </span>
+                    <span class=" ">
+                        <span class=" col-md-8 ">
+                            <input type="text" ng-model="job.hashtags" id="input5" style="width:100%">
+                        </span>
+                    </span>
+                </div>
+
+                <h3><b>People</b></h3>
+
+                <div class="row ">
+                    <span class=" col-md-4 ">
+                        <label for="input7">From these accounts</label>
+                    </span>
+                    <span class=" ">
+                        <span class=" col-md-8 ">
+                            <input type="text" ng-model="job.sourceAccounts" id="input7" style="width:100%">
+                        </span>
+                    </span>
+                </div>
+
+                <div class="row ">
+                    <span class=" col-md-4 ">
+                        <label for="input9">Mentioning these accounts</label>
+                    </span>
+                    <span class=" ">
+                        <span class=" col-md-8 ">
+                            <input type="text" ng-model="job.mentionedAccounts" id="input9" style="width:100%">
+                        </span>
+                    </span>
+                </div>
+
+                <!--<h3><b>Places</b></h3>-->
+
+                <div class="row ">
+                    <span class=" col-md-4 ">
+                        <label for="nearText">Near these places</label>
+                    </span>
+                    <span class=" ">
+                        <span class=" col-md-4 ">
+                            <input type="text" ng-model="job.geoboxesString" id="nearText" class="selectize-input" style="width:100%">
+                        </span>
+                        <span class=" col-md-4 ">
+                            <button type="text" name="contact_name" class="form-control" id="input10" style="width:100%">
+                                <img src="https://cdn1.iconfinder.com/data/icons/map-objects/154/map-object-blue-geo-point-512.png" width="25" style="padding-right: 5px" />
+                                Add Location
+                            </button>
+                        </span>
+                    </span>
+                </div>
+
+
+                <!--<h3><b>Dates</b></h3>-->
+
+                <div class="row ">
+                    <span class=" col-md-4  ">
+                        <label for="input10">Run Crawl Until</label>
+                    </span>
+                        <span class=" col-md-4 input-group input-daterange" style="padding-left: 13px; padding-right: 13px">
+                            <input type="text" class=" form-control" value="{{date | date:'yyyy-MM-dd'}}" style="width:100%">
+                        </span>
+                </div>
+
+                <div class="row ">
+                    <span class=" col-md-4">
+                        <label for="jobName">Crawl Name*</label>
+                    </span>
+                    <span class=" ">
+                        <span class=" col-md-8 ">
+                            <input type="text" ng-model="job.name" class="selectize-input" id="jobName" style="width:100%" required/>
+                        </span>
+                    </span>
+                </div>
+
+                <div class="row ">
+                    <span class=" col-md-4">
+                        <label>Sources</label>
+                    </span>
+                    <span class="col-md-8 ">
+                        <input type="checkbox" ng-model="job.sources.tw"> &nbsp; <i class="fa fa-twitter"></i> &nbsp; Twitter &nbsp;
+                        <input type="checkbox" ng-model="job.sources.yt"> &nbsp; <i class="fa fa-youtube-play"></i> &nbsp; Youtube &nbsp;
+                        <input type="checkbox" ng-model="job.sources.vk"> &nbsp; <i class="fa fa-vk"></i> &nbsp; VKontakte &nbsp;
+                    </span>
+                </div>
+
+                <div class="row ">
+                    <span class="col-md-9 col-md-offset-4">
+                        <input type="checkbox" ng-model="job.public">
+                        <label tooltip="Public jobs can be viewed and accessed by anyone.">Public?</label> &nbsp;&nbsp; &nbsp;
+                        <input type="checkbox" ng-model="job.crisisflag">
+                        <label tooltip='If locations are included we will predict whether untagged tweets
+originate inside the provided regions.  This feature only works well
+within true crisis regions (Finding Eyewitness Tweets During Crises).'>Crisis?</label> &nbsp; &nbsp;
+                        <input type="checkbox" ng-model="job.existingTweets">
+                        <label tooltip="Although we normally only stream new records, we can pre-load a job
+with existing records (up to 3,000 for Twitter).  Some records may be
+missing, and the amount of time included will depend on the search terms.">Include Recent Historical?</label> &nbsp;
+                    </span>
+                </div>
+
+                <div class="row ">
+                    <span class="col-md-8 col-md-offset-3">
+                    </span>
+                </div>
+
+                <div class="row">
+                <span class="col-md-9 col-md-offset-1" style="text-align: center">
+                        <md-button data-ng-click="updateJob()" class="md-raised md-small md-warn "   type="submit">Update Crawl</md-button>
+                </span>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- /.row -->
+    <div class="row">
+    </div>
+</div><!-- /.container -->
+<script>
+    $(document).ready(function() {
+        $('.input-daterange input').datepicker({
+        });
+    });
+    $('#input1').selectize({
+       plugins: ['remove_button'],
+        delimiter: ',',
+        persist: false,
+        create: function(input) {
+            return {
+                value: input,
+                text: input
+            }
+        }
+    });
+     $('#input2').selectize({
+       plugins: ['remove_button'],
+        delimiter: ',',
+        persist: false,
+        create: function(input) {
+            return {
+                value: input,
+                text: input
+            }
+        }
+    });
+     $('#input3').selectize({
+       plugins: ['remove_button'],
+        delimiter: ',',
+        persist: false,
+        create: function(input) {
+            return {
+                value: input,
+                text: input
+            }
+        }
+    });
+      $('#input4').selectize({
+       plugins: ['remove_button'],
+        delimiter: ',',
+        persist: false,
+        create: function(input) {
+            return {
+                value: input,
+                text: input
+            }
+        }
+    }); $('#input5').selectize({
+       plugins: ['remove_button'],
+        delimiter: ',',
+        persist: false,
+        create: function(input) {
+            return {
+                value: input,
+                text: input
+            }
+        }
+    }); $('#input7').selectize({
+       plugins: ['remove_button'],
+        delimiter: ',',
+        persist: false,
+        create: function(input) {
+            return {
+                value: input,
+                text: input
+            }
+        }
+    }); $('#input9').selectize({
+       plugins: ['remove_button'],
+        delimiter: ',',
+        persist: false,
+        create: function(input) {
+            return {
+                value: input,
+                text: input
+            }
+        }
+    });
+
+
+</script>

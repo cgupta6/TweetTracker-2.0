@@ -346,7 +346,8 @@ def put_job(job_id):
     :param job_id: The ID of the job to replace
     :return: An HTTP response representing the success/failure of the request
     """
-    username = session.get('username')
+    #username = session.get('username')
+    username = 'Justin'
     name = request.json.get('name')
     keywords = request.json.get('keywords')
     users = request.json.get('users')
