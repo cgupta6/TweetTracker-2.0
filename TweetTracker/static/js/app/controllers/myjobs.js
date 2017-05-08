@@ -1,13 +1,26 @@
+
 /**
  * Created by anjoy92 on 4/14/17.
  */
 
-app.controller('myJobCtrl',[ '$scope','$rootScope','$location','$http','$state','NgTableParams','dynamicHeader', function($scope ,$rootScope, $location,$http,$state, NgTableParams,dynamicHeader) {
+app.controller('myJobCtrl',[ '$scope','$rootScope','$location','$http','$state','NgTableParams',
+                                'dynamicHeader','reportService',
+                            function($scope ,$rootScope, $location,$http,$state, NgTableParams
+                                     ,dynamicHeader,reportService) {
 
     dynamicHeader.setReportTab($location.$$path);
 
-    $scope.go = function ( path ) {
+    $scope.goreport = function ( path, reportname) {
         $location.path( path );
+        reportService.setReportName(reportname);
+        var test=reportService.getReportName();
+
+    };
+
+    $scope.go = function ( path) {
+        $location.path( path );
+
+
     };
 
     // Load the current user's jobs from the server
@@ -178,4 +191,6 @@ app.directive('inner',function(){
         }
     }
 });
+
+
 

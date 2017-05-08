@@ -4,13 +4,16 @@
 
 
 
-app.controller('basicStatsCtrl',[ '$scope','$rootScope','$location','NgTableParams','dynamicHeader', function($scope ,$rootScope, $location, NgTableParams,dynamicHeader) {
+app.controller('basicStatsCtrl',[ '$scope','$rootScope','$location','NgTableParams','dynamicHeader', 'reportService',
+                                function($scope ,$rootScope, $location, NgTableParams,dynamicHeader,reportService) {
 
     dynamicHeader.setReportTab($location.$$path);
     $scope.showPopup2=false;
     $scope.go = function ( path ) {
         $location.path( path );
     };
+
+    $scope.reportname=reportService.getReportName();
     var data=[];
     $scope.tableParams = new NgTableParams({ count: data.length}, { dataset: data, counts: []});
 

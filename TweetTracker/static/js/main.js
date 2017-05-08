@@ -2,7 +2,7 @@
  * Main AngularJS Web Application
  */
 var app = angular.module('tweetTrackerApp', [
-    'ngMaterial', 'ngMessages', 'material.svgAssetsCache','ngTable','xeditable','ui.router', 'selectize',"ngAnimate"
+    'ngMaterial', 'ngMessages', 'material.svgAssetsCache','ngTable','xeditable','ui.router', 'selectize',"ngAnimate","services", "services2"
 ]).config(function($mdThemingProvider) {
     $mdThemingProvider.theme('default')
         .primaryPalette('grey')
@@ -76,18 +76,7 @@ app.controller('mainCtrl', function ( $scope, $location, $http,$rootScope ,dynam
     });
 });
 
-// Factory to show/hide report view or analysis Tabs
-app.factory('dynamicHeader', function(){
-    var isReportTab;
-    var analysisTabs=["/basicstats","/advancedAnalytics","/rawData"];
 
-    return {
-        isReportTab: function() { return isReportTab; },
-        setReportTab: function(newPath) {
-            isReportTab = analysisTabs.indexOf(newPath) != -1;
-        }
-    };
-});
 
 app.filter('cut', function () {
     return function (value, wordwise, max, tail) {
@@ -110,5 +99,17 @@ app.filter('cut', function () {
         }
 
         return value + (tail || ' …');
+    };
+});
+
+// Factory to show/hide report view or analysis Tabs
+app.factory('reportService`', function(){
+    var reportname;
+
+    return {
+        getReportName: function() { return reportname; },
+        setReportName: function(report) {
+            reportname = report;
+        }
     };
 });
