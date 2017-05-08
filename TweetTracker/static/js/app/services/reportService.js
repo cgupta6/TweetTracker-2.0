@@ -1,11 +1,11 @@
 // Factory to show/hide report view or analysis Tabs
-angular.module("services2",[]).factory('reportService', function(){
-    var reportname;
+angular.module("services").factory('reportService', function(){
+    var reportId;
 
     return {
-        getReportName: function() { return reportname; },
-        setReportName: function(report) {
-            reportname = report;
+        getReportId: function() { return reportId; },
+        setReportId: function(report) {
+            reportId = report;
         }
     };
 });

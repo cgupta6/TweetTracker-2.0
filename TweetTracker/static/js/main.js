@@ -2,7 +2,7 @@
  * Main AngularJS Web Application
  */
 var app = angular.module('tweetTrackerApp', [
-    'ngMaterial', 'ngMessages', 'material.svgAssetsCache','ngTable','xeditable','ui.router', 'selectize',"ngAnimate","services", "services2"
+    'ngMaterial', 'ngMessages', 'material.svgAssetsCache','ngTable','xeditable','ui.router', 'selectize',"ngAnimate","services"
 ]).config(function($mdThemingProvider) {
     $mdThemingProvider.theme('default')
         .primaryPalette('grey')
@@ -102,14 +102,3 @@ app.filter('cut', function () {
     };
 });
 
-// Factory to show/hide report view or analysis Tabs
-app.factory('reportService`', function(){
-    var reportname;
-
-    return {
-        getReportName: function() { return reportname; },
-        setReportName: function(report) {
-            reportname = report;
-        }
-    };
-});

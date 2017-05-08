@@ -4,16 +4,57 @@
 
 
 
-app.controller('basicStatsCtrl',[ '$scope','$rootScope','$location','NgTableParams','dynamicHeader', 'reportService',
-                                function($scope ,$rootScope, $location, NgTableParams,dynamicHeader,reportService) {
+app.controller('basicStatsCtrl',[ '$scope','$rootScope','$location','NgTableParams','dynamicHeader', 'reportService','$http',
+                                function($scope ,$rootScope, $location, NgTableParams,dynamicHeader,reportService,$http ) {
 
     dynamicHeader.setReportTab($location.$$path);
-    $scope.showPopup2=false;
+
     $scope.go = function ( path ) {
         $location.path( path );
     };
 
-    $scope.reportname=reportService.getReportName();
+
+    // This function converts date to string format
+    var convertDate=function(report){
+        var tempdate=new Date(report.createtime);
+        report.createtime=tempdate.toUTCString();
+
+        var dateObj = new Date(report.start_datetime);
+        var month = dateObj.getUTCMonth() + 1; //months from 1-12
+        var day = dateObj.getUTCDate();
+        var year = dateObj.getUTCFullYear();
+
+        newdate = year + "/" + month + "/" + day;
+
+        report.start_datetime=newdate;
+
+        var dateObj = new Date(report.end_datetime);
+        var month = dateObj.getUTCMonth() + 1; //months from 1-12
+        var day = dateObj.getUTCDate();
+        var year = dateObj.getUTCFullYear();
+
+        newdate = year + "/" + month + "/" + day;
+
+        report.end_datetime=newdate;
+
+        return report;
+    };
+
+
+
+    $scope.report_id=reportService.getReportId();
+
+    setTimeout(function () {
+        var reportCheck = $http.get('/api/report?report_id='+$scope.report_id);
+        reportCheck.success(function(data, status, headers, config) {
+            $scope.reportSpec = convertDate(data.report);
+            console.log(data);
+        });
+        reportCheck.error(function(data, status, headers, config) {
+            //TODO: Add a backup input for this
+            console.log("DB not reachable.")
+        });
+    },500);
     var data=[];
     $scope.tableParams = new NgTableParams({ count: data.length}, { dataset: data, counts: []});
 

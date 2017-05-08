@@ -46,13 +46,13 @@
                 </md-card-header>
                 <md-card-content>
                     <table ng-table="tableParams" class="table" >
-                        <tr ng-repeat="report in reports">
-                            <td  title="'Report' "sortable="'name'">
+                        <tr ng-repeat="report in reports" onmouseover="this.style.background='#F8F8F8';" onmouseout="this.style.background='white';">
+                            <td  title="'Report' "sortable="'name'" ng-click="goreport('/basicstats',report.reportID)">
                                 <center>
-                                    <div class="btn btn-link" ng-click="goreport('/basicstats',report.reportname)">{{report.reportname}}</div></center></td>
-                            <td title="'Created On'" sortable="'createdOn'">
+                                    <div class="btn btn-link" >{{report.reportname}}</div></center></td>
+                            <td title="'Created On'" sortable="'createdOn'" ng-click="goreport('/basicstats',report.reportID)">
                                 <center>{{report.createtime}}</center></td>
-                            <td title="'Crawls'" sortable="'createdOn'">
+                            <td title="'Crawls'" sortable="'createdOn'" ng-click="goreport('/basicstats',report.reportID)">
                                 <center>{{report.selectedJobs.join(", ")}}</center></td>
                             <td title="'Actions'" sortable="'action'">
                                 <report:actionbutton reportid="{{ report.reportID }}"></report:actionbutton>

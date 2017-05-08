@@ -10,10 +10,10 @@ app.controller('myJobCtrl',[ '$scope','$rootScope','$location','$http','$state',
 
     dynamicHeader.setReportTab($location.$$path);
 
-    $scope.goreport = function ( path, reportname) {
+    $scope.goreport = function ( path, reportid) {
         $location.path( path );
-        reportService.setReportName(reportname);
-        var test=reportService.getReportName();
+        reportService.setReportId(reportid);
+        var test=reportService.getReportId();
 
     };
 
