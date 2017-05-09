@@ -2,7 +2,8 @@ from pymongo import *
 import sys
 
 def main():
-	client = MongoClient('149.169.226.104', 27020)
+	config = json.load(open("config.json", "r"))
+	client = MongoClient(config["mongo_ram_server"], config["mongo_ram_port"])
 	db = client.tweettracker
 	db.authenticate('twtuser', '!!!asudmml%%%')
 

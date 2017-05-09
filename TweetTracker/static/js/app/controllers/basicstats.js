@@ -4,15 +4,13 @@
 
 
 
-app.controller('basicStatsCtrl',[ '$scope','$rootScope','$location','NgTableParams','dynamicHeader', 'reportService','$http',
-                                function($scope ,$rootScope, $location, NgTableParams,dynamicHeader,reportService,$http ) {
+app.controller('basicStatsCtrl',[ '$scope','$rootScope','$location','NgTableParams','dynamicHeader', 'reportService','$http','$state',
+                                function($scope ,$rootScope, $location, NgTableParams,dynamicHeader,reportService,$http,$state ) {
 
-    dynamicHeader.setReportTab($location.$$path);
-
+    dynamicHeader.setReportTab('/basicstats');
     $scope.go = function ( path ) {
         $location.path( path );
     };
-
 
     // This function converts date to string format
     var convertDate=function(report){
@@ -43,8 +41,7 @@ app.controller('basicStatsCtrl',[ '$scope','$rootScope','$location','NgTablePara
 
 
     $scope.report_id=reportService.getReportId();
-
-    setTimeout(function () {
+   setTimeout(function () {
         var reportCheck = $http.get('/api/report?report_id='+$scope.report_id);
         reportCheck.success(function(data, status, headers, config) {
             $scope.reportSpec = convertDate(data.report);

@@ -72,7 +72,7 @@ app.controller('myJobCtrl',[ '$scope','$rootScope','$location','$http','$state',
         //TODO: Add a backup input for this
         console.log("Error retrieving information.")
     });
-    }
+    };
 
     $scope.crawlCount=0;
     var crawlCheck = $http.get('/api/job');

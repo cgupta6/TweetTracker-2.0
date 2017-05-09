@@ -180,7 +180,14 @@ def all_reports():
     if reportId is None:
         return tweet_tracker_api.report_management.api_support.get_all_reports(username='Justin')
     else:
-        return tweet_tracker_api.report_management.api_support.get_report(reportId,username='Justin')
+        response = tweet_tracker_api.report_management.api_support.get_report(reportId,username='Justin')
+        reportInfo = json.loads(response.get_data())
+        tweetInfo =  json.loads(getUserLimit('Justin'))
+        reportInfo["report"]["limit"]=tweetInfo["limit"]
+        reportInfo["report"]["current"]=tweetInfo["current"]
+        response.set_data(json.dumps(reportInfo))
+        print response
+        return response
 
 
 @app.route("/api/deleteReport/<report_id>", methods=['POST'])
@@ -878,6 +885,7 @@ def get_file_extension(filename):
 @app.route("/api/query_user_limit", methods=["GET"])
 def get_user_limit():
     username = session.get("username")
+    print username
     return getUserLimit(username)
 
 

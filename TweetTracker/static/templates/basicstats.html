@@ -31,12 +31,8 @@
                     </md-card-header-text>
                 </md-card-header>
 
-                <md-card-content style="width: 100%;background-color:rgb(245, 245, 245);">
+                <md-card-content style="width: 100%;">
                     <table ng-table="tableParamsLinks" class="table" style="word-wrap:break-word;table-layout: fixed;">
-                        <tr><td  align="center"  title="'Detail'">Report ID:
-                            <td  align="center" title="'Info'">{{reportSpec.reportID}}
-                        </td></tr>
-
                         <tr><td  align="center"  title="'Detail'">Report Name:
                             <td  align="center" title="'Info'">{{reportSpec.reportname}}
                          </td></tr>
@@ -44,8 +40,14 @@
                         <tr><td  align="center"  title="'Detail'">Create Time:
                             <td  align="center" title="'Info'">{{reportSpec.createtime}}
                             </td></tr>
-                        <tr><td  align="center"  title="'Detail'">Selected Jobs:
-                            <td  align="center" title="'Info'">{{reportSpec.selectedJobs.toString()}}
+                        <tr><td  align="center">Tweet Crawl Limit:
+                            <td  align="center" title="'Info'">{{reportSpec.limit}}
+                            </td></tr>
+                        <tr><td  align="center">Tweets Crawled:
+                            <td  align="center" title="'Info'">{{reportSpec.current}}
+                            </td></tr>
+                        <tr><td  align="center"  title="'Detail'">Selected Crawl:
+                            <td  align="center" title="'Info'">{{reportSpec.selectedJobs.toString() | cut:true:15:' ...'}}
                             </td></tr>
                     </table>
                 </md-card-content>
@@ -55,9 +57,9 @@
 
                         <!-- Modal content-->
                         <div class="modal-content">
-                            <div class="modal-header">
+                            <div class="modal-header" style="background: rgba(0,0,0,0.87)">
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">More Details about the job</h4>
+                                <h4 class="modal-title" style="color: white">More Details about the job</h4>
                             </div>
                             <div class="modal-body">
                                 <table ng-table="tableParamsLinks" class="table" style="word-wrap:break-word;table-layout: fixed;">
@@ -71,6 +73,12 @@
 
                                     <tr><td  align="center"  title="'Detail'">Create Time:
                                         <td  align="center" title="'Info'">{{reportSpec.createtime}}
+                                        </td></tr>
+                                    <tr><td  align="center">Tweet Crawl Limit:
+                                        <td  align="center" title="'Info'">{{reportSpec.limit}}
+                                        </td></tr>
+                                    <tr><td  align="center">Tweets Crawled:
+                                        <td  align="center" title="'Info'">{{reportSpec.current}}
                                         </td></tr>
                                     <tr><td  align="center"  title="'Detail'">Selected Jobs:
                                         <td  align="center" title="'Info'">{{reportSpec.selectedJobs.toString()}}

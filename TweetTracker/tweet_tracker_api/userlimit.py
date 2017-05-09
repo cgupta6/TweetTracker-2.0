@@ -7,7 +7,8 @@ def getUserLimit(id):
 	:param id: id
 	:return: json dump of result
 	"""
-	c = MongoClient('149.169.226.104:27020')
+	config = json.load(open("config.json", "r"))
+	c = MongoClient(config["mongo_ram_server"], config["mongo_ram_port"])
 	db = c['tweettracker']
 	db.authenticate('twtuser','!!!asudmml%%%')
 
