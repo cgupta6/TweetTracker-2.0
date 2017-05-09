@@ -44,7 +44,7 @@ def get_all(email):
     return jsonify(map(job.clean_job, job.get_all_by_user(email)))
 
 
-def create_job(name, users, keywords, geoboxes, username, yakmarkers=[], public=False, crisisflag=False, sources=[]):
+def create_job(name, users, keywords, anyWords, geoboxes, username, yakmarkers=[], public=False, crisisflag=False, sources=[]):
     """ This function creates a new job on the database then redirects
 
     :param name: The name of the new job
@@ -55,7 +55,7 @@ def create_job(name, users, keywords, geoboxes, username, yakmarkers=[], public=
 	:param sources: The sources from which the job should be crawled
     :return: A redirect response to view the new job
     """
-    job_id = job.create(name, keywords, users, geoboxes, username_to_id(username), yakmarkers, public, crisisflag, sources)
+    job_id = job.create(name, keywords, anyWords, users, geoboxes, username_to_id(username), yakmarkers, public, crisisflag, sources)
     if job_id is None:
         abort(400)
     log = logging.getLogger()

@@ -47,7 +47,7 @@ def lookup_twitter_users(screen_names):
     return response
 
 
-def create(name, keywords, users, geoboxes, user_id, yakmarkers, public, crisisflag, sources):
+def create(name, keywords, anyWords, users, geoboxes, user_id, yakmarkers, public, crisisflag, sources):
     """ This function creates a new job with specified parameters.
 
     :param name: The name of the Job to be created
@@ -68,6 +68,7 @@ def create(name, keywords, users, geoboxes, user_id, yakmarkers, public, crisisf
         'geoboxes': [convert_geo_from_ui(geobox) for geobox in geoboxes],
         'yakmarkers': [convert_yak_from_ui(yakpin) for yakpin in yakmarkers],
         'keywords': keywords,
+        'anyWords' : anyWords,
         'last_tweet_time': 0,
         'publicflag': 1 if public else 0,
         'crisisflag': 1 if crisisflag else 0,
@@ -210,6 +211,7 @@ def clean_job(job):
         "geoboxes": [] if job.get('geoboxes') is None else [convert_geo_from_tt(geo) for geo in job.get('geoboxes')],
         "yakmarkers": [] if job.get('yakmarkers') is None else [convert_yak_from_tt(yakpin) for yakpin in job.get('yakmarkers')],
         "keywords": job.get('keywords'),
+        "anyWords":job.get('anyWords'),
         "last_tweet_time": job.get('last_tweet_time'),
         "publicflag": job.get('publicflag'),
         "crisisflag" : job.get('crisisflag'),

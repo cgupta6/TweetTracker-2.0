@@ -77,9 +77,13 @@ app.controller('editCrawlCtrl', function ( $scope, $location, $http ,$rootScope,
 
         if(jobDb.keywords!=undefined) {
             job.allWords = jobDb.keywords;
+            console.log(job.allWords)
             //splitRes=job.allWords.split(',');
-            for ( i in job.allWords)
-                $scope.input2.createItem(job.allWords[i]);
+            for (var i in job.allWords) {
+               $scope.input2.createItem(job.allWords[i]);
+            }
+            //for ( i in splitRes)
+            //    $scope.input2.createItem(splitRes[i]);
         }
         if(jobDb.anyWords!=undefined) {
             job.anyWords = jobDb.anyWords;
@@ -118,15 +122,7 @@ app.controller('editCrawlCtrl', function ( $scope, $location, $http ,$rootScope,
     var jobsPromise = $http.get('/api/job');
     jobsPromise.success(function(data, status, headers, config) {
         $scope.jobs = data.jobs.map(getJobName);
-        setTimeout(function () {
-            $scope.selo=    $('#selo').selectize({
-                plugins: ['remove_button'],
-                onChange: function(jobname) {
-                    $scope.selectedJobs=jobname;
-                }});
 
-            //$scope.selo=$scope.selo[0].selectize;
-        } ,1);
 
         $scope.input2=$('#input2').selectize({
             plugins: ['remove_button'],

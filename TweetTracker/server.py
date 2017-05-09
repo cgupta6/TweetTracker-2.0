@@ -183,10 +183,19 @@ def all_reports():
         return tweet_tracker_api.report_management.api_support.get_report(reportId,username='Justin')
 
 
-@app.route('/api/deleteReport',methods=['GET'])
-def delete_report_request():
+@app.route("/api/report/<report_id>", methods=['DELETE'])
+def delete_report(report_id):
+    """ This request "deletes" the report with the specified id.
 
-    return
+    :param report_id: The ID of the report to delete.
+    :return: The HTTP status code corresponding to what action was taken.
+    """
+    #username = session.get('username')
+    username = "Justin"
+    if username is None:
+        abort(401)
+    return tweet_tracker_api.report_management.api_support.delete_report(username, int(report_id))
+
 
 @app.route('/api/updateReport', methods=['POST'])
 def update_report_request():
@@ -296,6 +305,7 @@ def create_job_request():
     username= 'Justin'
     name = request.json.get('name')
     keywords = request.json.get('keywords')
+    anyWords = request.json.get('anyWords')
     users = request.json.get('users')
     geoboxes = request.json.get('geoboxes')
     yakmarkers = request.json.get('yakmarkers')
@@ -322,7 +332,7 @@ def create_job_request():
     users = [user[1:] if user[0] == "@" else user for user in users]
     print 'crisisflag is: ' + str(crisisflag)
 
-    return tweet_tracker_api.job_management.api_support.create_job(name, users, keywords, geoboxes, username, yakmarkers,
+    return tweet_tracker_api.job_management.api_support.create_job(name, users, keywords,anyWords, geoboxes, username, yakmarkers,
                                                                    public=public, crisisflag=crisisflag, sources=sources)
 
 

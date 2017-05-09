@@ -61,6 +61,19 @@ app.controller('myJobCtrl',[ '$scope','$rootScope','$location','$http','$state',
             sources: sourceObj
         }
     };
+
+    var deleteReport = function(reportID){
+        var reportDelete = $http.delete('/api/report/'+reportID);
+        reportCheck.success(function(data, status, headers, config) {
+            console.log("Report deleted successfully.")
+
+    });
+    reportCheck.error(function(data, status, headers, config) {
+        //TODO: Add a backup input for this
+        console.log("Error retrieving information.")
+    });
+    }
+
     $scope.crawlCount=0;
     var crawlCheck = $http.get('/api/job');
     crawlCheck.success(function(data, status, headers, config) {
@@ -139,7 +152,8 @@ app.directive("jobActionbutton", function() {
                     </div>',
          scope: {
             jobId:"@jobid"
-        }
+        },
+
 
     };
 });
@@ -158,11 +172,16 @@ app.directive("reportActionbutton", function() {
                         <li><a href=""><i class="fa fa-archive" style="padding-right: 5px;"></i>Archive Report</a></li>\
                         <li class="disabled" ><a href="""><i class="fa fa-bell" style="padding-right: 5px;"></i>Alerts</a></li>\
                         <li role="separator" class="divider"></li>\
-                        <li><a href=""><i class="fa fa-trash-o" style="padding-right: 5px;"></i>Delete Report</a></li>\
+                        <li><a href="" data-ng-click="deleteReport({{reportId}})"><i class="fa fa-trash-o"  style="padding-right: 5px;"></i>Delete Report</a></li>\
                     </ul>\
                     </div>',
          scope: {
             reportId:"@reportid"
+        },
+         link: function($scope, element, attrs) {
+            $scope.deleteReport = function(report_id){
+                console.log(report_id);
+            }
         }
 
     };
