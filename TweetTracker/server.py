@@ -183,7 +183,7 @@ def all_reports():
         return tweet_tracker_api.report_management.api_support.get_report(reportId,username='Justin')
 
 
-@app.route("/api/report/<report_id>", methods=['DELETE'])
+@app.route("/api/deleteReport/<report_id>", methods=['POST'])
 def delete_report(report_id):
     """ This request "deletes" the report with the specified id.
 
@@ -384,14 +384,15 @@ def put_job(job_id):
                                                                    username, yakmarkers, public=public, crisisflag=crisisflag, sources=sources)
 
 
-@app.route("/api/job/<job_id>", methods=['DELETE'])
+@app.route("/api/deleteJob/<job_id>", methods=['POST'])
 def delete_job(job_id):
     """ This request "deletes" the job with the specified id.
 
     :param job_id: The ID of the job to delete.
     :return: The HTTP status code corresponding to what action was taken.
     """
-    username = session.get('username')
+    #username = session.get('username')
+    username = 'Justin';
     if username is None:
         abort(401)
     return tweet_tracker_api.job_management.api_support.delete_job(username, int(job_id))

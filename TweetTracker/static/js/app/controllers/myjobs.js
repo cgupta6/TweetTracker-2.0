@@ -135,7 +135,7 @@ app.directive("actionButton", function() {
 });
 
 
-app.directive("jobActionbutton", function() {
+app.directive("jobActionbutton", ['$http','$state', function($http,$state) {
     return {
         template : '<div class="btn-group pull-right">\
                     <md-button class="md-raised md-small md-warn"  data-toggle="dropdown" ><i class="fa fa-cog"></i>Action</md-button>\
@@ -147,20 +147,31 @@ app.directive("jobActionbutton", function() {
                         <li><a href=""><i class="fa fa-archive" style="padding-right: 5px;"></i>Archive Report</a></li>\
                         <li class="disabled" ><a href="""><i class="fa fa-bell" style="padding-right: 5px;"></i>Alerts</a></li>\
                         <li role="separator" class="divider"></li>\
-                        <li><a href=""><i class="fa fa-trash-o" style="padding-right: 5px;"></i>Delete Report</a></li>\
+                        <li><a href="" data-ng-click="deleteCrawl(jobId)"><i class="fa fa-trash-o"  style="padding-right: 5px;"></i>Delete Crawl</a></li>\
                     </ul>\
                     </div>',
          scope: {
             jobId:"@jobid"
         },
-
+         link: function($scope, element, attrs) {
+            $scope.deleteCrawl = function(job_id){
+                    console.log(job_id);
+                    var jobDelete = $http.post('/api/deleteJob/'+job_id);
+                    jobDelete.success(function(data, status, headers, config) {
+                    $state.reload();
+                });
+                jobDelete.error(function(data, status, headers, config) {
+                alert('Delete Failed');
+            });
+            }
+        }
 
     };
-});
+}]);
 
 
 
-app.directive("reportActionbutton", function() {
+app.directive("reportActionbutton", ['$http','$state', function($http,$state) {
     return {
         template : '<div class="btn-group pull-right">\
                     <md-button class="md-raised md-small md-warn"  data-toggle="dropdown" ><i class="fa fa-cog"></i>Action</md-button>\
@@ -172,7 +183,7 @@ app.directive("reportActionbutton", function() {
                         <li><a href=""><i class="fa fa-archive" style="padding-right: 5px;"></i>Archive Report</a></li>\
                         <li class="disabled" ><a href="""><i class="fa fa-bell" style="padding-right: 5px;"></i>Alerts</a></li>\
                         <li role="separator" class="divider"></li>\
-                        <li><a href="" data-ng-click="deleteReport({{reportId}})"><i class="fa fa-trash-o"  style="padding-right: 5px;"></i>Delete Report</a></li>\
+                        <li><a href="" data-ng-click="deleteReport(reportId)"><i class="fa fa-trash-o"  style="padding-right: 5px;"></i>Delete Report</a></li>\
                     </ul>\
                     </div>',
          scope: {
@@ -180,12 +191,19 @@ app.directive("reportActionbutton", function() {
         },
          link: function($scope, element, attrs) {
             $scope.deleteReport = function(report_id){
-                console.log(report_id);
+                    console.log(report_id);
+                    var reportDelete = $http.post('/api/deleteReport/'+report_id);
+                    reportDelete.success(function(data, status, headers, config) {
+                    $state.reload();
+                });
+                reportDelete.error(function(data, status, headers, config) {
+                alert('Delete Failed');
+            });
             }
         }
 
     };
-});
+}]);
 
 app.directive('popup', function(){
     return{
