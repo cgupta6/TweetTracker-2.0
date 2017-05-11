@@ -52,7 +52,7 @@
                             First Name*
                         </div>
                         <div class="col-md-4">
-                            <a href="#" editable-text="basic.first_name">{{basic.first_name}}</a>
+                             <input type="text" ng-model="user.firstname" id="firstname" style="width:100%">
                         </div>
                     </div>
                     <br>
@@ -61,7 +61,7 @@
                             Last name*
                         </div>
                         <div class="col-md-4">
-                            <a href="#" editable-text="basic.last_name">{{basic.last_name}}</a>
+                            <input type="text" ng-model="user.lastname" id="lastname" style="width:100%">
                         </div>
                     </div>
                     <br>
@@ -71,7 +71,7 @@
                             Email*
                         </div>
                         <div class="col-md-4">
-                            <a href="#" editable-text="basic.email">{{basic.email}}</a>
+                            <input type="email" ng-model="user.email" id="email" style="width:100%">
                         </div>
                     </div>
                     <br>
@@ -81,7 +81,7 @@
                             Phone
                         </div>
                         <div class="col-md-4">
-                            <a href="#" editable-text="basic.phone">{{basic.phone|| "Set Phone Number"}}</a>
+                            <input type="number" ng-model="user.phone" id="phoneno" style="width:100%">
                         </div>
                     </div>
                     <br>
@@ -91,7 +91,7 @@
                             Account
                         </div>
                         <div class="col-md-4">
-                            <a href="#" editable-text="basic.account">{{basic.account}}</a>
+                            <input type="text" ng-model="user.account" id="account" style="width:100%">
                         </div>
                     </div>
                     <br>
@@ -101,7 +101,7 @@
                             Password
                         </div>
                         <div class="col-md-4">
-                            <a href="#" editable-text="basic.password">{{basic.password}}</a>
+                            <input type="password" ng-model="user.pwd" id="pwd" style="width:100%">
                         </div>
                     </div>
                     <br>
@@ -235,10 +235,9 @@
                     </div>
                     <br>
                     <div class="row">
-                        <div class="col-md-6">
-                        </div>
-                        <div class="col-md-4">
-                            <button class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete Account</button>
+                         <div class="btn-group" style="text-align: center">
+                            <button class="btn btn-primary center-block" style="margin:5px;"> Update Account</button>
+                            <button class="btn btn-danger center-block" style="  margin:5px;"><i class="fa fa-trash-o"></i> Delete Account</button>
                         </div>
                     </div>
                     <br>

@@ -1,0 +1,139 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+<style>
+    .top-buffer { margin-top:20px; }
+
+    .md-button.md-small {
+        height: 30px;
+        line-height: 20px;
+        min-height: 20px;
+        vertical-align: top;
+        margin: 0;
+    }
+
+    md-card md-card-header{
+        height: 46px !important;
+        padding: 7px !important;
+    }
+    md-card md-card-footer{
+        height: 40px !important;
+        padding: 7px !important;
+    }
+
+
+</style>
+<div class="container">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header" style="text-align: center">Create new Account
+            </h1>
+        </div>
+    </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <md-card >
+                <md-card-header md-colors="::{backgroundColor: 'default-primary-900'}">
+                    <md-card-header-text>
+                        <span class="md-title">Basic Information</span>
+                    </md-card-header-text>
+                </md-card-header>
+                <md-card-content>
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            First Name*
+                        </div>
+                        <div class="col-md-4">
+                             <input type="text" ng-model="user.firstname" id="firstname" style="width:100%">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            Last name*
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" ng-model="user.lastname" id="lastname" style="width:100%">
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            Email*
+                        </div>
+                        <div class="col-md-4">
+                            <input type="email" ng-model="user.email" id="email" style="width:100%">
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            Phone
+                        </div>
+                        <div class="col-md-4">
+                            <input type="number" ng-model="user.phone" id="phoneno" style="width:100%">
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            Account
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" ng-model="user.account" id="account" style="width:100%">
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            Password
+                        </div>
+                        <div class="col-md-4">
+                            <input type="password" ng-model="user.password" id="pwd" style="width:100%">
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            Timezone
+                        </div>
+                        <div class="col-md-4">
+                            <a href="#" editable-select="timezone" ng-model="user.timezone" e-ng-options="s.value as s.text for s in timeZones">
+                                {{ showTimeZones() }}
+                            </a>
+                        </div>
+                    </div>
+                    <br>
+
+    <div class="row">
+
+                    <div class="row" style="text-align:center;margin:5px;">
+
+                            <button class="btn btn-primary center-block" data-ng-click="submitNewUser()"> Create Account</button>
+
+                    </div>
+                    <br>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+<!--
+Copyright 2016 Google Inc. All Rights Reserved.
+Use of this source code is governed by an MIT-style license that can be foundin the LICENSE file at http://material.angularjs.org/HEAD/license.
+-->
+<!--
+Copyright 2016 Google Inc. All Rights Reserved.
+Use of this source code is governed by an MIT-style license that can be foundin the LICENSE file at http://material.angularjs.org/HEAD/license.
+-->

@@ -35,6 +35,10 @@ app.config(function ($stateProvider) {
         url:"/myProfile",
         controller:"profileCtrl",
         templateUrl:"static/templates/MyProfile.html"
+    }).state("register",{
+        url:"/register",
+        controller:"registerCtrl",
+        templateUrl:"static/templates/register.html"
     }).state("editReport",{
         url:"/editReport/:reportId",
         controller:"editReportCtrl",

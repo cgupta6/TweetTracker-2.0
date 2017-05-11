@@ -1,4 +1,3 @@
-__author__ = 'Grant Marshall'
 
 from flask import abort, jsonify, redirect, session, url_for
 from user import authenticate, authenticate_classic, create, update_last_logintime
@@ -52,7 +51,7 @@ def login(email, password):
         return redirect(url_for('login_page'))
 
 
-def register(email, password):
+def register(email, password, firstname, lastname, phone, account, timezone):
     """ This function registers a new user with the specified email/password.
 
     :param email: The email to use for registration
@@ -62,7 +61,7 @@ def register(email, password):
     # first check recaptcha
     import requests
 
-    user = create(email, password)
+    user = create(email, password, firstname, lastname, phone, account, timezone)
     if user is None:
         print 'Returning to register'
         # TODO: Change this to an error page

@@ -1,5 +1,3 @@
-__author__ = 'Grant Marshall'
-
 import hashlib
 from pwd_context import pwd_context
 import time
@@ -48,7 +46,7 @@ def authenticate(email, password):
     return pwd_context.verify(password, user['hash'])
 
 
-def create(email, password):
+def create(email, password, firstname, lastname, phone, account, timezone):
     """ This function creates a new user if possible.
 
     First, we check if there is a user that exists with the provided email.
@@ -101,10 +99,12 @@ def create(email, password):
             "roleID": 1,
             "exportrights": 1,
             "description": "auto generated user",
-            "realname": "",
-            "phone": "",
-            "email": "",
-            "location": "",
+            "firstname": firstname,
+            "lastname": lastname,
+            "phone": phone,
+            "email": email,
+            "location": timezone,
+            "account": account,
             "numoftweets": 50000
             }
         except Exception as e:

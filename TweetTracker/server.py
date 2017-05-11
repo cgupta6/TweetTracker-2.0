@@ -145,22 +145,20 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route("/register", methods=['GET'])
-def register_page():
-    if config_obj.enable_registration:
-        return render_template("register.html")
-    else:
-        abort(404)
-
-
-@app.route("/register", methods=['POST'])
+@app.route("/api/register", methods=['POST'])
 def register():
     if config_obj.enable_registration:
         email = request.json.get('email')
         password = request.json.get('password')
+        firstname = request.json.get('firstname')
+        lastname = request.json.get('lastname')
+        phone = request.json.get('phone')
+        account = request.json.get('account')
+        timezone = request.json.get('timezone')
+
         if email is None or password is None:
             abort(401)
-        return tweet_tracker_api.auth.api_support.register(email, password)
+        return tweet_tracker_api.auth.api_support.register(email, password, firstname, lastname, phone, account, timezone)
     else:
         abort(404)
 
@@ -197,7 +195,7 @@ def delete_report(report_id):
     :param report_id: The ID of the report to delete.
     :return: The HTTP status code corresponding to what action was taken.
     """
-    #username = session.get('username')
+    username = session.get('username')
     username = "Justin"
     if username is None:
         abort(401)
