@@ -10,8 +10,8 @@ app.controller('registerCtrl', function ( $scope, $location, $http ,$log, $rootS
 
 
          var sendObj = {
-            first_name: $scope.user.firstname,
-            last_name: $scope.user.lastname,
+            firstname: $scope.user.firstname,
+            lastname: $scope.user.lastname,
             email:$scope.user.email,
             phone:$scope.user.phone,
             account:$scope.user.account,

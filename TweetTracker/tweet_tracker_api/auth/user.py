@@ -111,6 +111,44 @@ def create(email, password, firstname, lastname, phone, account, timezone):
             print e
         return users.insert(user_obj)
 
+
+def updateUser(username, email, password, firstname, lastname, phone, account, timezone):
+
+    old_user = users.find_one({'username': username})
+    mongo_id = old_user['_id']
+
+    if password != None:
+        md5_hash = hashlib.md5(password).hexdigest()
+        password = md5_hash
+    else:
+        password = old_user['password']
+
+    try:
+        user_obj = {
+            '_id': mongo_id,
+            "creationtime": int(time.time()) * 1000,
+            "last_login": int(time.time()) * 1000,
+            "username": email,
+            "password": password,
+            "id": old_user['id'],
+            "logins": 0,
+            "roleID": 1,
+            "exportrights": 1,
+            "description": "auto generated user",
+            "firstname": firstname,
+            "lastname": lastname,
+            "phone": phone,
+            "email": email,
+            "location": timezone,
+            "account": account,
+            "numoftweets": 50000
+            }
+    except Exception as e:
+        print e
+    return users.save(user_obj)
+
+
+
 def update_last_logintime(username):
     """
 
@@ -173,3 +211,12 @@ def next_user_id():
         return 1
     else:
         return most_recent_user["id"] + 1
+
+
+def get_by_username(username):
+    user_profile = id = users.find_one({'username': username})
+    if user_profile is None:
+        return None
+    else:
+        print user_profile
+        return user_profile

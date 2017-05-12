@@ -169,6 +169,38 @@ def register():
     else:
         abort(404)
 
+@app.route("/api/profile", methods=['GET'])
+def get_profile():
+    username = session.get('username')
+    if username is None:
+        abort(401)
+    return tweet_tracker_api.auth.api_support.get_profile(username)
+
+
+@app.route("/api/updateUser", methods=['PUT'])
+def put_user():
+    """ Replaces the job with the specified ID with a new job.
+
+    :param job_id: The ID of the job to replace
+    :return: An HTTP response representing the success/failure of the request
+    """
+    username = session.get('username')
+    firstname = request.json.get('firstname')
+    lastname = request.json.get('lastname')
+    email = request.json.get('email')
+    phone = request.json.get('phone')
+    account = request.json.get('account')
+    password = request.json.get('password')
+    timezone = request.json.get('timezone')
+
+    if username is None:
+        abort(401)
+
+
+    return tweet_tracker_api.auth.api_support.update_user(username, email, password, firstname, lastname, phone, account,timezone)
+
+
+
 # Report management routes start here
 @app.route("/api/report", methods=['GET'])
 def all_reports():
