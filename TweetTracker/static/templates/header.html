@@ -16,27 +16,27 @@
             <ul class="nav navbar-nav">
                 <li>
                 </li>
-                <li><a href="#/newCrawl" id="newCrawl"><i class="fa fa-plus"></i> New Crawl</a>
+                <li ng-show="type=='yes'"><a href="#/newCrawl" id="newCrawl"><i class="fa fa-plus"></i> New Crawl</a>
                 </li>
-                <li><a href="#/newReport" id="newReport"><i class="fa fa-plus"></i> New Report</a>
+                <li ng-show="type=='yes'"><a href="#/newReport" id="newReport"><i class="fa fa-plus"></i> New Report</a>
                 </li>
-                <li><a href="#/myJobs" id="myJobs"><i class="fa fa-home"></i> My Jobs</a>
+                <li ng-show="type=='yes'"><a href="#/myJobs" id="myJobs"><i class="fa fa-home"></i> My Jobs</a>
                 </li>
-                <li><a href="#/myProfile" id="myProfile"><i class="fa fa-user"></i> My Profile</a>
+                <li ng-show="type=='yes'"><a href="#/myProfile" id="myProfile"><i class="fa fa-user"></i> My Profile</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li></li>
-                <li ng-show="isReport.isReportTab()" ><a href="#/basicstats" id="basicstats"><i class="fa fa-bar-chart"></i> Basic Stats</a>
+                <li ng-show="isReport.isReportTab() && type=='yes'" ><a href="#/basicstats" id="basicstats"><i class="fa fa-bar-chart"></i> Basic Stats</a>
                 </li>
-                <li ng-show="isReport.isReportTab()"><a href="#/advancedAnalytics" id="advancedAnalytics"><i class="fa fa-cube"></i> Advanced Analystics</a>
+                <li ng-show="isReport.isReportTab() && type=='yes'"><a href="#/advancedAnalytics" id="advancedAnalytics"><i class="fa fa-cube"></i> Advanced Analystics</a>
                 </li>
-                <li ng-show="isReport.isReportTab()"><a href="#/rawData" id="rawData"><i class="fa fa-database"></i> Raw Data</a>
+                <li ng-show="isReport.isReportTab() && type=='yes'"><a href="#/rawData" id="rawData"><i class="fa fa-database"></i> Raw Data</a>
                 </li>
-                <!--<li><a href="#/"><i class="fa fa-question-circle"></i></a>-->
-                <!--</li>-->
-                <!--<li><a href="#/"><i class="fa fa-sign-out"></i></a>-->
-                <!--</li>-->
+                <li ng-show="type=='yes'" onclick="$.post('/logout');localStorage={};"><a href="/logout"><i class="fa fa-sign-out">Logout</i></a>
+                </li>
+                <li ng-show="type=='no'"><a href="/login"><i class="fa fa-sign-in">Login</i></a>
+                </li>
             </ul>
         </div>
     </div>

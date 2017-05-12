@@ -82,7 +82,14 @@ def index():
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    print "shobhit"
+    print session
+    check=''
+    if 'authenticated' in session:
+        check='yes'
+    else:
+        check='no'
+    return render_template("index.html",auth=check)
 
 @app.route("/app")
 @app.route("/app/overview")

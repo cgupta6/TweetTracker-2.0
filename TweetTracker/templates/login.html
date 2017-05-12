@@ -62,7 +62,7 @@
                             // On success, just redirect to the app
                             toastr.success('Successfully logged in!');
                             setTimeout(function(){
-                                window.location.href = ('/app');
+                                window.location.href = ('/');
                             }, 1000);  
                         } else if (jqXHR.status == 403){
                             toastr.error('Login failed!');
