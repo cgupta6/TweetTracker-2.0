@@ -2,116 +2,94 @@
 <link rel="stylesheet"; href="/static/css/mdcard.css">
 <link rel="stylesheet"; href="/static/css/advancedanalytics.css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-
 <div class="container">
-
-
-
-
-
-
-    <md-sidenav class="md-sidenav-left" md-component-id="left" md-disable-backdrop md-whiteframe="4">
-
+    <md-sidenav class="md-sidenav-left" md-component-id="left" md-disable-backdrop md-whiteframe="4"  style="background: black;width: 16%;">
         <md-toolbar class="md-theme-indigo">
             <h1 class="md-toolbar-tools">Disabled Backdrop</h1>
         </md-toolbar>
-
-
-
-        <md-content layout-margin>
-
-
+        <md-content layout-margin  style="background: black;" >
+            <md-button ng-click="toggleBack()" class=" md-raised md-small md-warn pull-right md-button md-ink-ripple " style="min-width: 40px;top: 0px;right: 0px;font-weight: bold">
+                X
+            </md-button>
+            <div style="padding-top: 20px"></div>
             <div ng-repeat="report in advancedReports">
-                <md-button ng-click="" class="md-accent">
+                <md-button ng-click="" style="color:white;width:95%;background: grey;font-weight: bold" class="md-raised md-primary">
                     {{report.name}}
                 </md-button>
             </div>
-
-
-            <md-button ng-click="toggleBack()" class="md-accent closebtn">
-                Click Here to close &times;
-            </md-button>
         </md-content>
-
     </md-sidenav>
     <!-- The Modal -->
-
-
-
     <div class="menupage" ng-show="showMainMenu">
         <div class="row">
-
             <div class="col-lg-12">
                 <h1 class="page-header" style="text-align: center">Advanced Analysis
                 </h1>
             </div>
         </div>
-
-        <div ng-repeat="report in advancedReports">
+        <div class="row">
+            <div class="col-lg-1">
+            </div>
+            <div ng-repeat="report in advancedReports">
+                <div class="col-sm-3">
+                    <md-card >
+                        <md-card-header md-colors="::{backgroundColor: 'default-primary-900'}">
+                            <md-card-header-text>
+                                <span class="md-title">{{report.name}}</span>
+                            </md-card-header-text>
+                        </md-card-header>
+                        <md-card-content style="text-align: center;">
+                            <img ng-src="{{report.image}}" width="80%"/>
+                        </md-card-content>
+                        <md-card-footer md-colors="::{backgroundColor: 'default-primary-200'}" >
+                  <span >
+                     <md-button class="md-raised md-small md-warn pull-right"  ng-click="toggleLeft()">  Details<i class="fa fa-chevron-right"></i></md-button>
+                  </span>
+                        </md-card-footer>
+                    </md-card>
+                </div>
+            </div>
             <div class="col-sm-3">
                 <md-card >
                     <md-card-header md-colors="::{backgroundColor: 'default-primary-900'}">
                         <md-card-header-text>
-                            <span class="md-title">{{report.name}}</span>
+                            <span class="md-title">Top Tweets</span>
                         </md-card-header-text>
                     </md-card-header>
-
                     <md-card-content style="text-align: center;">
-                        <img ng-src="{{report.image}}" width="80%"/>
-
+                        <img src="static/images/images.png" width="80%"/>
                     </md-card-content>
-
-
                     <md-card-footer md-colors="::{backgroundColor: 'default-primary-200'}" >
-                        <span ><md-button class="md-raised md-small md-warn pull-right"  ng-click="toggleLeft()">  Details<i class="fa fa-chevron-right"></i></md-button></span>
+               <span data-ng-click="showPopup=!showPopup">
+                  <md-button class="md-raised md-small md-warn pull-right">  Details<i class="fa fa-chevron-right"></i></md-button>
+               </span>
                     </md-card-footer>
-
-
                 </md-card>
-
-
-
-
             </div>
         </div>
-        <div class="col-sm-3">
-            <md-card >
-                <md-card-header md-colors="::{backgroundColor: 'default-primary-900'}">
-                    <md-card-header-text>
-                        <span class="md-title">Top Tweets</span>
-                    </md-card-header-text>
-                </md-card-header>
-
-                <md-card-content style="text-align: center;">
-                    <img src="static/images/images.png" width="80%"/>
-
-
-                </md-card-content>
-
-
-                <md-card-footer md-colors="::{backgroundColor: 'default-primary-200'}" >
-                    <span data-ng-click="showPopup=!showPopup"><md-button class="md-raised md-small md-warn pull-right">  Details<i class="fa fa-chevron-right"></i></md-button></span>
-                </md-card-footer>
-
-
-            </md-card>
-
-        </div>
-
-
     </div>
     <div ng-show="!showMainMenu">
-
-        //TODO:show maps or advanced analytics stuff here
-
-
+        <div class="row">
+            <div class="col-lg-2">
+            </div>
+            <div class="col-lg-10">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header" style="text-align: center">Advanced Analysis - MAPS
+                        </h1>
+                        <div style="height: 650px">
+                            <div id="map" leafletmap editable="false" data-clusters="true" data-points="locations" style="height:650px"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-<!--
-Copyright 2016 Google Inc. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that can be foundin the LICENSE file at http://material.angularjs.org/HEAD/license.
--->
-<!--
-Copyright 2016 Google Inc. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that can be foundin the LICENSE file at http://material.angularjs.org/HEAD/license.
--->
+    <!--
+       Copyright 2016 Google Inc. All Rights Reserved.
+       Use of this source code is governed by an MIT-style license that can be foundin the LICENSE file at http://material.angularjs.org/HEAD/license.
+       -->
+    <!--
+       Copyright 2016 Google Inc. All Rights Reserved.
+       Use of this source code is governed by an MIT-style license that can be foundin the LICENSE file at http://material.angularjs.org/HEAD/license.
+       -->

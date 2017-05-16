@@ -42,7 +42,7 @@
 <![endif]-->
 <!-- Our Website Content Goes Here -->
 <div ng-include='"static/templates/header.html"' onLoad="type='{{ auth }}'" ></div>
- <div ui-view></div>
+<div ui-view></div>
 <div ng-include='"static/templates/footer.html"'></div>
 
 <!-- Vendor: Javascripts -->
@@ -94,7 +94,24 @@
 
 
 
+<script src='/static/js/libs/leaflet/leaflet.js'></script>
+<link rel="stylesheet" media="screen" href='/static/js/libs/leaflet/leaflet.css'/>
+<script src='/static/js/libs/leaflet/leaflet.draw.js/'></script>
+<link rel="stylesheet" media="screen" href='/static/js/libs/leaflet/leaflet.draw.css'/>
+<script src='/static/js/libs/leaflet-omnivore.min.js'></script>
 
+<!-- Leaflet Bing Plugin -->
+<script src='/static/js/libs/Bing.js'></script>
+
+<!-- Leaflet Shape File Library -->
+<script src='/static/js/libs/shp.min.js'></script>
+<script src='/static/js/libs/catiline.min.js'></script>
+
+<script type="application/javascript" src="/static/js/libs/leaflet/leaflet.markercluster.js"></script>
+<link rel="stylesheet" media="screen" href='/static/js/libs/leaflet/MarkerCluster.Default.css'/>
+
+
+    <script type="text/javascript" src="/static/js/libs/underscore-min.js"></script>
 
 
 </body>
