@@ -102,6 +102,17 @@ def get_all_by_user(username):
         return {'reports': [clean_report(report) for report in reports.find({'creator': username_to_id(username)})]}
 
 
+def get_reports_all():
+    """ This function gets all of the reports a user have created.
+
+    :param username: The username of the user
+    :return: The list of Job objects from MongoDB
+    """
+    return {'reports': [clean_report(report) for report in reports.find({})]}
+
+
+
+
 
 def get_report_with_user(report_id, username):
     """ Gets the report with the given username.

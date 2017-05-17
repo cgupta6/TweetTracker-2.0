@@ -44,12 +44,39 @@ app.controller('basicStatsCtrl',[ '$scope','$rootScope','$location','NgTablePara
    setTimeout(function () {
         var reportCheck = $http.get('/api/report?report_id='+$scope.report_id);
         reportCheck.success(function(data, status, headers, config) {
-            $scope.reportSpec = convertDate(data.report);
+            //$scope.reportSpec = convertDate(data.report);
+            $scope.reportSpec = data.report;
+
             console.log(data);
+
+            var jobsPromise = $http.get('/api/job');
+            jobsPromise.success(function(data, status, headers, config) {
+                $scope.jobs = data.jobs.map(cleanJob);
+                console.log("jobs:");
+                console.log($scope.jobs);
+                $scope.categoryID = $scope.reportSpec.selectedJobs.map(function(job) {
+
+                for (item in $scope.jobs)
+                {
+                    console.log("item:"+item);
+                    if($scope.jobs[item].name==job)
+                        return $scope.jobs[item].id;
+                }
+             });
+            console.log($scope.categoryID);
+
+            getUsers();
+            getTweets();
+            getHashtags();
+            getLinks();
+            getTopics1();
+
+
         });
         reportCheck.error(function(data, status, headers, config) {
             //TODO: Add a backup input for this
             console.log("DB not reachable.")
+        });
         });
     },500);
     var data=[];
@@ -58,24 +85,149 @@ app.controller('basicStatsCtrl',[ '$scope','$rootScope','$location','NgTablePara
 
 
     var getUsers = function () {
-        var tempUsers = JSON.parse('[{"count":27427,"user":"Dbnmjr"},{"count":16248,"user":"RT_com"},{"count":11732,"user":"Steiner1776"},{"count":11675,"user":"interfaxua"},{"count":10437,"user":"EuromaidanPress"},{"count":9573,"user":"Liveuamap"},{"count":8763,"user":"Conflict_Report"},{"count":8675,"user":"uatodaytv"},{"count":8535,"user":"Sevodnay"},{"count":8444,"user":"EuromaidanPR"},{"count":8299,"user":"RobPulseNews"},{"count":8220,"user":"Novorossiyan"},{"count":7947,"user":"raging545"},{"count":7138,"user":"BungeeWedgie"},{"count":6835,"user":"SpecGhost"},{"count":6785,"user":"ukraina_ru"},{"count":6518,"user":"noclador"},{"count":6230,"user":"homo_viator"},{"count":5897,"user":"GrahamWP_UK"},{"count":5523,"user":"KyivPost"},{"count":5461,"user":"ukrpravda_news"},{"count":5429,"user":"rConflictNews"},{"count":5422,"user":"SputnikInt"},{"count":5190,"user":"ArmedResearch"},{"count":5066,"user":"olex_scherba"},{"count":4710,"user":"OnlineMagazin"},{"count":4484,"user":"MaxRTucker"},{"count":4393,"user":"poroshenko"},{"count":4344,"user":"wavetossed"},{"count":4338,"user":"MarkSleboda1"}]');
-        $scope.users = tempUsers;
+
+        var queryObject = {
+            job_ids: $scope.categoryID,
+            start_time: $scope.reportSpec.start_datetime,
+            end_time: $scope.reportSpec.end_datetime,
+            limit: 30
+        };
+
+        var usersPromise = $http.get('/api/entities/users', {
+            params: queryObject
+        });
+        usersPromise.success(function(data, status, headers, config) {
+            $scope.users = data['users'];
+             $scope.tableParamsUser = new NgTableParams({}, {
+             counts: [],
+             dataset: $scope.users.slice(0,5)
+        });
+
+        });
+        usersPromise.error(function(data, status, headers, config) {
+            console.log("Failed to load users from the API");
+        });
+    };
+
+    var getTweets = function () {
+            console.log("start date:");
+            console.log($scope.reportSpec.start_datetime);
+            var queryObject = {
+                categoryID: $scope.categoryID,
+                start_time: $scope.reportSpec.start_datetime,
+                end_time: $scope.reportSpec.end_datetime
+            };
+
+            var tweetsPromise = $http.get('/api/gettweets', {
+                params: queryObject
+            });
+            tweetsPromise.success(function (data, status, headers, config) {
+                $scope.tweets = data.tweets;
+
+            });
+            tweetsPromise.error(function (data, status, headers, config) {
+                console.log("Failed to load tweets from the API!");
+            });
+         };
+        //$scope.report_id
+        //var tempUsers = JSON.parse('[{"count":27427,"user":"Dbnmjr"},{"count":16248,"user":"RT_com"},{"count":11732,"user":"Steiner1776"},{"count":11675,"user":"interfaxua"},{"count":10437,"user":"EuromaidanPress"},{"count":9573,"user":"Liveuamap"},{"count":8763,"user":"Conflict_Report"},{"count":8675,"user":"uatodaytv"},{"count":8535,"user":"Sevodnay"},{"count":8444,"user":"EuromaidanPR"},{"count":8299,"user":"RobPulseNews"},{"count":8220,"user":"Novorossiyan"},{"count":7947,"user":"raging545"},{"count":7138,"user":"BungeeWedgie"},{"count":6835,"user":"SpecGhost"},{"count":6785,"user":"ukraina_ru"},{"count":6518,"user":"noclador"},{"count":6230,"user":"homo_viator"},{"count":5897,"user":"GrahamWP_UK"},{"count":5523,"user":"KyivPost"},{"count":5461,"user":"ukrpravda_news"},{"count":5429,"user":"rConflictNews"},{"count":5422,"user":"SputnikInt"},{"count":5190,"user":"ArmedResearch"},{"count":5066,"user":"olex_scherba"},{"count":4710,"user":"OnlineMagazin"},{"count":4484,"user":"MaxRTucker"},{"count":4393,"user":"poroshenko"},{"count":4344,"user":"wavetossed"},{"count":4338,"user":"MarkSleboda1"}]');
+
+        //reportSpec.selectedJobs
+        //$scope.users = tempUsers;
         //$scope.users = [{'count': 123,'user':"asf"},{'count': 123,'user':"asf"},{'count': 123,'user':"asf"},{'count': 123,'user':"asf"},{'count': 123,'user':"asf"},{'count': 123,'user':"asf"},{'count': 123,'user':"asf"}];
 
-        $scope.tableParamsUser = new NgTableParams({}, {
-            counts: [],
-            dataset: $scope.users.slice(0,5)
+        var getHashtags = function () {
+
+
+             var queryObject = {
+                categoryID: $scope.categoryID,
+                start_time: $scope.reportSpec.start_datetime,
+                end_time: $scope.reportSpec.end_datetime
+            };
+            queryObject['Types'] = ["TopHashtags"];
+            queryObject['limit'] = 30;
+
+            var hashtagsPromise = $http.get('/api/getentities', {
+                params: queryObject
+            });
+            hashtagsPromise.success(function (data, status, headers, config) {
+                $scope.hashtags = data['TopHashtags'].map(function(hashtagsArray) {
+                    return {
+                        hashtag: hashtagsArray[0],
+                        count: hashtagsArray[1]
+                    };
+                });
+
+            });
+            hashtagsPromise.error(function(data, status, headers, config) {
+               console.log("Failed to load hashtags from the API!");
+            });
+    };
+
+    // Retrieves the Links entities from the server
+    var getLinks = function () {
+
+         var queryObject = {
+                categoryID: $scope.categoryID,
+                start_time: $scope.reportSpec.start_datetime,
+                end_time: $scope.reportSpec.end_datetime
+            };
+        queryObject['Types'] = ["TopUrls"];
+        queryObject['limit'] = 30;
+
+        var linksPromise = $http.get('/api/getentities', {
+            params: queryObject
+        });
+        linksPromise.success(function (data, status, headers, config) {
+            $scope.links = data['TopUrls'].map(function(urlArray) {
+                return {
+                    link: urlArray[0],
+                    count: urlArray[1]
+                };
+            });
+
+        });
+        linksPromise.error(function (data, status, headers, config) {
+              console.log("Failed to load hashtags from the API!");
+        });
+    };
+
+  var getTopics1 = function () {
+
+
+        var queryObject = {
+            job_ids: $scope.categoryID,
+            start_time: $scope.reportSpec.start_datetime,
+            end_time: $scope.reportSpec.end_datetime,
+            limit: 50
+        };
+
+        var topicsPromise = $http.get('/api/entities/word_cloud', {
+            params: queryObject
+        });
+        topicsPromise.success(function(data, status, headers, config) {
+            $scope.topics = data['word_cloud'].map(function(word) {
+                return {
+                    text: word['text'],
+                    size: 100 + 25 * Math.log(word['size'])
+                }
+            });
+
+        });
+        topicsPromise.error(function(data, status, headers, config) {
+            console.log("Failed to load top keywords from the API!");
+
         });
     };
 
 
-    var getTopics = function () {
+    /*var getTopics = function () {
 
-        var tempData='[{"text":"#ukraine","size":100},{"text":"#russia","size":58.553336238768026},{"text":"#украина","size":39.67627655854088},{"text":"#donetsk","size":32.3880949522467},{"text":"ukraine","size":29.544352440999518},{"text":"#nato","size":22.388247460002702},{"text":"#днр","size":21.653552018188037},{"text":"amp","size":21.397085610917884},{"text":"today","size":19.827464156078307},{"text":"#киев","size":15.618415675033333},{"text":"russian","size":15.529063184738703},{"text":"#россия","size":15.45614465456427},{"text":"kiev","size":14.840989847797019},{"text":"#лнр","size":14.703973021535148},{"text":"putin","size":14.505729822313967},{"text":"#news","size":13.836427940885017},{"text":"#донецк","size":13.086919566823227},{"text":"#putin","size":12.885028244652105},{"text":"war","size":12.780112692665654},{"text":"#україна","size":11.970033788712314},{"text":"airport","size":11.366674496483398},{"text":"#eu","size":9.430747261129895},{"text":"#usa","size":8.757634662501957},{"text":"live","size":8.493501196527035},{"text":"#mariupol","size":8.088395608945504},{"text":"#kiev","size":7.934093626625042},{"text":"#новости","size":7.807051610950111},{"text":"@dbnmjr","size":7.714997331692032},{"text":"russia","size":6.887884933220022},{"text":"killed","size":6.8018491103847225},{"text":"#война","size":6.323768224117288},{"text":"donetsk","size":6.3141127319533865},{"text":"army","size":4.832094275106698},{"text":"#новороссия","size":4.571487477733712},{"text":"#uatoday","size":4.550769816814906},{"text":"eastern","size":3.907299845567323},{"text":"military","size":2.29546720645142},{"text":"ukrainian","size":1.0979325043892771},{"text":"troops","size":0.6537858056899353},{"text":"shelling","size":0.5530599588912963},{"text":"people","size":0.3160334546057868},{"text":"#ато","size":0.027112815013680347},{"text":"#us","size":-0.6194966417223782},{"text":"#poland","size":-0.76007568508372},{"text":"htt","size":-1.2296763077518165},{"text":"#freesavchenko","size":-1.2349004222834026},{"text":"forces","size":-3.3802796855304678},{"text":"civilians","size":-5.299410371779146},{"text":"@rt_com","size":-5.4566532901122855},{"text":"soldiers","size":-6.779225861547317}]';
+        var tempData='[{"text":"#ukraie","size":100},{"text":"#russia","size":58.553336238768026},{"text":"#украина","size":39.67627655854088},{"text":"#donetsk","size":32.3880949522467},{"text":"ukraine","size":29.544352440999518},{"text":"#nato","size":22.388247460002702},{"text":"#днр","size":21.653552018188037},{"text":"amp","size":21.397085610917884},{"text":"today","size":19.827464156078307},{"text":"#киев","size":15.618415675033333},{"text":"russian","size":15.529063184738703},{"text":"#россия","size":15.45614465456427},{"text":"kiev","size":14.840989847797019},{"text":"#лнр","size":14.703973021535148},{"text":"putin","size":14.505729822313967},{"text":"#news","size":13.836427940885017},{"text":"#донецк","size":13.086919566823227},{"text":"#putin","size":12.885028244652105},{"text":"war","size":12.780112692665654},{"text":"#україна","size":11.970033788712314},{"text":"airport","size":11.366674496483398},{"text":"#eu","size":9.430747261129895},{"text":"#usa","size":8.757634662501957},{"text":"live","size":8.493501196527035},{"text":"#mariupol","size":8.088395608945504},{"text":"#kiev","size":7.934093626625042},{"text":"#новости","size":7.807051610950111},{"text":"@dbnmjr","size":7.714997331692032},{"text":"russia","size":6.887884933220022},{"text":"killed","size":6.8018491103847225},{"text":"#война","size":6.323768224117288},{"text":"donetsk","size":6.3141127319533865},{"text":"army","size":4.832094275106698},{"text":"#новороссия","size":4.571487477733712},{"text":"#uatoday","size":4.550769816814906},{"text":"eastern","size":3.907299845567323},{"text":"military","size":2.29546720645142},{"text":"ukrainian","size":1.0979325043892771},{"text":"troops","size":0.6537858056899353},{"text":"shelling","size":0.5530599588912963},{"text":"people","size":0.3160334546057868},{"text":"#ато","size":0.027112815013680347},{"text":"#us","size":-0.6194966417223782},{"text":"#poland","size":-0.76007568508372},{"text":"htt","size":-1.2296763077518165},{"text":"#freesavchenko","size":-1.2349004222834026},{"text":"forces","size":-3.3802796855304678},{"text":"civilians","size":-5.299410371779146},{"text":"@rt_com","size":-5.4566532901122855},{"text":"soldiers","size":-6.779225861547317}]';
         $scope.topics = JSON.parse(tempData);
     };
-
-    var getHashtags = function () {
+      //getTopics();
+    /*var getHashtags = function () {
 
         var tempData='[{"hashtag":"Ukraine","count":27922},{"hashtag":"Russia","count":8361},{"hashtag":"ukraine","count":5077},{"hashtag":"NATO","count":4403},{"hashtag":"UaToday","count":4164},{"hashtag":"russia","count":2473},{"hashtag":"runews","count":2188},{"hashtag":"fact","count":2188},{"hashtag":"Donetsk","count":1989},{"hashtag":"Украина","count":1322},{"hashtag":"EU","count":952},{"hashtag":"Україна","count":794},{"hashtag":"US","count":759},{"hashtag":"Novorossiya","count":644},{"hashtag":"Kiev","count":638},{"hashtag":"Putin","count":589},{"hashtag":"Lenin","count":567},{"hashtag":"Kharkov","count":565},{"hashtag":"USA","count":436},{"hashtag":"UKROP","count":402},{"hashtag":"Poland","count":377},{"hashtag":"новости","count":369},{"hashtag":"Syria","count":367},{"hashtag":"украина","count":353},{"hashtag":"ISIS","count":347},{"hashtag":"Russian","count":310},{"hashtag":"news","count":307},{"hashtag":"MH17","count":289},{"hashtag":"Slovakia","count":288},{"hashtag":"kiev","count":281}]';
         $scope.hashtags = JSON.parse(tempData);
@@ -100,11 +252,20 @@ app.controller('basicStatsCtrl',[ '$scope','$rootScope','$location','NgTablePara
             dataset: $scope.links.slice(0,5)
         });
     };
+    */
+    //getHashtags();
+    //getLinks();
 
-    getUsers();
-    getTopics();
-    getHashtags();
-    getLinks();
+     // This function takes a job from TweetTracker's API and adds some logical
+    // structure to it
+    var cleanJob = function(job) {
+        return {
+            id: job['categoryID'],
+            name: job['catname'],
+            selected: false,
+            crawling: job['includeincrawl'] === 1
+        }
+    };
 
 }]);
 

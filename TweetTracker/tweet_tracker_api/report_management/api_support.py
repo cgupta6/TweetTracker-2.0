@@ -5,13 +5,22 @@ from ..auth.user import email_to_id, username_to_id
 import logging
 
 
-def get_all_reports(username=None):
+def get_all_reports_by_user(username=None):
     """ This gets all of the reports for a user by their username.
 
     :param username: The user to get the reports for.
     :return: the user's reports.
     """
     return jsonify(report.get_all_by_user(username))
+
+def get_all_reports():
+    """ This gets all of the reports for a user by their username.
+
+    :param username: The user to get the reports for.
+    :return: the user's reports.
+    """
+    return jsonify(report.get_reports_all())
+
 
 
 def get_report(report_id, username=None):

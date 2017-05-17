@@ -60,11 +60,11 @@ app.controller('newReportCtrl', function ( $scope, $location, $http ,$rootScope,
             }
         }
 
-
+        console.log(typeof($scope.report.startDate));
         var sendObj = {
             name: $scope.report.name,
-            start_datetime: $scope.report.startDate,
-            end_datetime: $scope.report.endDate,
+            start_datetime: Math.floor($scope.report.startDate.getTime()/1000.0),
+            end_datetime: Math.floor($scope.report.endDate.getTime()/1000.0),
             selectedJobs :$scope.selectedJobs,
             filter_by: jobSources,
             allWords: $scope.report.allWords,

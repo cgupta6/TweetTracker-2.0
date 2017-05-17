@@ -77,7 +77,6 @@ class SearchExport(TweetTrackerAPIClass):
         if start_time == 0:
             start_time = end_time - (2 * 24 * 60 * 60)
 
-
         try:
             
             boxes = [x.split(",") if x.find(",") != -1 else [x] for x in geoboxes]
@@ -202,4 +201,5 @@ class SearchExport(TweetTrackerAPIClass):
             'tweets' : tweets,
             'count' : countOfTweets 
         }
+
         return True, returnObject

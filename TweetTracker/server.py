@@ -215,7 +215,7 @@ def all_reports():
     #pdb.set_trace()
     reportId = request.args.get('report_id')
     if reportId is None:
-        return tweet_tracker_api.report_management.api_support.get_all_reports(username='Justin')
+        return tweet_tracker_api.report_management.api_support.get_all_reports_by_user(username='Justin')
     else:
         response = tweet_tracker_api.report_management.api_support.get_report(reportId,username='Justin')
         reportInfo = json.loads(response.get_data())
@@ -486,19 +486,20 @@ def extract_entity_parameters(r):
     :param r: The request to pull parameters from
     :return: A tuple containing begin, end, ids, and limit
     """
-    begin_time = r.args.get("begin_time")
+    begin_time = r.args.get("start_time")
     end_time = r.args.get("end_time")
     job_ids = r.args.getlist("job_ids")
     limit = r.args.get("limit")
-
     if job_ids is None or begin_time is None or end_time is None:
         abort(400)
-
     try:
+
         begin_time = long(begin_time)
         end_time = long(end_time)
         job_ids = [int(job_id) for job_id in job_ids]
         limit = 30 if limit is None else int(limit)
+
+
     except ValueError:
         abort(400)
 
@@ -568,6 +569,7 @@ def get_users():
     :return: A JSON response containing the data requested if authorized.
     """
     username = session.get('username')
+
     begin_time, end_time, job_ids, limit = extract_entity_parameters(request)
 
     return tweet_tracker_api.entities.api_support.get_users(username, job_ids, begin_time, end_time, limit)
@@ -693,6 +695,7 @@ def translate():
 def get_tweets():
     try:
         (success, result) = searchExport.getTweets(request.args)
+
         if not success:
             raise InvalidUsage(result, 410)
         else:
