@@ -78,13 +78,16 @@ app.controller('editCrawlCtrl', function ( $scope, $location, $http ,$rootScope,
         if(jobDb.keywords!=undefined) {
             job.allWords = jobDb.keywords;
             console.log(job.allWords)
+            splitRes= job.allWords;
             //splitRes=job.allWords.split(',');
-            for (var i in job.allWords) {
-               $scope.input2.createItem(job.allWords[i]);
+            for ( i in splitRes) {
+               $scope.input2.createItem(splitRes[i]);
             }
             //for ( i in splitRes)
             //    $scope.input2.createItem(splitRes[i]);
         }
+
+
         if(jobDb.anyWords!=undefined) {
             job.anyWords = jobDb.anyWords;
             splitRes=job.anyWords.split(',');

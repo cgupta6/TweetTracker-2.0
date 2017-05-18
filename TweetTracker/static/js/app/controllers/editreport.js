@@ -44,12 +44,12 @@ app.controller('editReportCtrl', function ( $scope, $location, $http ,$rootScope
 
         var tempdate=new Date(reportDb.createtime);
         report.createtime=tempdate.toUTCString();
-        report.id= reportDb.report_id ;
+        report.id= reportDb.report_id;
         report.name= reportDb.reportname;
         if(reportDb.start_datetime!=undefined)
-            report.startDate=new Date(reportDb.start_datetime);
+            report.startDate=new Date(reportDb.start_datetime*1000.0);
         if(reportDb.end_datetime!=undefined)
-            report.endDate=new Date(reportDb.end_datetime);
+            report.endDate=new Date(reportDb.end_datetime*1000.0);
         if(reportDb.selectedJobs!=undefined) {
             report.selectedJobs = reportDb.selectedJobs;
             for(var ii in report.selectedJobs){
@@ -219,14 +219,13 @@ app.controller('editReportCtrl', function ( $scope, $location, $http ,$rootScope
         var sendObj = {
             report_id:report_id,
             name: $scope.report.name,
-            start_datetime: $scope.report.startDate,
-            end_datetime: $scope.report.endDate,
+            start_datetime: Math.floor($scope.report.startDate.getTime()/1000.0),
+            end_datetime: Math.floor($scope.report.endDate.getTime()/1000.0),
             selectedJobs :$scope.selectedJobs,
             filter_by: jobSources,
             allWords: $scope.report.allWords,
             anyWords: $scope.report.anyWords,
             noneWords: $scope.report.excludedWords,
-            username: 'Justin'    //session fetch
         };
 
         $log.info('Attempt to update report with name ' + $scope.report.name);

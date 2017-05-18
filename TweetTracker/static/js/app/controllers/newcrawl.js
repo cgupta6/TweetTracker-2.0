@@ -83,7 +83,7 @@ app.controller('newCrawlCtrl', function ( $scope, $location, $http ,$log, $rootS
         var sendObj = {
             name: $scope.job.name,
             users: $scope.job.sourceAccounts,
-            keywords: $scope.job.allWords.split(","),
+            keywords: $scope.job.allWords.split(','),
             anyWords:$scope.job.anyWords,
             geoboxes: [],
             yakmarkers: [],
