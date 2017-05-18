@@ -210,16 +210,16 @@ def all_reports():
     can read from.
     """
     # TODO: Change when authorization module is in place
-    #username = session.get('username')
+    username = session.get('username')
     #import pdb
     #pdb.set_trace()
     reportId = request.args.get('report_id')
     if reportId is None:
-        return tweet_tracker_api.report_management.api_support.get_all_reports_by_user(username='Justin')
+        return tweet_tracker_api.report_management.api_support.get_all_reports_by_user(username)
     else:
-        response = tweet_tracker_api.report_management.api_support.get_report(reportId,username='Justin')
+        response = tweet_tracker_api.report_management.api_support.get_report(reportId,username)
         reportInfo = json.loads(response.get_data())
-        tweetInfo =  json.loads(getUserLimit('Justin'))
+        tweetInfo =  json.loads(getUserLimit(username))
         reportInfo["report"]["limit"]=tweetInfo["limit"]
         reportInfo["report"]["current"]=tweetInfo["current"]
         response.set_data(json.dumps(reportInfo))
@@ -234,8 +234,7 @@ def delete_report(report_id):
     :param report_id: The ID of the report to delete.
     :return: The HTTP status code corresponding to what action was taken.
     """
-    username = session.get('username')
-    username = "Justin"
+    #username = session.get('username')
     if username is None:
         abort(401)
     return tweet_tracker_api.report_management.api_support.delete_report(username, int(report_id))
@@ -250,8 +249,7 @@ def update_report_request():
     :return: HTTP response as appropriate
     """
     #TODO: Change when authorization module is in place
-    #username = session.get('username')
-    username= 'Justin'
+    username = session.get('username')
     name = request.json.get('name')
     start_datetime = request.json.get('start_datetime')
     end_datetime = request.json.get('end_datetime')
@@ -293,8 +291,7 @@ def create_report_request():
     :return: HTTP response as appropriate
     """
     #TODO: Change when authorization module is in place
-    #username = session.get('username')
-    username= 'Justin'
+    username = session.get('username')
     name = request.json.get('name')
     start_datetime = request.json.get('start_datetime')
     end_datetime = request.json.get('end_datetime')
@@ -345,8 +342,7 @@ def create_job_request():
 
     :return: HTTP response as appropriate
     """
-    #username = session.get('username')
-    username= 'Justin'
+    username = session.get('username')
     name = request.json.get('name')
     keywords = request.json.get('keywords')
     anyWords = request.json.get('anyWords')
@@ -400,8 +396,7 @@ def put_job(job_id):
     :param job_id: The ID of the job to replace
     :return: An HTTP response representing the success/failure of the request
     """
-    #username = session.get('username')
-    username = 'Justin'
+    username = session.get('username')
     name = request.json.get('name')
     keywords = request.json.get('keywords')
     users = request.json.get('users')
@@ -435,8 +430,7 @@ def delete_job(job_id):
     :param job_id: The ID of the job to delete.
     :return: The HTTP status code corresponding to what action was taken.
     """
-    #username = session.get('username')
-    username = 'Justin';
+    username = session.get('username')
     if username is None:
         abort(401)
     return tweet_tracker_api.job_management.api_support.delete_job(username, int(job_id))

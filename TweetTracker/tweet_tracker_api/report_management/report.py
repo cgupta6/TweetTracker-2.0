@@ -124,9 +124,11 @@ def get_report_with_user(report_id, username):
     user_id = username_to_id(username)
     report = reports.find_one({"reportID": int(report_id)})
     # No such report id
+
     if report is None:
         return None
     # Incorrect permissions
+
     elif report['creator'] != user_id:
         return None
     # Permissions match

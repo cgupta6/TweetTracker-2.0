@@ -3,7 +3,9 @@
  */
 
 
-app.controller('advancedAnalyticsCtrl',[ '$scope','$rootScope','$location', '$mdSidenav','NgTableParams','dynamicHeader', function($scope ,$rootScope, $location,$mdSidenav, NgTableParams,dynamicHeader) {
+app.controller('advancedAnalyticsCtrl',[ '$http','$scope','$rootScope','$location', '$mdSidenav','NgTableParams',
+    'dynamicHeader','reportService', function($http, $scope ,$rootScope, $location,$mdSidenav, NgTableParams,dynamicHeader,reportService) {
+
     dynamicHeader.setReportTab($location.$$path);
     $scope.showPopup=false;
     $scope.showMainMenu=true;
@@ -56,7 +58,108 @@ app.controller('advancedAnalyticsCtrl',[ '$scope','$rootScope','$location', '$md
             counts: [],
             dataset: $scope.users.slice(0,5)
         });
-  var getLocations = function () {
+
+
+
+    $scope.report_id=reportService.getReportId();
+   setTimeout(function () {
+        var reportCheck = $http.get('/api/report?report_id='+$scope.report_id);
+        reportCheck.success(function(data, status, headers, config) {
+            //$scope.reportSpec = convertDate(data.report);
+            $scope.reportSpec = data.report;
+
+            console.log(data);
+
+            var jobsPromise = $http.get('/api/job');
+            jobsPromise.success(function(data, status, headers, config) {
+                $scope.jobs = data.jobs.map(cleanJob);
+                console.log("jobs:");
+                console.log($scope.jobs);
+                $scope.categoryID = $scope.reportSpec.selectedJobs.map(function(job) {
+
+                for (item in $scope.jobs)
+                {
+
+                    if($scope.jobs[item].name==job)
+                        return $scope.jobs[item].id;
+                }
+             });
+            console.log($scope.categoryID);
+
+            getLocations();
+            getTweets();
+        });
+        reportCheck.error(function(data, status, headers, config) {
+            //TODO: Add a backup input for this
+            console.log("DB not reachable.")
+        });
+        });
+    },500);
+
+
+
+    var getTweets = function () {
+            console.log("start date:");
+            console.log($scope.reportSpec.start_datetime);
+            var queryObject = {
+                categoryID: $scope.categoryID,
+                start_time: $scope.reportSpec.start_datetime,
+                end_time: $scope.reportSpec.end_datetime
+            };
+
+            var tweetsPromise = $http.get('/api/gettweets', {
+                params: queryObject
+            });
+            tweetsPromise.success(function (data, status, headers, config) {
+                $scope.tweets = data.tweets;
+
+            });
+            tweetsPromise.error(function (data, status, headers, config) {
+                console.log("Failed to load tweets from the API!");
+            });
+         };
+
+
+     var cleanJob = function(job) {
+        return {
+            id: job['categoryID'],
+            name: job['catname'],
+            selected: false,
+            crawling: job['includeincrawl'] === 1
+        }
+    };
+   // Retrieves the locations from the server
+    var getLocations = function () {
+
+        var queryObject = {
+            job_ids: $scope.categoryID,
+            start_time: $scope.reportSpec.start_datetime,
+            end_time: $scope.reportSpec.end_datetime
+        };
+
+        var locationsPromise = $http.get('/api/entities/locations', {
+            params: queryObject
+        });
+
+        locationsPromise.success(function (data, status, headers, config) {
+            var tweetlocations = data["tweetlocations"];
+            var imagelocations = data["imagelocations"];
+            var videolocations = data["videolocations"];
+            var locations = [];
+            locations = locations.concat(tweetlocations);
+            locations = locations.concat(imagelocations);
+            locations = locations.concat(videolocations);
+
+            $scope.locations = locations;
+
+        });
+        locationsPromise.error(function (data, status, headers, config) {
+            console.log("Failed to load locations from the API!");
+        });
+    };
+
+
+  var getLocations1 = function () {
         // if ($scope.selectedJobs.length === 0)
         //     return;
         //
@@ -110,7 +213,7 @@ app.controller('advancedAnalyticsCtrl',[ '$scope','$rootScope','$location', '$md
       console.log($scope.locations);
     };
 
-getLocations();
+//getLocations1();
 }]);
 var layers = new Array();
 window.global_layers_pointer = layers;
