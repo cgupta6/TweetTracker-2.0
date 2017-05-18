@@ -48,7 +48,7 @@ app.controller('basicStatsCtrl',[ '$scope','$rootScope','$location','NgTablePara
             //$scope.reportSpec = convertDate(data.report);
             $scope.reportSpec = data.report;
             var tempdate=new Date(data.report.createtime);
-            $scope.reportSpec.createtime=tempdate.toUTCString();
+            $scope.reportSpec.createtime2=tempdate.toUTCString();
 
 
             var jobsPromise = $http.get('/api/job');
@@ -71,7 +71,7 @@ app.controller('basicStatsCtrl',[ '$scope','$rootScope','$location','NgTablePara
            getHashtags();
             getLinks();
             getTopics1();
-
+getTweets();
 
         });
         reportCheck.error(function(data, status, headers, config) {
@@ -83,6 +83,29 @@ app.controller('basicStatsCtrl',[ '$scope','$rootScope','$location','NgTablePara
     var data=[];
     $scope.tableParams = new NgTableParams({ count: data.length}, { dataset: data, counts: []});
 
+
+
+
+    var getTweets = function () {
+            console.log("start date:");
+            console.log($scope.reportSpec.start_datetime);
+            var queryObject = {
+                categoryID: $scope.categoryID,
+                start_time: $scope.reportSpec.start_datetime,
+                end_time: $scope.reportSpec.end_datetime
+            };
+
+            var tweetsPromise = $http.get('/api/gettweets', {
+                params: queryObject
+            });
+            tweetsPromise.success(function (data, status, headers, config) {
+                $scope.tweets = data.tweets;
+                $scope.tweetCount = data.count;
+            });
+            tweetsPromise.error(function (data, status, headers, config) {
+                console.log("Failed to load tweets from the API!");
+            });
+         };
 
 
     var getUsers = function () {

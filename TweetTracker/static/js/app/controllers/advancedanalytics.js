@@ -10,7 +10,16 @@ app.controller('advancedAnalyticsCtrl',[ '$http','$scope','$rootScope','$locatio
     $scope.showPopup=false;
     $scope.showMainMenu=true;
 
-    $scope.toggleLeft = buildToggler('left');
+    $scope.toggleLeftMap = buildTogglerMap('left');
+
+    $scope.toggleLeftUser = buildTogglerUser('left');
+    $scope.toggleLeftTweet = buildTogglerTweet('left');
+
+    $scope.toggleLeftMap2 = buildTogglerMap2('left');
+
+    $scope.toggleLeftUser2 = buildTogglerUser2('left');
+    $scope.toggleLeftTweet2 = buildTogglerTweet2('left');
+
     $scope.toggleBack = restoreToggler('left');
     $scope.currentReport="";
     $scope.locations = [];
@@ -21,10 +30,61 @@ app.controller('advancedAnalyticsCtrl',[ '$http','$scope','$rootScope','$locatio
 
 
 
-    function buildToggler(componentId) {
+    function buildTogglerMap(componentId) {
         return function() {
             $mdSidenav(componentId).toggle();
             $scope.showMainMenu=false;
+             $scope.showMapMenu=true;
+             $scope.showTweetMenu=false;
+             $scope.showUserMenu=false;
+
+        };
+    }
+
+    function buildTogglerMap2(componentId) {
+        return function() {
+            $scope.showMainMenu=false;
+             $scope.showMapMenu=true;
+             $scope.showTweetMenu=false;
+             $scope.showUserMenu=false;
+
+        };
+    }
+
+    function buildTogglerUser(componentId) {
+        return function() {
+            $mdSidenav(componentId).toggle();
+            $scope.showMainMenu=false;
+             $scope.showMapMenu=false;
+             $scope.showTweetMenu=false;
+             $scope.showUserMenu=true;
+        };
+    }
+    function buildTogglerUser2(componentId) {
+        return function() {
+            $scope.showMainMenu=false;
+             $scope.showMapMenu=false;
+             $scope.showTweetMenu=false;
+             $scope.showUserMenu=true;
+        };
+    }
+
+    function buildTogglerTweet(componentId) {
+        return function() {
+            $mdSidenav(componentId).toggle();
+            $scope.showMainMenu=false;
+             $scope.showMapMenu=false;
+             $scope.showTweetMenu=true;
+             $scope.showUserMenu=false;
+        };
+    }
+
+    function buildTogglerTweet2(componentId) {
+        return function() {
+            $scope.showMainMenu=false;
+             $scope.showMapMenu=false;
+             $scope.showTweetMenu=true;
+             $scope.showUserMenu=false;
         };
     }
 
@@ -32,6 +92,10 @@ app.controller('advancedAnalyticsCtrl',[ '$http','$scope','$rootScope','$locatio
         return function() {
             $mdSidenav(componentId).toggle();
             $scope.showMainMenu=true;
+
+             $scope.showMapMenu=false;
+             $scope.showTweetMenu=false;
+             $scope.showUserMenu=false;
         };
     }
 
@@ -87,6 +151,7 @@ app.controller('advancedAnalyticsCtrl',[ '$http','$scope','$rootScope','$locatio
             console.log($scope.categoryID);
 
             getLocations();
+            getUsers();
             getTweets();
         });
         reportCheck.error(function(data, status, headers, config) {
@@ -95,6 +160,35 @@ app.controller('advancedAnalyticsCtrl',[ '$http','$scope','$rootScope','$locatio
         });
         });
     },500);
+
+
+
+
+    var getUsers = function () {
+
+        var queryObject = {
+            job_ids: $scope.categoryID,
+            start_time: $scope.reportSpec.start_datetime,
+            end_time: $scope.reportSpec.end_datetime,
+            limit: 30
+        };
+
+        var usersPromise = $http.get('/api/entities/users', {
+            params: queryObject
+        });
+        usersPromise.success(function(data, status, headers, config) {
+            $scope.users = data['users'];
+              $scope.tableParamsUser2 = new NgTableParams({}, {
+             counts: [],
+             dataset: $scope.users
+        });
+
+        });
+        usersPromise.error(function(data, status, headers, config) {
+            console.log("Failed to load users from the API");
+        });
+    };
+
 
 
 
@@ -112,12 +206,20 @@ app.controller('advancedAnalyticsCtrl',[ '$http','$scope','$rootScope','$locatio
             });
             tweetsPromise.success(function (data, status, headers, config) {
                 $scope.tweets = data.tweets;
-
+                console.log($scope.tweets);
+  $scope.tableParamsTweet2 = new NgTableParams({
+        page: 1,   // show first page
+        count: 5  // count per page
+    },{
+             counts: [],
+             dataset: $scope.tweets
+        });
             });
             tweetsPromise.error(function (data, status, headers, config) {
                 console.log("Failed to load tweets from the API!");
             });
          };
+
 
 
      var cleanJob = function(job) {
