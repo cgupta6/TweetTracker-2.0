@@ -234,7 +234,7 @@ def delete_report(report_id):
     :param report_id: The ID of the report to delete.
     :return: The HTTP status code corresponding to what action was taken.
     """
-    #username = session.get('username')
+    username = session.get('username')
     if username is None:
         abort(401)
     return tweet_tracker_api.report_management.api_support.delete_report(username, int(report_id))
