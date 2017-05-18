@@ -23,6 +23,10 @@ app.config(function ($stateProvider) {
         url:"",
         controller:"homeCtrl",
         templateUrl:"static/templates/home.html"
+    }).state("login",{
+        url:"/login",
+        controller:"loginCtrl",
+        templateUrl:"static/templates/login.html"
     }).state("rawData",{
         url:"/rawData",
         controller:"rawDataCtrl",

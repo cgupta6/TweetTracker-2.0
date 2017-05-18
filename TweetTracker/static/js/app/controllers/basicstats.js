@@ -12,6 +12,7 @@ app.controller('basicStatsCtrl',[ '$scope','$rootScope','$location','NgTablePara
         $location.path( path );
     };
 
+     $scope.topics = [];
     // This function converts date to string format
     var convertDate=function(report){
         var tempdate=new Date(report.createtime);
