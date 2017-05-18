@@ -32,7 +32,7 @@
                 </md-card-header>
 
                 <md-card-content style="width: 100%;">
-                    <table ng-table="tableParamsLinks" class="table" style="word-wrap:break-word;table-layout: fixed;">
+                    <table ng-table="tableParamsDetails" class="table" style="word-wrap:break-word;table-layout: fixed;">
                         <tr><td  align="center"  title="'Detail'">Report Name:
                             <td  align="center" title="'Info'">{{reportSpec.reportname}}
                          </td></tr>
@@ -62,49 +62,43 @@
                                 <h4 class="modal-title" style="color: white">More Details about the job</h4>
                             </div>
                             <div class="modal-body">
-                                <table ng-table="tableParamsLinks" class="table" style="word-wrap:break-word;table-layout: fixed;">
+                                <table ng-table="tableParamsDetails" class="table" style="word-wrap:break-word;table-layout: fixed;">
                                     <tr><td  align="center"  title="'Detail'">Report ID:
-                                        <td  align="center" title="'Info'">{{report.reportID}}
+                                        <td  align="center" title="'Info'">{{reportSpec.reportID}}
                                         </td></tr>
 
                                     <tr><td  align="center"  title="'Detail'">Report Name:
-                                        <td  align="center" title="'Info'">{{report.reportname}}
+                                        <td  align="center" title="'Info'">{{reportSpec.reportname}}
                                         </td></tr>
 
                                     <tr><td  align="center"  title="'Detail'">Create Time:
-                                        <td  align="center" title="'Info'">{{report.createtime}}
+                                        <td  align="center" title="'Info'">{{reportSpec.createtime}}
                                         </td></tr>
                                     <tr><td  align="center">Tweet Crawl Limit:
-                                        <td  align="center" title="'Info'">{{report.limit}}
+                                        <td  align="center" title="'Info'">{{reportSpec.limit}}
                                         </td></tr>
                                     <tr><td  align="center">Tweets Crawled:
-                                        <td  align="center" title="'Info'">{{report.current}}
+                                        <td  align="center" title="'Info'">{{reportSpec.current}}
                                         </td></tr>
                                     <tr><td  align="center"  title="'Detail'">Selected Jobs:
-                                        <td  align="center" title="'Info'">{{report.selectedJobs.toString()}}
+                                        <td  align="center" title="'Info'">{{reportSpec.selectedJobs.toString()}}
                                         </td></tr>
 
                                     <tr><td  align="center"  title="'Detail'">All Words:
-                                        <td  align="center" title="'Info'">{{report.allWords}}
+                                        <td  align="center" title="'Info'">{{reportSpec.allWords}}
                                         </td></tr>
 
                                     <tr><td  align="center"  title="'Detail'">Any Words:
-                                        <td  align="center" title="'Info'">{{report.anyWords}}
+                                        <td  align="center" title="'Info'">{{reportSpec.anyWords}}
                                         </td></tr>
 
                                     <tr><td  align="center"  title="'Detail'">Start Time:
-                                        <td  align="center" title="'Info'">{{report.start_datetime}}
+                                        <td  align="center" title="'Info'">{{reportSpec.start_datetime}}
                                         </td></tr>
 
                                     <tr><td  align="center"  title="'Detail'">End Time:
-                                    <td  align="center" title="'Info'">{{report.end_datetime}}
+                                    <td  align="center" title="'Info'">{{reportSpec.end_datetime}}
                                     </td></tr>
-
-
-
-
-
-
 
                                 </table>
                             </div>
@@ -159,7 +153,7 @@
 
             <md-card-content>
                 <table ng-table="tableParamsUser" class="table" style="word-wrap:break-word;table-layout: fixed;">
-                        <tr ng-repeat="user in users">
+                        <tr ng-repeat="user in $data">
                             <td  align="center"  title="'User'">
                                 <a target="_blank" href="https://www.twitter.com/{{ user.user }}"> {{user.user}}</a></td>
                             <td  align="center" title="'Mentions'">
@@ -178,8 +172,8 @@
                          <h4 class="modal-title">Top Users</h4>
                      </div>
                      <div class="modal-body">
-                         <table ng-table="tableParamsUser" class="table" >
-                             <tr ng-repeat="user in users">
+                         <table ng-table="tableParamsUser2" class="table" >
+                             <tr ng-repeat="user in $data">
                                  <td  align="center"  title="'User'">
                                      <a target="_blank" href="https://www.twitter.com/{{ user.user }}"> {{user.user}}</a></td>
                                  <td  align="center" title="'Mentions'">
@@ -218,7 +212,7 @@
 
             <md-card-content>
                 <table ng-table="tableParamsHashtags" class="table"  style="word-wrap:break-word;table-layout: fixed;">
-                        <tr ng-repeat="tags in hashtags">
+                        <tr ng-repeat="tags in $data">
                             <td  align="center"  title="'tag'">
                                 {{tags.hashtag}}</td>
                             <td  align="center" title="'tagCount'">
@@ -236,8 +230,8 @@
                           <h4 class="modal-title">Top Hashtags</h4>
                       </div>
                       <div class="modal-body">
-                          <table ng-table="tableParamsHashtags" class="table" >
-                              <tr ng-repeat="tags in hashtags">
+                          <table ng-table="tableParamsHashtags2" class="table" >
+                              <tr ng-repeat="tags in $data">
                                   <td  align="center"  title="'tag'">
                                       {{tags.hashtag}}</td>
                                   <td  align="center" title="'tagCount'">
@@ -273,7 +267,7 @@
 
             <md-card-content style="width: 100%">
                 <table ng-table="tableParamsLinks" class="table" style="word-wrap:break-word;table-layout: fixed;">
-                        <tr ng-repeat="link in links">
+                        <tr ng-repeat="link in $data">
                             <td  align="center"  title="'link'">
                                 <a target="_blank" href="{{ link.link }}" >{{link.link | cut:true:35:' ...'}}</a></td>
                             <td  align="center" title="'linkCount'">
@@ -293,7 +287,7 @@
                           <h4 class="modal-title">Top Links</h4>
                       </div>
                       <div class="modal-body">
-                          <table ng-table="tableParamsLinks" class="table" >
+                          <table ng-table="tableParamsLinks2" class="table" >
                               <tr ng-repeat="link in $data">
                                   <td  align="center"  title="'link'">
                                       <a href="{{ link.link }}" >{{link.link | cut:true:15:' ...'}}</a></td>

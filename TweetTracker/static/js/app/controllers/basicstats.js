@@ -103,6 +103,10 @@ app.controller('basicStatsCtrl',[ '$scope','$rootScope','$location','NgTablePara
              counts: [],
              dataset: $scope.users.slice(0,5)
         });
+              $scope.tableParamsUser2 = new NgTableParams({}, {
+             counts: [],
+             dataset: $scope.users
+        });
 
         });
         usersPromise.error(function(data, status, headers, config) {
@@ -139,6 +143,16 @@ app.controller('basicStatsCtrl',[ '$scope','$rootScope','$location','NgTablePara
                     };
                 });
 
+
+        $scope.tableParamsHashtags = new NgTableParams({}, {
+            counts: [],
+            dataset: $scope.hashtags.slice(0,5)
+        });
+        $scope.tableParamsHashtags2 = new NgTableParams({}, {
+            counts: [],
+            dataset: $scope.hashtags
+        });
+
             });
             hashtagsPromise.error(function(data, status, headers, config) {
                console.log("Failed to load hashtags from the API!");
@@ -166,7 +180,14 @@ app.controller('basicStatsCtrl',[ '$scope','$rootScope','$location','NgTablePara
                     count: urlArray[1]
                 };
             });
-
+        $scope.tableParamsLinks = new NgTableParams({}, {
+            counts: [],
+            dataset: $scope.links.slice(0,5)
+        });
+         $scope.tableParamsLinks2 = new NgTableParams({}, {
+            counts: [],
+            dataset: $scope.links
+        });
         });
         linksPromise.error(function (data, status, headers, config) {
               console.log("Failed to load hashtags from the API!");
