@@ -80,6 +80,8 @@ getTweets();
         });
         });
     },500);
+
+
     var data=[];
     $scope.tableParams = new NgTableParams({ count: data.length}, { dataset: data, counts: []});
 
