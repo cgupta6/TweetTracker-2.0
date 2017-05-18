@@ -1,0 +1,85 @@
+<!-- Page Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header" style="text-align: center">Login
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6">
+            <form class="form-horizontal" action="/login" method="POST">
+                <fieldset>
+                    <div class="form-group">
+                        <label for="username_input" class="col-lg-2 control-label">Username</label>
+                        <div class="col-lg-10">
+                            <input id="username_input" type="text" class="form-control" name="username" placeholder="Enter Email" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password_input" class="col-lg-2 control-label">Password</label>
+                        <div class="col-lg-10">
+                            <input type="password" class="form-control" id="password_input" name="password" placeholder="Enter Password" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-offset-2 col-lg-10">
+                            <button id="submit_button" type="submit" class="btn btn-default">Sign In</button>
+                        </div>
+                    </div>
+                </fieldset>
+<div style="padding-left: 45px">
+                    Don't have an account? Register <a href="/#/register">here</a>!
+</div><div style="padding-left: 45px">
+                    If you don't have an account already,
+                    <a href="mailto:tweettracker.asu@gmail.com?subject=TweetTracker%20Web%20Account%20Request&body=Reason%20for%20request:">request</a> one today!
+</div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Dynamically change the active tab in the navbar -->
+<script type="text/javascript">
+    $('#login_nav').addClass('active');
+
+    $('#submit_button').click(function(e) {
+        e.preventDefault();
+
+        var data = JSON.stringify({
+            username: $('#username_input').val(),
+            password: $('#password_input').val()
+        });
+        console.log(data);
+        $.ajax(
+            '/login',
+            {
+                async: false,
+                cache: false,
+                data: data,
+                processData: false,
+                mimeType: 'application/json',
+                contentType: 'application/json',
+                type: 'POST',
+                complete: function(jqXHR, textStatus) {
+                    toastr.options.positionClass = "toast-top-center";
+                    if (jqXHR.status == 302) {
+                        window.location.href = (jqXHR.getResponseHeader('Location'));
+                    } else if (jqXHR.status == 200) {
+                        // On success, just redirect to the app
+                        toastr.success('Successfully logged in!');
+                        setTimeout(function(){
+                            window.location.href = ('/');
+                        }, 1000);
+                    } else if (jqXHR.status == 403){
+                        toastr.error('Login failed!');
+                        setTimeout(function(){
+                            window.location.href = ('/#/login');
+                        }, 1000);
+                    }
+                }
+            }
+        )
+    });
+</script>
