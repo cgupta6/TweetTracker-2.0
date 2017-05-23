@@ -21,5 +21,9 @@
     "token_key": "2353687850-U3RUY1VXbTMWffdgDgkkBx3AKC0KZHcBJoUqiC3",
     "token_secret": "W8l5xlViUbgzKxqKDkPCDZTgByGb9mkE7Z7tbeJTzRjlH",
 
-  	"enable_registration": true
+  	"enable_registration": true,
+
+	"hourInterval":1,
+	"minsInterval":30,
+	"startInterval":10
 }
