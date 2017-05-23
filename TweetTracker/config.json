@@ -1,16 +1,16 @@
 {
 	"_comment": "RAM server info",
 
-	"mongo_ram_server": "en4081643l.cidse.dhcp.asu.edu",
-	"mongo_ram_port": 27017,
+	"mongo_ram_server": "en4054679l.cidse.dhcp.asu.edu",
+	"mongo_ram_port": 28018,
 	"mongo_ram_db": "tweettracker",
 	"mongo_ram_username": "twtuser",
 	"mongo_ram_password": "!!!asudmml%%%",
 
 	"_comment": "distributed server info",
 
-	"mongo_dist_server": "en4081643l.cidse.dhcp.asu.edu",
-	"mongo_dist_port": 27017,
+	"mongo_dist_server": "en4054679l.cidse.dhcp.asu.edu",
+	"mongo_dist_port": 28018,
 	"mongo_dist_db": "tweettracker",
 	"mongo_dist_username": "twtuser",
 	"mongo_dist_password": "!!!asudmml%%%",
@@ -21,5 +21,9 @@
     "token_key": "2353687850-U3RUY1VXbTMWffdgDgkkBx3AKC0KZHcBJoUqiC3",
     "token_secret": "W8l5xlViUbgzKxqKDkPCDZTgByGb9mkE7Z7tbeJTzRjlH",
 
-  	"enable_registration": true
+  	"enable_registration": true,
+
+	"hourInterval":1,
+	"minsInterval":30,
+	"startInterval":10
 }
