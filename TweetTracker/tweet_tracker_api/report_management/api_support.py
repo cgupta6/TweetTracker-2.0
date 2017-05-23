@@ -19,9 +19,8 @@ def get_all_reports():
     :param username: The user to get the reports for.
     :return: the user's reports.
     """
+    print report.get_reports_all()
     return jsonify(report.get_reports_all())
-
-
 
 def get_report(report_id, username=None):
     """

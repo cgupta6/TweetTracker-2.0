@@ -23,7 +23,7 @@
 
   	"enable_registration": true,
 
-	"hourInterval":1,
+	"hourInterval":60,
 	"minsInterval":30,
 	"startInterval":10
 }

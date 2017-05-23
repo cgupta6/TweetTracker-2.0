@@ -210,6 +210,19 @@ def username_to_id(username):
         return int(id.get('id'))  # Sometimes pymongo returns floats...
 
 
+def id_to_username(id):
+    """
+
+    :param username: username
+    :return: id
+    """
+    creator = users.find_one({'id': int(id)})
+    if creator is None:
+        return None
+    else:
+        return creator.get('username')  # Sometimes pymongo returns floats...
+
+
 def next_user_id():
     """ This function gets the next id for a future user.
 

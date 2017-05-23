@@ -3,36 +3,15 @@ from multiprocessing import Process,Lock
 from time import sleep
 from datetime import datetime
 from random import randint
-
-import tweet_tracker_api
+import requests
 import tweet_tracker_api.APIClass
-import tweet_tracker_api.auth.user
-import tweet_tracker_api.job_management.job
-import tweet_tracker_api.job_management.api_support
-import tweet_tracker_api.report_management.report
-import tweet_tracker_api.report_management.api_support
-from tweet_tracker_api.lda_func import *
-from tweet_tracker_api.getTweets import *
-from tweet_tracker_api.getYaks import *
-from tweet_tracker_api.getImages import *
-from tweet_tracker_api.getVideos import *
-from tweet_tracker_api.Timeline import *
-from tweet_tracker_api.getEntities import *
-from tweet_tracker_api.utilities import *
-from tweet_tracker_api.bot_prob import find_jobs_bot_prob
-from tweet_tracker_api.userlimit import *
-from tweet_tracker_api.APIErrors import *
-import logging
-import cPickle as pickle
-import time
-from flask.ext.compressor import Compressor
+import tweet_tracker_api.report_management
+from tweet_tracker_api.report_management import api_support,report
+from tweet_tracker_api.auth import *
+from server import *
 """
 Set up basic web stuff
 """
-app = Flask(__name__)
-app.secret_key = "\x90'\xcbb\xb8L\x16\x0f\xc8\xf0U\x82\xd2\x7f\xc3\x10\xff\x89\x8b\x93\x08<i\x90"
-
-compressor = Compressor(app)  # add Gzip compression
 
 config = json.load(open("config.json", "r"))
 config_obj = tweet_tracker_api.APIClass.TweetTrackerAPIClass(config)
@@ -65,6 +44,7 @@ Thread Logic Starts
 
 
 threadList = []
+jobs=[]
 list1Lock = Lock()
 hourInterval=config['hourInterval']
 minsInterval=config['minsInterval']
@@ -72,15 +52,42 @@ startInterval=config['startInterval']
 
 def CreateReportThread(reportDetails):
     global threadList
-    print reportDetails
+    global jobs
     newThread = None
-    intervalSeconds=hourInterval*3600+(randint(-minsInterval, minsInterval)*60)
-    print intervalSeconds
-
+    intervalSeconds=hourInterval*60+(randint(-minsInterval, minsInterval)*60)
     ############## Report Logic
-    sleepTime=randint(0,30)
-    print 'Sleep Time',sleepTime
-    sleep(sleepTime)
+
+    username = user.id_to_username(reportDetails['creator'])
+    data = {}
+    if username is None:
+        data = tweet_tracker_api.job_management.job.get_public()
+    else:
+        data= tweet_tracker_api.job_management.job.get_all_by_user(username)
+
+    jobs = map(cleanJob,data['jobs']);
+    job_ids = map(checkJob, reportDetails['selectedJobs'])
+
+    begin_time = long(reportDetails['start_datetime'])
+    end_time = long(reportDetails['end_datetime'])
+    limit = 30
+    print "==============================="
+    print "seconds", intervalSeconds
+
+    print "reportid",reportDetails["reportID"]
+
+    print tweet_tracker_api.entities.api_support.get_users_sch(username, job_ids, begin_time, end_time, limit)
+    print "==============================="
+
+
+    #getHashtags();
+    #getLinks();
+    #getTopics1();
+    #getTweets();
+    #getLocations();
+
+    #sleepTime=randint(0,30)
+    #print 'Sleep Time',sleepTime
+    #sleep(sleepTime)
     ##############
     newThread = Process(target=CreateReportThread,args=(reportDetails,))
     threading.Timer(intervalSeconds,runProc,(newThread,)).start()
@@ -89,7 +96,21 @@ def CreateReportThread(reportDetails):
         threadList.append([newThread, datetime.now()])
     finally:
         list1Lock.release()
-    newThread.start()
+
+def cleanJob(job):
+    return {
+            'id': job['categoryID'],
+            'name': job['catname'],
+            'selected': False,
+            'crawling': (job['includeincrawl'] == 1)
+        }
+
+def checkJob(job):
+    global jobs
+    for item in jobs:
+        if item['name'] == job:
+            return item['id']
+
 
 def ThreadCleaner():
     global threadList
@@ -97,7 +118,7 @@ def ThreadCleaner():
     print threadList
     newThreadList = []
     for obj in threadList:
-        print obj
+        #print obj
         threadObj = obj[0]
         timeObj = obj[1]
         if threadObj.is_alive():
@@ -119,18 +140,21 @@ def runProc(proc):
 
 # Cleaner Every 2 hours
 def main():
-    global threadList
     #pull all reports and start
-    for i in range(0,30):
-        intervalSeconds = (randint(0, startInterval) * 60)
-        newThread=Process(target=CreateReportThread,args=(i,))
-        threading.Timer(intervalSeconds,runProc,(newThread,)).start()
+    global threadList
+    reports = tweet_tracker_api.report_management.report.get_reports_all()['reports']
+    for rep in reports:
+        intervalSeconds = (randint(0, startInterval))
+        newThread = Process(target=CreateReportThread, args=(rep,))
+        threading.Timer(intervalSeconds, runProc, (newThread,)).start()
         try:
             list1Lock.acquire()
             threadList.append([newThread, datetime.now()])
         finally:
             list1Lock.release()
-    threading.Timer(7200,runProc,(Process(target=ThreadCleaner),)).start()
+    threading.Timer(7200, runProc, (Process(target=ThreadCleaner),)).start()
+    #app.run(host='0.0.0.0', threaded=True, port=5000, debug=True)
+    #print 'SHOBHIT'
 
 if __name__ == "__main__":
     main()

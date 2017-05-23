@@ -233,6 +233,61 @@ def get_users(username, job_ids, begin_time, end_time, limit):
                               } for user, count in user_counter.most_common(limit)]})
 
 
+
+def get_users_sch(username, job_ids, begin_time, end_time, limit):
+    """ This function retrieves top users for jobs.
+
+    :param username: The user retrieving data.
+    :param job_ids: The jobs to pull users from.
+    :param begin_time: The beginning of the time period.
+    :param end_time: The end of the time period.
+    :param limit: The number of users to retrieve.
+    :return: Either an HTTP error code or the JSON response.
+    """
+    # Check that our user can query all selected jobs
+    for job_id in job_ids:
+        obj = job.get_job_with_user(job_id, username)
+        # obj is None if we don't have permission to access the job
+        if obj is None:
+            return None
+    # Create catime constraints for each job_id
+    catime_constraints = create_catimes(job_ids, begin_time, end_time)
+
+
+    query_obj = {"$or": [{
+                             "catime": {
+                                 "$gte": catime["catime"]["$gte"],
+                                 "$lte": catime["catime"]["$lte"]
+                             },
+                             "entities.user_mentions.screen_name": {
+                                 "$exists": True
+                             }
+                         } for catime in catime_constraints["$or"]]}
+
+
+    global tweets
+    search_tweets = tweets
+    # If this query hits only the last couple of days, use the RAM db
+    if int(time()) - begin_time < 174600:
+        global ram_tweets
+        search_tweets = ram_tweets
+
+    user_counter = collections.Counter()
+    user_search = search_tweets.find(query_obj, {
+        "entities.user_mentions.screen_name": 1
+    })
+
+    for search_result in user_search:
+        for user in search_result['entities']['user_mentions']:
+            user_counter[user['screen_name']] += 1
+
+    return ({"users": [{
+                                  "user": user,
+                                  "count": count,
+                              } for user, count in user_counter.most_common(limit)]})
+
+
+
 def generate_word_cloud(username, job_ids, begin_time, end_time, limit=50):
     """ This is the main function to get the word cloud response from.
 

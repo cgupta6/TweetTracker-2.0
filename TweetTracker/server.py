@@ -147,7 +147,6 @@ def logout():
     :return: A redirect to the homepage.
     """
     session.clear()
-    print "iam here"
     return redirect(url_for('index'))
 
 
