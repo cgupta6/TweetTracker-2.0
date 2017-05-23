@@ -41,7 +41,7 @@ app.controller('basicStatsCtrl',[ '$scope','$rootScope','$location','NgTablePara
 
 
 
-    $scope.report_id=reportService.getReportId();
+   $scope.report_id=reportService.getReportId();
    setTimeout(function () {
         var reportCheck = $http.get('/api/report?report_id='+$scope.report_id);
         reportCheck.success(function(data, status, headers, config) {
@@ -54,7 +54,6 @@ app.controller('basicStatsCtrl',[ '$scope','$rootScope','$location','NgTablePara
             var jobsPromise = $http.get('/api/job');
             jobsPromise.success(function(data, status, headers, config) {
                 $scope.jobs = data.jobs.map(cleanJob);
-                console.log("jobs:");
                 console.log($scope.jobs);
                 $scope.categoryID = $scope.reportSpec.selectedJobs.map(function(job) {
 
@@ -65,13 +64,12 @@ app.controller('basicStatsCtrl',[ '$scope','$rootScope','$location','NgTablePara
                         return $scope.jobs[item].id;
                 }
              });
-            console.log($scope.categoryID);
 
             getUsers();
            getHashtags();
             getLinks();
             getTopics1();
-getTweets();
+            getTweets();
 
         });
         reportCheck.error(function(data, status, headers, config) {
@@ -89,8 +87,6 @@ getTweets();
 
 
     var getTweets = function () {
-            console.log("start date:");
-            console.log($scope.reportSpec.start_datetime);
             var queryObject = {
                 categoryID: $scope.categoryID,
                 start_time: $scope.reportSpec.start_datetime,
@@ -112,6 +108,7 @@ getTweets();
 
     var getUsers = function () {
 
+        console.log($scope.categoryID);
         var queryObject = {
             job_ids: $scope.categoryID,
             start_time: $scope.reportSpec.start_datetime,

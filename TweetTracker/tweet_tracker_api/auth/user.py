@@ -148,6 +148,15 @@ def updateUser(username, email, password, firstname, lastname, phone, account, t
     return users.save(user_obj)
 
 
+def deleteUser(username):
+
+    account = users.find_one({"username": username})
+
+    if account is None:
+        return None
+    return users.remove({"username": username})
+
+
 
 def update_last_logintime(username):
     """

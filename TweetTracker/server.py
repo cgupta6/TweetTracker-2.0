@@ -82,9 +82,7 @@ def index():
 
 @app.route("/")
 def index():
-    print "shobhit"
-    print session
-    check=''
+
     if 'authenticated' in session:
         check='yes'
     else:
@@ -149,6 +147,7 @@ def logout():
     :return: A redirect to the homepage.
     """
     session.clear()
+    print "iam here"
     return redirect(url_for('index'))
 
 
@@ -199,6 +198,21 @@ def put_user():
 
     return tweet_tracker_api.auth.api_support.update_user(username, email, password, firstname, lastname, phone, account,timezone)
 
+@app.route("/api/deleteUser", methods=['PUT'])
+def delete_user():
+    """ Replaces the job with the specified ID with a new job.
+
+    :param job_id: The ID of the job to replace
+    :return: An HTTP response representing the success/failure of the request
+    """
+    username = session.get('username')
+    email = request.json.get('email')
+
+    if username is None:
+        abort(401)
+
+
+    return tweet_tracker_api.auth.api_support.delete_user(username, email)
 
 
 # Report management routes start here
@@ -484,6 +498,7 @@ def extract_entity_parameters(r):
     end_time = r.args.get("end_time")
     job_ids = r.args.getlist("job_ids")
     limit = r.args.get("limit")
+    print  job_ids, limit, begin_time, end_time
     if job_ids is None or begin_time is None or end_time is None:
         abort(400)
     try:

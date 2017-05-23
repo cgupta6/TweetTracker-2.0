@@ -51,6 +51,39 @@ app.controller('profileCtrl', function ( $scope, $location, $http ,$log, $rootSc
         });
     };
 
+    $scope.deleteUser = function () {
+
+        var sendObj = {
+            username :$scope.user.email,
+        };
+
+
+        $log.info('The user agent is: ' + navigator.userAgent);
+
+        if(confirm("Do you want to delete your account?")){
+          var postPromise = $http.put('/api/deleteUser', sendObj);
+            $log.info(sendObj);
+            //toastr.options.positionClass = 'toast-top-center';
+            postPromise.success(function (data, status, headers, config) {
+                $log.info("Account deleted successfully!");
+
+                //toastr.success('Created job successfully!');
+            });
+            postPromise.error(function (data, status, headers, config) {
+            $log.info("Failed to delete account!");
+                //toastr.error('Failed to create job!');
+            });
+             localStorage={};
+            postPromise = $http.post('/logout');
+
+            postPromise.success(function (data, status, headers, config) {
+                $scope.currentPath = $location.path('/');
+            //toastr.success('Created job successfully!');
+            });
+
+        }
+    };
+
     $scope.timezone='US/Mountain';
 
     $scope.timeZones = moment.tz.names().map(function(e){return {value:e,text:e}});

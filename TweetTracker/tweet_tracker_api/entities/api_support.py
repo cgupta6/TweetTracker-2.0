@@ -196,9 +196,9 @@ def get_users(username, job_ids, begin_time, end_time, limit):
         # obj is None if we don't have permission to access the job
         if obj is None:
             return None
-
     # Create catime constraints for each job_id
     catime_constraints = create_catimes(job_ids, begin_time, end_time)
+    print catime_constraints
 
     query_obj = {"$or": [{
                              "catime": {
@@ -210,6 +210,7 @@ def get_users(username, job_ids, begin_time, end_time, limit):
                              }
                          } for catime in catime_constraints["$or"]]}
 
+    print query_obj
     global tweets
     search_tweets = tweets
     # If this query hits only the last couple of days, use the RAM db

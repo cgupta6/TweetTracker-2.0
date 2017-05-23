@@ -1,6 +1,7 @@
 
 from flask import abort, jsonify, redirect, session, url_for
-from user import authenticate, authenticate_classic, create, update_last_logintime, get_by_username, updateUser
+from user import authenticate, authenticate_classic, create, update_last_logintime, get_by_username, updateUser, \
+    deleteUser
 import pymongo
 import ujson as json
 
@@ -91,6 +92,26 @@ def update_user(username, email, password, firstname, lastname, phone, account, 
         session['username'] = email
         return json.dumps({'result': 'success'})
 
+
+def delete_user(username, email):
+    """ This function registers a new user with the specified email/password.
+
+    :param email: The email to use for registration
+    :param password: The password to use for the user
+    :return: A redirect to a page that indicates success/failure as needed
+    """
+    # first check recaptcha
+    import requests
+
+
+    #user = deleteUser(username)
+    user = None
+    if user is None:
+        # TODO: Change this to an error page
+        return json.dumps({'result': 'failed'})
+    else:
+        session.clear()
+        return  json.dumps({'result': 'success'})
 
 
 def get_profile(username):

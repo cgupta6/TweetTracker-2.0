@@ -132,13 +132,10 @@ app.controller('advancedAnalyticsCtrl',[ '$http','$scope','$rootScope','$locatio
             //$scope.reportSpec = convertDate(data.report);
             $scope.reportSpec = data.report;
 
-            console.log(data);
 
             var jobsPromise = $http.get('/api/job');
             jobsPromise.success(function(data, status, headers, config) {
                 $scope.jobs = data.jobs.map(cleanJob);
-                console.log("jobs:");
-                console.log($scope.jobs);
                 $scope.categoryID = $scope.reportSpec.selectedJobs.map(function(job) {
 
                 for (item in $scope.jobs)
@@ -148,7 +145,6 @@ app.controller('advancedAnalyticsCtrl',[ '$http','$scope','$rootScope','$locatio
                         return $scope.jobs[item].id;
                 }
              });
-            console.log($scope.categoryID);
 
             getLocations();
             getUsers();
@@ -193,8 +189,6 @@ app.controller('advancedAnalyticsCtrl',[ '$http','$scope','$rootScope','$locatio
 
 
     var getTweets = function () {
-            console.log("start date:");
-            console.log($scope.reportSpec.start_datetime);
             var queryObject = {
                 categoryID: $scope.categoryID,
                 start_time: $scope.reportSpec.start_datetime,
@@ -206,7 +200,7 @@ app.controller('advancedAnalyticsCtrl',[ '$http','$scope','$rootScope','$locatio
             });
             tweetsPromise.success(function (data, status, headers, config) {
                 $scope.tweets = data.tweets;
-                console.log($scope.tweets);
+
   $scope.tableParamsTweet2 = new NgTableParams({
         page: 1,   // show first page
         count: 5  // count per page
@@ -252,7 +246,7 @@ app.controller('advancedAnalyticsCtrl',[ '$http','$scope','$rootScope','$locatio
             locations = locations.concat(imagelocations);
             locations = locations.concat(videolocations);
             $scope.locations = locations;
-            console.log($scope.locations);
+
        //     $scope.locations = locations;
 
         });
@@ -278,7 +272,6 @@ app.directive('leafletmap', function ($http, $log) {
         },
         link: function (scope, elem, attrs) {
 
-            console.log("shobhit");
             // We need to give the map element an id or it
             if (attrs.id === undefined) {
                 attrs.id = ('map' + scope.geoboxes)
@@ -429,7 +422,6 @@ app.directive('leafletmap', function ($http, $log) {
                 map.addControl(options);
 
                 map.on('draw:created', function (e) {
-                console.log("drawstart")
                     //checks if markers are being added
                     if (e.layerType === 'marker') {
 
