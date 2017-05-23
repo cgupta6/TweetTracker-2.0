@@ -104,8 +104,8 @@ def delete_user(username, email):
     import requests
 
 
-    #user = deleteUser(username)
-    user = None
+    user = deleteUser(username)
+    #user = None
     if user is None:
         # TODO: Change this to an error page
         return json.dumps({'result': 'failed'})

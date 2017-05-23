@@ -73,12 +73,12 @@ app.controller('profileCtrl', function ( $scope, $location, $http ,$log, $rootSc
             $log.info("Failed to delete account!");
                 //toastr.error('Failed to create job!');
             });
-             localStorage={};
+            localStorage={};
             postPromise = $http.post('/logout');
 
             postPromise.success(function (data, status, headers, config) {
-                $scope.currentPath = $location.path('/');
-            //toastr.success('Created job successfully!');
+                location.reload();
+                window.open('/#/login','_self');
             });
 
         }
