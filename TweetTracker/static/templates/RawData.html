@@ -48,10 +48,8 @@
                     <table ng-table="tableParams" class="table" >
                         <tr ng-repeat="tweets in $data">
                             <td title="'Tweet'" sortable="'url'">
-                                <blockquote align="center" data-conversation="none" data-cards="hidden" data-width="520" class="twitter-tweet"><a  href={{tweets.url}}></a></blockquote>
+                                <blockquote align="center" data-conversation="none" data-cards="hidden" data-width="520" class="twitter-tweet"><a  href="https://twitter.com/{{ tweets.user.screen_name }}/status/{{tweets.str_id_tweet}}"></a></blockquote>
                                 <script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-                            <td title="'Time Stamp'" sortable="'timeStamp'">
-                                {{tweets.timeStamp}}</td>
                         </tr>
                     </table>
                 </md-card-content>
