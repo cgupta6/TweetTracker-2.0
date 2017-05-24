@@ -56,7 +56,6 @@ def CreateReportThread(reportDetails):
     newThread = None
     intervalSeconds=hourInterval*60+(randint(-minsInterval, minsInterval)*60)
     ############## Report Logic
-
     username = user.id_to_username(reportDetails['creator'])
     data = {}
     if username is None:
@@ -70,20 +69,41 @@ def CreateReportThread(reportDetails):
     begin_time = long(reportDetails['start_datetime'])
     end_time = long(reportDetails['end_datetime'])
     limit = 30
+    # getUsers()
+
     print "==============================="
     print "seconds", intervalSeconds
 
     print "reportid",reportDetails["reportID"]
 
-    print tweet_tracker_api.entities.api_support.get_users_sch(username, job_ids, begin_time, end_time, limit)
+    topUsers = tweet_tracker_api.entities.api_support.get_users_sch(username, job_ids, begin_time, end_time, limit)
+
+    #getHashtags()
+    Types = ["TopHashtags"]
+
+    print type(job_ids[0])
+    queryObject = {
+        'categoryID': job_ids,
+        'start_time': begin_time,
+        'end_time': end_time
+    }
+    queryObject['Types'] = ["TopHashtags"];
+    queryObject['limit'] = 30;
+    data=''
+    (success, result) = getEntities.getEntities_sch(queryObject)
+    data = result
+    print 'data:',data
+    topHashtags = data['TopHashtags']
+    topLinks = data['TopUrls']
+    topMentions = data['TopMentions']
+
+    #getTopics1();
+    getTopics =  tweet_tracker_api.entities.api_support.generate_word_cloud_sch(username, job_ids, begin_time, end_time, limit)
+    (success, result) = searchExport.getTweets_sch(queryObject)
+    tweets = result
+    locations = tweet_tracker_api.entities.api_support.get_locations_sch(username, job_ids, begin_time, end_time, config)
     print "==============================="
 
-
-    #getHashtags();
-    #getLinks();
-    #getTopics1();
-    #getTweets();
-    #getLocations();
 
     #sleepTime=randint(0,30)
     #print 'Sleep Time',sleepTime

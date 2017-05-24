@@ -179,6 +179,76 @@ def get_locations(username, job_ids, begin_time, end_time, config):
                                   "imagelocations": imageResults,
                                   "videolocations": videoResults})
 
+def get_locations_sch(username, job_ids, begin_time, end_time, config):
+    """ This function retrieves the lat lngs from MongoDB.
+
+    :param username: The user logged in for the request
+    :param job_ids: The job ids to pull the locations from
+    :param begin_time: The beginning of the time period to get locations from
+    :param end_time: The end of the time period to get locations from
+    :return: Either a JSON response or an error code
+    """
+    # Check that our user can query all selected jobs
+    for job_id in job_ids:
+        obj = job.get_job_with_user(job_id, username)
+        # obj is None if we don't have permission to access the job
+        if obj is None:
+            return None
+
+	catime_constraints = create_catimes(job_ids, begin_time, end_time)
+
+    tweet_query_obj = {"$or": [{
+                             "catime": {
+                                 "$gte": catime["catime"]["$gte"],
+                                 "$lte": catime["catime"]["$lte"]
+                             },
+                             "geoflag": True
+                         } for catime in catime_constraints["$or"]]}
+
+    global tweets
+    search_tweets = tweets
+    # If this query hits only the last couple of days, use the RAM db
+    if int(time()) - begin_time < 174600:
+        global ram_tweets
+        search_tweets = ram_tweets
+
+    tweet_locations = search_tweets.find(tweet_query_obj, {"location": 1, "id": 1,
+                                                         "catime": 1})
+    queryMaker = MongoDBQueryMaker()
+    media_query_obj = queryMaker.buildQuery(job_ids, begin_time, end_time, True)
+    mongoDBFacade = MongoDBFacade(config)
+    image_locations = mongoDBFacade.queryImages(None, media_query_obj, {"location": 1, "id": 1,"catime": 1}, 0, 1000, begin_time)
+    video_locations = mongoDBFacade.queryVideos(None, media_query_obj, {"location": 1, "id": 1,"catime": 1}, 0, 1000, begin_time)
+
+    tweetResults = []
+    imageResults = []
+    videoResults = []
+    for result in tweet_locations:
+        tweetResults.append({
+            "type": "tweet",
+            "lat": result["location"]["lat"],
+            "lng": result["location"]["lng"],
+             "index": "{}-{}".format(result['id'], result['catime'])})
+
+    for result in image_locations:
+        imageResults.append({
+            "type": "image",
+            "lat": result["location"]["latitude"],
+            "lng": result["location"]["longitude"],
+             "index": "{}-{}".format(result['id'], result['catime'])})
+
+    for result in video_locations:
+        videoResults.append({
+            "type": "video",
+            "lat": result["location"]["latitude"],
+            "lng": result["location"]["longitude"],
+             "index": "{}-{}".format(result['id'], result['catime'])})
+
+    return {              "tweetlocations": tweetResults,
+                                  "imagelocations": imageResults,
+                                  "videolocations": videoResults}
+
+
 
 def get_users(username, job_ids, begin_time, end_time, limit):
     """ This function retrieves top users for jobs.
@@ -338,6 +408,57 @@ def generate_word_cloud(username, job_ids, begin_time, end_time, limit=50):
 
     return jsonify({"word_cloud": word_cloud})
 
+
+
+def generate_word_cloud_sch(username, job_ids, begin_time, end_time, limit=50):
+    """ This is the main function to get the word cloud response from.
+
+    :param username: The user logged in for the word cloud.
+    :param job_ids: The IDs to generate the word cloud for.
+    :param begin_time: The beginning of the word cloud query.
+    :param end_time: The ending of the word cloud query.
+    :return: The word cloud response.
+    """
+    # Make sure our user can access all the jobs we're creating word clouds for
+    for job_id in job_ids:
+        if job.get_job_with_user(job_id, username) is None:
+            abort(401)
+
+    catime_constraints = create_catimes(job_ids, begin_time, end_time)
+
+    global tweets
+    search_tweets = tweets
+    # If this query hits only the last couple of days, use the RAM db
+    if int(time()) - begin_time < 174600:
+        global ram_tweets
+        search_tweets = ram_tweets
+
+    mongo_tweets = search_tweets.find(catime_constraints, {
+        "keywords": 1
+    })
+
+    sample_rate = 1.0  # TODO: Change this to depend on mongo_tweets.count()
+    keyword_map = collections.Counter()
+    for tweet in mongo_tweets:
+        if random.random() < sample_rate:
+            for word in tweet['keywords']:
+                keyword_map[word] += 1
+
+    if keyword_map.get("http") is not None:
+        keyword_map.pop("http")  # The database doesn't filter http
+
+    word_cloud = [{"text": word, "size": count} for word, count in
+                  keyword_map.most_common(limit)]
+
+    # Scale the size to [0,1]
+    max_size = 0
+    for obj in word_cloud:
+        if obj['size'] > max_size:
+            max_size = obj['size']
+    word_cloud = [{"text": obj['text'], "size": float(obj['size']) / float(max_size)}
+                  for obj in word_cloud]
+
+    return {"word_cloud": word_cloud}
 
 def generate_time_lines(categories, start_time, end_time, granularity, keywords):
     """
