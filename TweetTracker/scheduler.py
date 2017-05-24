@@ -65,7 +65,7 @@ def CreateReportThread(reportDetails):
 
     jobs = map(cleanJob,data['jobs']);
     job_ids = map(checkJob, reportDetails['selectedJobs'])
-
+    print "job ids:", job_ids
     begin_time = long(reportDetails['start_datetime'])
     end_time = long(reportDetails['end_datetime'])
     limit = 30
@@ -98,11 +98,25 @@ def CreateReportThread(reportDetails):
     topMentions = data['TopMentions']
 
     #getTopics1();
-    getTopics =  tweet_tracker_api.entities.api_support.generate_word_cloud_sch(username, job_ids, begin_time, end_time, limit)
+    topTopics =  tweet_tracker_api.entities.api_support.generate_word_cloud_sch(username, job_ids, begin_time, end_time, limit)
     (success, result) = searchExport.getTweets_sch(queryObject)
     tweets = result
     locations = tweet_tracker_api.entities.api_support.get_locations_sch(username, job_ids, begin_time, end_time, config)
     print "==============================="
+    data = {"TopUsers" : topUsers, "TopHashtags" : topHashtags, "TopLinks": topLinks, "TopMentions": topMentions, "word_cloud": topTopics,\
+            "Tweets": tweets, "locations": locations}
+
+    name = reportDetails['reportname']
+    start_datetime = begin_time
+    end_datetime = end_time
+    selectedJobs = reportDetails['selectedJobs']
+    filter_by = reportDetails['filter_by']
+    allWords = reportDetails['allWords']
+    anyWords = reportDetails['anyWords']
+    noneWords = reportDetails['noneWords']
+    report_id = reportDetails['reportID']
+    creator = reportDetails['creator']
+    mongo_response = report.update(report_id, name, start_datetime, end_datetime, selectedJobs, filter_by, allWords, anyWords, noneWords, creator, data)
 
 
     #sleepTime=randint(0,30)

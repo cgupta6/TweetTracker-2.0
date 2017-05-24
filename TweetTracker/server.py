@@ -579,7 +579,6 @@ def get_users():
     username = session.get('username')
 
     begin_time, end_time, job_ids, limit = extract_entity_parameters(request)
-
     return tweet_tracker_api.entities.api_support.get_users(username, job_ids, begin_time, end_time, limit)
 
 

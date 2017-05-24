@@ -131,7 +131,6 @@ app.controller('advancedAnalyticsCtrl',[ '$http','$scope','$rootScope','$locatio
         reportCheck.success(function(data, status, headers, config) {
             //$scope.reportSpec = convertDate(data.report);
             $scope.reportSpec = data.report;
-             $scope.entities = $scope.reportSpec.data;
 
 
             var jobsPromise = $http.get('/api/job');
@@ -163,8 +162,7 @@ app.controller('advancedAnalyticsCtrl',[ '$http','$scope','$rootScope','$locatio
 
     var getUsers = function () {
 
-        //console.log($scope.categoryID);
-        /*var queryObject = {
+        var queryObject = {
             job_ids: $scope.categoryID,
             start_time: $scope.reportSpec.start_datetime,
             end_time: $scope.reportSpec.end_datetime,
@@ -174,25 +172,23 @@ app.controller('advancedAnalyticsCtrl',[ '$http','$scope','$rootScope','$locatio
         var usersPromise = $http.get('/api/entities/users', {
             params: queryObject
         });
-        usersPromise.success(function(data, status, headers, config) {*/
-
-            $scope.users = $scope.entities['TopUsers']['users']
-
-             $scope.tableParamsUser = new NgTableParams({}, {
-             counts: [],
-             dataset: $scope.users.slice(0,5)
-        });
+        usersPromise.success(function(data, status, headers, config) {
+            $scope.users = data['users'];
               $scope.tableParamsUser2 = new NgTableParams({}, {
              counts: [],
              dataset: $scope.users
         });
 
-        //});
-
+        });
+        usersPromise.error(function(data, status, headers, config) {
+            console.log("Failed to load users from the API");
+        });
     };
 
+
+
+
     var getTweets = function () {
-      /*
             var queryObject = {
                 categoryID: $scope.categoryID,
                 start_time: $scope.reportSpec.start_datetime,
@@ -203,17 +199,19 @@ app.controller('advancedAnalyticsCtrl',[ '$http','$scope','$rootScope','$locatio
                 params: queryObject
             });
             tweetsPromise.success(function (data, status, headers, config) {
-        */
-                $scope.tweets = $scope.entities.Tweets['tweets'];
+                $scope.tweets = data.tweets;
 
-            $scope.tableParamsTweet2 = new NgTableParams({
-                    page: 1,   // show first page
-                    count: 5  // count per page
-             },{
-                counts: [],
-                dataset: $scope.tweets
-                });
-
+  $scope.tableParamsTweet2 = new NgTableParams({
+        page: 1,   // show first page
+        count: 5  // count per page
+    },{
+             counts: [],
+             dataset: $scope.tweets
+        });
+            });
+            tweetsPromise.error(function (data, status, headers, config) {
+                console.log("Failed to load tweets from the API!");
+            });
          };
 
 
@@ -229,7 +227,7 @@ app.controller('advancedAnalyticsCtrl',[ '$http','$scope','$rootScope','$locatio
    // Retrieves the locations from the server
     var getLocations = function () {
 
-    /*        var queryObject = {
+        var queryObject = {
             job_ids: $scope.categoryID,
             start_time: $scope.reportSpec.start_datetime,
             end_time: $scope.reportSpec.end_datetime
@@ -240,8 +238,6 @@ app.controller('advancedAnalyticsCtrl',[ '$http','$scope','$rootScope','$locatio
         });
 
         locationsPromise.success(function (data, status, headers, config) {
-      */
-            data = $scope.entities['locations']
             var tweetlocations = data["tweetlocations"];
             var imagelocations = data["imagelocations"];
             var videolocations = data["videolocations"];
@@ -251,7 +247,12 @@ app.controller('advancedAnalyticsCtrl',[ '$http','$scope','$rootScope','$locatio
             locations = locations.concat(videolocations);
             $scope.locations = locations;
 
+       //     $scope.locations = locations;
 
+        });
+        locationsPromise.error(function (data, status, headers, config) {
+            console.log("Failed to load locations from the API!");
+        });
     };
 
 }]);

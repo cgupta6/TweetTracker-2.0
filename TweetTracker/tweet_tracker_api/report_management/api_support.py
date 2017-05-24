@@ -74,7 +74,7 @@ def update_report(report_id, name, start_datetime, end_datetime, selectedJobs, f
     :param username: The username of user for which this Job is being created for
 	:return:
     """
-    mongo_response = report.update(report_id, name, start_datetime, end_datetime, selectedJobs, filter_by, allWords, anyWords, noneWords, username_to_id(username))
+    mongo_response = report.update(report_id, name, start_datetime, end_datetime, selectedJobs, filter_by, allWords, anyWords, noneWords, username_to_id(username), data=None)
     if mongo_response is None:
         abort(400)
     else:

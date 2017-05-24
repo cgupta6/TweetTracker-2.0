@@ -108,6 +108,7 @@ app.controller('editReportCtrl', function ( $scope, $location, $http ,$rootScope
         if(reportDb.existingTweets!=undefined)
             report.existingTweets=reportDb.existingTweets;
 
+        report.data= reportDb.data;
         return report;
     };
 
@@ -226,6 +227,7 @@ app.controller('editReportCtrl', function ( $scope, $location, $http ,$rootScope
             allWords: $scope.report.allWords,
             anyWords: $scope.report.anyWords,
             noneWords: $scope.report.excludedWords,
+            data: $scope.report.data
         };
 
         $log.info('Attempt to update report with name ' + $scope.report.name);

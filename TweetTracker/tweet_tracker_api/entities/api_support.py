@@ -263,6 +263,7 @@ def get_users(username, job_ids, begin_time, end_time, limit):
     # Check that our user can query all selected jobs
     for job_id in job_ids:
         obj = job.get_job_with_user(job_id, username)
+
         # obj is None if we don't have permission to access the job
         if obj is None:
             return None
@@ -280,7 +281,7 @@ def get_users(username, job_ids, begin_time, end_time, limit):
                              }
                          } for catime in catime_constraints["$or"]]}
 
-    print query_obj
+
     global tweets
     search_tweets = tweets
     # If this query hits only the last couple of days, use the RAM db

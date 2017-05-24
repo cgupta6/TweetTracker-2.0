@@ -24,6 +24,9 @@ app.controller('rawDataCtrl',[ '$scope','$rootScope','$location','NgTableParams'
         reportCheck.success(function(data, status, headers, config) {
             //$scope.reportSpec = convertDate(data.report);
             $scope.reportSpec = data.report;
+            $scope.entities = $scope.reportSpec.data;
+
+
             var tempdate=new Date(data.report.createtime);
             $scope.reportSpec.createtime2=tempdate.toUTCString();
 
@@ -31,8 +34,8 @@ app.controller('rawDataCtrl',[ '$scope','$rootScope','$location','NgTableParams'
             var jobsPromise = $http.get('/api/job');
             jobsPromise.success(function(data, status, headers, config) {
                 $scope.jobs = data.jobs.map(cleanJob);
-                console.log("jobs:");
-                console.log($scope.jobs);
+               // console.log("jobs:");
+                //console.log($scope.jobs);
                 $scope.categoryID = $scope.reportSpec.selectedJobs.map(function(job) {
 
                 for (item in $scope.jobs)
@@ -42,7 +45,7 @@ app.controller('rawDataCtrl',[ '$scope','$rootScope','$location','NgTableParams'
                         return $scope.jobs[item].id;
                 }
              });
-            console.log($scope.categoryID);
+            //console.log($scope.categoryID);
 
 getTweets();
 
@@ -57,7 +60,7 @@ getTweets();
 
 
     var getTweets = function () {
-            console.log("start date:");
+            /*console.log("start date:");
             console.log($scope.reportSpec.start_datetime);
             var queryObject = {
                 categoryID: $scope.categoryID,
@@ -69,17 +72,13 @@ getTweets();
                 params: queryObject
             });
             tweetsPromise.success(function (data, status, headers, config) {
-                $scope.tweets = data.tweets;
-                $scope.tweetCount = data.count;
-console.log("NOW");
-console.log($scope.tweets);
+              */
+                $scope.tweets = $scope.entities.Tweets['tweets'];
+                $scope.tweetCount = $scope.entities.Tweets['count'];
                     $scope.tableParams = new NgTableParams({ page: 1,
                 count: 5}, {  counts: [5,10,15,20],dataset:$scope.tweets});
     $scope.crawlCount=$scope.tweets.length;
-            });
-            tweetsPromise.error(function (data, status, headers, config) {
-                console.log("Failed to load tweets from the API!");
-            });
+
          };
 
 

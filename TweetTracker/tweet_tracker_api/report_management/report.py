@@ -36,13 +36,14 @@ def create(name, start_datetime, end_datetime, selectedJobs, filter_by, allWords
         'filter_by': filter_by,
         'allWords': allWords,
         'anyWords': anyWords,
-        'noneWords': noneWords
+        'noneWords': noneWords,
+        'data':''
     })
     return nextReportId if report_id is not None else None
 
 
 
-def update(report_id, name, start_datetime, end_datetime, selectedJobs, filter_by, allWords, anyWords, noneWords, user_id):
+def update(report_id, name, start_datetime, end_datetime, selectedJobs, filter_by, allWords, anyWords, noneWords, user_id, data = None):
     """ This function updates the parameters of a report
     
     :param report_id: The id of the report to be updated
@@ -75,7 +76,8 @@ def update(report_id, name, start_datetime, end_datetime, selectedJobs, filter_b
         'filter_by': filter_by,
         'allWords': allWords,
         'anyWords': anyWords,
-        'noneWords': noneWords
+        'noneWords': noneWords,
+        'data': data
     }
 
     # Perform the actual update
@@ -166,7 +168,8 @@ def clean_report(report):
         "filter_by" : report.get('filter_by'),
         'allWords': report.get('allWords'),
         'anyWords': report.get('anyWords'),
-        'noneWords': report.get('noneWords')
+        'noneWords': report.get('noneWords'),
+        'data': report.get('data')
     }
 
 
