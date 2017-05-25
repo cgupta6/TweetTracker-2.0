@@ -65,7 +65,6 @@ def CreateReportThread(reportDetails):
 
     jobs = map(cleanJob,data['jobs']);
     job_ids = map(checkJob, reportDetails['selectedJobs'])
-    print "job ids:", job_ids
     begin_time = long(reportDetails['start_datetime'])
     end_time = long(reportDetails['end_datetime'])
     limit = 30
@@ -75,9 +74,9 @@ def CreateReportThread(reportDetails):
     print "seconds", intervalSeconds
 
     print "reportid",reportDetails["reportID"]
-
+    print "job ids", job_ids
     topUsers = tweet_tracker_api.entities.api_support.get_users_sch(username, job_ids, begin_time, end_time, limit)
-
+    print "topusers", topUsers
     #getHashtags()
     Types = ["TopHashtags"]
 
@@ -106,6 +105,7 @@ def CreateReportThread(reportDetails):
     data = {"TopUsers" : topUsers, "TopHashtags" : topHashtags, "TopLinks": topLinks, "TopMentions": topMentions, "word_cloud": topTopics,\
             "Tweets": tweets, "locations": locations}
 
+    print data
     name = reportDetails['reportname']
     start_datetime = begin_time
     end_datetime = end_time

@@ -75,11 +75,11 @@ app.controller('basicStatsCtrl',[ '$scope','$rootScope','$location','NgTablePara
             getTweets();
         }
         else{
-                getUsers1();
-           getHashtags1();
-            getLinks1();
-            getTopics1();
-            getTweets1();
+              getUsers1();
+              getHashtags1();
+              getLinks1();
+              getTopics1();
+              getTweets1();
 
         }
 

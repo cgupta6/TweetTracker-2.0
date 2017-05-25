@@ -317,7 +317,9 @@ def get_users_sch(username, job_ids, begin_time, end_time, limit):
     """
     # Check that our user can query all selected jobs
     for job_id in job_ids:
+        print "job idd", job_id
         obj = job.get_job_with_user(job_id, username)
+        print "objj", obj
         # obj is None if we don't have permission to access the job
         if obj is None:
             return None
@@ -344,13 +346,16 @@ def get_users_sch(username, job_ids, begin_time, end_time, limit):
         search_tweets = ram_tweets
 
     user_counter = collections.Counter()
+    print "query objj", query_obj
+
     user_search = search_tweets.find(query_obj, {
         "entities.user_mentions.screen_name": 1
     })
 
+
     for search_result in user_search:
         for user in search_result['entities']['user_mentions']:
-            user_counter[user['screen_name']] += 1
+           user_counter[user['screen_name']] += 1
 
     return ({"users": [{
                                   "user": user,
