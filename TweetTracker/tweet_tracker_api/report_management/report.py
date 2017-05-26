@@ -1,8 +1,12 @@
 import time
-from tweet_tracker_api.auth.user import username_to_id
-
-
+from ..auth.user import username_to_id
+import api_support
+import json
+from ..auth import user
+from ..job_management import *
+from ..entities import *
 reports= None
+jobs=[]
 
 def setup(collection, ram_collection):
     global reports
@@ -184,3 +188,5 @@ def delete(user_id, report_id):
     if report is None:
         return None
     return reports.remove({"creator": user_id, "reportID": report_id})
+
+

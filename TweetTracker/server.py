@@ -21,6 +21,7 @@ from tweet_tracker_api.utilities import *
 from tweet_tracker_api.bot_prob import find_jobs_bot_prob
 from tweet_tracker_api.userlimit import *
 from tweet_tracker_api.APIErrors import *
+import scheduler
 import logging
 import cPickle as pickle
 import time
@@ -57,6 +58,8 @@ searchExportYaks = SearchExportYaks(config)
 timeline = Timeline(config)
 getEntities = Entities(config)
 
+
+jobs=[]
 """
 Holding the bot detection classifiers in memory
 """
@@ -238,6 +241,104 @@ def all_reports():
         response.set_data(json.dumps(reportInfo))
         print response
         return response
+
+
+# Report management routes start here
+@app.route("/api/save_report", methods=['GET'])
+def save_reports():
+    """ Request gets all reports for the user.
+
+    This request should return a JSON object containing all reports that the user
+    can read from.
+    """
+    # TODO: Change when authorization module is in place
+    username = session.get('username')
+    reportId = request.args.get('report_id')
+
+    response = scheduler.saveReport(reportId,username)
+    return response
+
+
+@app.route("/api/savereport", methods=['GET'])
+def saveReport():
+
+    global jobs
+    username = session.get('username')
+    report_id = request.args.get('report_id')
+    response = tweet_tracker_api.report_management.api_support.get_report(report_id,username)
+    reportDetails = json.loads(response.get_data())
+    reportDetails = reportDetails['report']
+    print "jobss:",reportDetails['selectedJobs']
+    username = tweet_tracker_api.auth.user.id_to_username(reportDetails['creator'])
+    data = {}
+    data= tweet_tracker_api.job_management.job.get_all_by_user(username)
+    print "data:", data
+    jobs = map(cleanJob,data['jobs'])
+    job_ids = map(checkJob, reportDetails['selectedJobs'])
+    begin_time = long(reportDetails['start_datetime'])
+    end_time = long(reportDetails['end_datetime'])
+    limit = 30
+    # getUsers()
+    print "reportid",reportDetails["reportID"]
+    print "job ids", job_ids
+    topUsers = tweet_tracker_api.entities.api_support.get_users_sch(username, job_ids, begin_time, end_time, limit)
+
+    #getHashtags()
+    Types = ["TopHashtags"]
+
+    queryObject = {
+        'categoryID': job_ids,
+        'start_time': begin_time,
+        'end_time': end_time
+    }
+    queryObject['Types'] = ["TopHashtags"];
+    queryObject['limit'] = 30;
+    data=''
+    (success, result) = getEntities.getEntities_sch(queryObject)
+    data = result
+    topHashtags = data['TopHashtags']
+    topLinks = data['TopUrls']
+    topMentions = data['TopMentions']
+
+    #getTopics();
+    topTopics =  tweet_tracker_api.entities.api_support.generate_word_cloud_sch(username, job_ids, begin_time, end_time, limit)
+    (success, result) = searchExport.getTweets_sch(queryObject)
+    tweets = result
+    locations = tweet_tracker_api.entities.api_support.get_locations_sch(username, job_ids, begin_time, end_time, config)
+    print "==============================="
+    data = {"TopUsers" : topUsers, "TopHashtags" : topHashtags, "TopLinks": topLinks, "TopMentions": topMentions, "word_cloud": topTopics,\
+            "Tweets": tweets, "locations": locations}
+
+    print data
+    name = reportDetails['reportname']
+    start_datetime = begin_time
+    end_datetime = end_time
+    selectedJobs = reportDetails['selectedJobs']
+    filter_by = reportDetails['filter_by']
+    allWords = reportDetails['allWords']
+    anyWords = reportDetails['anyWords']
+    noneWords = reportDetails['noneWords']
+    report_id = reportDetails['reportID']
+    creator = reportDetails['creator']
+    mongo_response = tweet_tracker_api.report_management.report.update(report_id, name, start_datetime, end_datetime, selectedJobs, filter_by, allWords, anyWords, noneWords, creator, data)
+    return jsonify({"result":"success"})
+
+def cleanJob(job):
+    return {
+            'id': job['categoryID'],
+            'name': job['catname'],
+            'selected': False,
+            'crawling': (job['includeincrawl'] == 1)
+        }
+
+def checkJob(job):
+    global jobs
+    for item in jobs:
+        if item['name'] == job:
+            return item['id']
+
+
+
 
 
 @app.route("/api/deleteReport/<report_id>", methods=['POST'])

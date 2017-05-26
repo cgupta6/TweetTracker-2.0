@@ -42,7 +42,7 @@ app.controller('basicStatsCtrl',[ '$scope','$rootScope','$location','NgTablePara
 
 
    $scope.report_id=reportService.getReportId();
-   setTimeout(function () {
+   setTimeout(reportDetails = function () {
         var reportCheck = $http.get('/api/report?report_id='+$scope.report_id);
         reportCheck.success(function(data, status, headers, config) {
             //$scope.reportSpec = convertDate(data.report);
@@ -68,11 +68,12 @@ app.controller('basicStatsCtrl',[ '$scope','$rootScope','$location','NgTablePara
                 }
              });
         if($scope.reportSpec.data=="" || $scope.reportSpec.data== null){
-            getUsers();
-           getHashtags();
+           /* getUsers();
+            getHashtags();
             getLinks();
             getTopics();
-            getTweets();
+            getTweets();*/
+            saveReport();
         }
         else{
               getUsers1();
@@ -95,6 +96,21 @@ app.controller('basicStatsCtrl',[ '$scope','$rootScope','$location','NgTablePara
     var data=[];
     $scope.tableParams = new NgTableParams({ count: data.length}, { dataset: data, counts: []});
 
+     var saveReport = function () {
+             var reportCheck = $http.get('/api/savereport?report_id='+$scope.report_id);
+            reportCheck.success(function(data, status, headers, config) {
+              reportDetails();
+            /*  getUsers1();
+              getHashtags1();
+              getLinks1();
+              getTopics1();
+              getTweets1(); */
+            });
+         reportCheck.error(function(data, status, headers, config) {
+            //TODO: Add a backup input for this
+            console.log("DB not reachable.")
+        });
+        };
 
      var getTweets = function () {
             var queryObject = {

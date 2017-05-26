@@ -3,7 +3,7 @@ from json import dumps
 import report
 from ..auth.user import email_to_id, username_to_id
 import logging
-
+from TweetTracker.scheduler import *
 
 def get_all_reports_by_user(username=None):
     """ This gets all of the reports for a user by their username.
@@ -21,6 +21,7 @@ def get_all_reports():
     """
     print report.get_reports_all()
     return jsonify(report.get_reports_all())
+
 
 def get_report(report_id, username=None):
     """
