@@ -46,7 +46,8 @@ jQuery('#raw_head').attr('href','/#/rawData/'+$scope.report_id);
 
    $scope.report_id=reportService.getReportId();
    setTimeout(reportDetails = function () {
-       jQuery(".nav").find(".active").removeClass("active");
+   setTimeout(function () {
+        jQuery(".nav").find(".active").removeClass("active");
         jQuery("#basic_head").parent().addClass("active");
         var reportCheck = $http.get('/api/report?report_id='+$scope.report_id);
         reportCheck.success(function(data, status, headers, config) {
