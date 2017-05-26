@@ -577,8 +577,8 @@ def get_users():
     :return: A JSON response containing the data requested if authorized.
     """
     username = session.get('username')
-
     begin_time, end_time, job_ids, limit = extract_entity_parameters(request)
+    print 'shobhitend',end_time
     return tweet_tracker_api.entities.api_support.get_users(username, job_ids, begin_time, end_time, limit)
 
 
@@ -701,8 +701,9 @@ def translate():
 @app.route("/api/gettweets")
 def get_tweets():
     try:
+        print 'req args',request.args
         (success, result) = searchExport.getTweets(request.args)
-
+        #print 'tweetsresult',result
         if not success:
             raise InvalidUsage(result, 410)
         else:

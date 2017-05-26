@@ -67,7 +67,7 @@ app.controller('basicStatsCtrl',[ '$scope','$rootScope','$location','NgTablePara
                         return $scope.jobs[item].id;
                 }
              });
-        if($scope.reportSpec.data==""){
+        if($scope.reportSpec.data=="" || $scope.reportSpec.data== null){
             getUsers();
            getHashtags();
             getLinks();
@@ -118,7 +118,6 @@ app.controller('basicStatsCtrl',[ '$scope','$rootScope','$location','NgTablePara
 
     var getUsers = function () {
 
-        console.log($scope.categoryID);
         var queryObject = {
             job_ids: $scope.categoryID,
             start_time: $scope.reportSpec.start_datetime,

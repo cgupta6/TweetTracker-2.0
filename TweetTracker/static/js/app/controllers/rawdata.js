@@ -47,7 +47,13 @@ app.controller('rawDataCtrl',[ '$scope','$rootScope','$location','NgTableParams'
              });
             //console.log($scope.categoryID);
 
-getTweets();
+              if($scope.reportSpec.data=="" || $scope.reportSpec.data== null){
+
+                    getTweets();
+            }
+            else{
+                    getTweets1();
+             }
 
         });
         reportCheck.error(function(data, status, headers, config) {
@@ -59,7 +65,7 @@ getTweets();
 
 
 
-    var getTweets = function () {
+    var getTweets1 = function () {
             /*console.log("start date:");
             console.log($scope.reportSpec.start_datetime);
             var queryObject = {
@@ -82,6 +88,26 @@ getTweets();
          };
 
 
+    var getTweets = function () {
+            var queryObject = {
+                categoryID: $scope.categoryID,
+                start_time: $scope.reportSpec.start_datetime,
+                end_time: $scope.reportSpec.end_datetime
+            };
+
+            var tweetsPromise = $http.get('/api/gettweets', {
+                params: queryObject
+            });
+            tweetsPromise.success(function (data, status, headers, config) {
+
+                $scope.tweets = data['tweets'];
+                $scope.tweetCount = data['count'];
+                    $scope.tableParams = new NgTableParams({ page: 1,
+                count: 5}, {  counts: [5,10,15,20],dataset:$scope.tweets});
+                $scope.crawlCount=$scope.tweets.length;
+
+         });
+};
    //
    //
    // var link="https://twitter.com/NASA/status/852652984387371008";

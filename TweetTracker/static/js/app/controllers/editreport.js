@@ -220,7 +220,7 @@ app.controller('editReportCtrl', function ( $scope, $location, $http ,$rootScope
         var sendObj = {
             report_id:report_id,
             name: $scope.report.name,
-            start_datetime: Math.floor($scope.report.startDate.getTime()/1000.0),
+            start_datetime: Math.floor(($scope.report.startDate.getTime())/1000.0),
             end_datetime: Math.floor($scope.report.endDate.getTime()/1000.0),
             selectedJobs :$scope.selectedJobs,
             filter_by: jobSources,

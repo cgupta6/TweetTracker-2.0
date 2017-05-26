@@ -355,6 +355,7 @@ def get_users_sch(username, job_ids, begin_time, end_time, limit):
 
     for search_result in user_search:
         for user in search_result['entities']['user_mentions']:
+
            user_counter[user['screen_name']] += 1
 
     return ({"users": [{

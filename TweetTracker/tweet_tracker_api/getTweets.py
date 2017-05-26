@@ -54,7 +54,7 @@ class SearchExport(TweetTrackerAPIClass):
         anonymize = queryargs['anonymize'] if 'anonymize' in queryargs else '0'
         skip = queryargs['skip'] if 'skip' in queryargs else 0
         limit = queryargs['limit'] if 'limit' in queryargs else 1000
-
+        print 'limit1',limit
         #check valid input
         try:
             categories = [int(x) for x in categories]
@@ -72,7 +72,6 @@ class SearchExport(TweetTrackerAPIClass):
                 return (False, 'start_time must be before end_time.')
         except:
             return (False, 'start_time and end_time must be Unix timestamps in GMT.')
-
         #if the start time is zero, go two days back
         if start_time == 0:
             start_time = end_time - (2 * 24 * 60 * 60)
@@ -155,7 +154,10 @@ class SearchExport(TweetTrackerAPIClass):
             log.error(session['username'] + ' ' + 'Tweetalyzer:Tweets' + ' ' + str(q))
         except Exception as e:
             print 'Exception occured!'
-
+        print "**********************"
+        print 'queryY:',q
+        print ""
+        print "**********************"
         database = self.decideConnection(start_time)[1]  # we don't care about the dist/ram string
         for doc in database.tweets.find(q, self.projection).skip(skip).limit(limit):
             del doc['_id']
