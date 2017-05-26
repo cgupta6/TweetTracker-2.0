@@ -40,14 +40,11 @@
                         <tr><td  align="center"  title="'Detail'">Create Time:
                             <td  align="center" title="'Info'">{{reportSpec.createtime2}}
                             </td></tr>
-                        <tr><td  align="center">Tweet Crawl Limit:
-                            <td  align="center" title="'Info'">{{reportSpec.limit}}
-                            </td></tr>
                         <tr><td  align="center">Tweets Crawled:
                             <td  align="center" title="'Info'">{{tweetCount}}
                             </td></tr>
                         <tr><td  align="center"  title="'Detail'">Selected Crawl:
-                            <td  align="center" title="'Info'">{{reportSpec.selectedJobs.toString() | cut:true:50:' ...'}}
+                            <td  align="center" title="'Info'">{{reportSpec.selectedJobs.toString() | cut:true:15:' ...'}}
                             </td></tr>
                     </table>
                 </md-card-content>
@@ -269,7 +266,7 @@
                 <table ng-table="tableParamsLinks" class="table" style="word-wrap:break-word;table-layout: fixed;">
                         <tr ng-repeat="link in $data">
                             <td  align="center"  title="'link'">
-                                <a target="_blank" href="{{ link.link }}" >{{link.link | cut:true:35:' ...'}}</a></td>
+                                <a target="_blank" href="{{ link.link }}" >{{link.link | cut:true:15:' ...'}}</a></td>
                             <td  align="center" title="'linkCount'">
 
                                 {{link.count}}</td>
@@ -290,7 +287,7 @@
                           <table ng-table="tableParamsLinks2" class="table" >
                               <tr ng-repeat="link in $data">
                                   <td  align="center"  title="'link'">
-                                      <a href="{{ link.link }}" >{{link.link | cut:true:15:' ...'}}</a></td>
+                                      <a href="{{ link.link }}" >{{link.link}}</a></td>
                                   <td  align="center" title="'linkCount'">
                                       {{link.count}}</td>
                               </tr>
