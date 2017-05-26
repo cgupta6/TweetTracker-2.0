@@ -27,11 +27,11 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li></li>
-                <li ng-show="isReport.isReportTab() && type=='yes'" ><a href="#/basicstats" id="basicstats"><i class="fa fa-bar-chart"></i> Basic Stats</a>
+                <li ng-show="isReport.isReportTab() && type=='yes'" ><a id="basic_head" href="" id="basicstats"><i class="fa fa-bar-chart"></i> Basic Stats</a>
                 </li>
-                <li ng-show="isReport.isReportTab() && type=='yes'"><a href="#/advancedAnalytics" id="advancedAnalytics"><i class="fa fa-cube"></i> Advanced Analystics</a>
+                <li ng-show="isReport.isReportTab() && type=='yes'"><a id="advanced_head" href="" id="advancedAnalytics"><i class="fa fa-cube"></i> Advanced Analystics</a>
                 </li>
-                <li ng-show="isReport.isReportTab() && type=='yes'"><a href="#/rawData" id="rawData"><i class="fa fa-database"></i> Raw Data</a>
+                <li ng-show="isReport.isReportTab() && type=='yes'"><a id="raw_head" href="" id="rawData"><i class="fa fa-database"></i> Raw Data</a>
                 </li>
                 <li ng-show="type=='yes'" onclick="$.post('/logout');localStorage={};"><a href="/logout"><i class="fa fa-sign-out">Logout</i></a>
                 </li>
@@ -42,7 +42,7 @@
     </div>
     <!-- /.container -->
 </nav>
-
+<!--
 <script>
     // js to Select the Active Tab
     $(".nav a").on("click", function(){
@@ -53,7 +53,7 @@
         $(".nav").find(".active").removeClass("active");
     });
 </script>
-
+-->
 <style>
     /*css to alter active tab view*/
     .navbar-inverse .navbar-nav>.active>a{

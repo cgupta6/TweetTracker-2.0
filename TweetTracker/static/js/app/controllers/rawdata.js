@@ -4,11 +4,15 @@
 app.controller('rawDataCtrl',[ '$scope','$rootScope','$location','NgTableParams','dynamicHeader', 'reportService','$http','$state',
                                 function($scope ,$rootScope, $location, NgTableParams,dynamicHeader,reportService,$http,$state ) {
 
-    dynamicHeader.setReportTab($location.$$path);
-
+ dynamicHeader.setReportTab('/rawData');
     $scope.go = function ( path ) {
         $location.path( path );
     };
+    $scope.report_id= $state.params.reportId;
+jQuery('#basic_head').attr('href','/#/basicstats/'+$scope.report_id);
+jQuery('#advanced_head').attr('href','/#/advancedAnalytics/'+$scope.report_id);
+jQuery('#raw_head').attr('href','/#/rawData/'+$scope.report_id);
+
  var cleanJob = function(job) {
         return {
             id: job['categoryID'],
@@ -18,8 +22,9 @@ app.controller('rawDataCtrl',[ '$scope','$rootScope','$location','NgTableParams'
         }
     };
 
-    $scope.report_id=reportService.getReportId();
   setTimeout(function () {
+        jQuery(".nav").find(".active").removeClass("active");
+        jQuery("#raw_head").parent().addClass("active");
         var reportCheck = $http.get('/api/report?report_id='+$scope.report_id);
         reportCheck.success(function(data, status, headers, config) {
             //$scope.reportSpec = convertDate(data.report);

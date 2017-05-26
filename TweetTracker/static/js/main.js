@@ -28,11 +28,11 @@ app.config(function ($stateProvider) {
         controller:"loginCtrl",
         templateUrl:"static/templates/login.html"
     }).state("rawData",{
-        url:"/rawData",
+        url:"/rawData/:reportId",
         controller:"rawDataCtrl",
         templateUrl:"static/templates/RawData.html"
     }).state("advancedAnalytics",{
-        url:"/advancedAnalytics",
+        url:"/advancedAnalytics/:reportId",
         controller:"advancedAnalyticsCtrl",
         templateUrl:"static/templates/advancedanalytics.html"
     }).state("myProfile",{
@@ -64,7 +64,7 @@ app.config(function ($stateProvider) {
         controller:"myJobCtrl",
         templateUrl:"static/templates/MyJobs.html"
     }).state("basicstats",{
-        url:"/basicstats",
+        url:"/basicstats/:reportId",
         controller:"basicStatsCtrl",
         templateUrl:"static/templates/basicstats.html"
     });

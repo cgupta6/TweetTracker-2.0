@@ -47,7 +47,7 @@
                 <md-card-content>
                     <table ng-table="tableParams" class="table" >
                         <tr ng-repeat="report in reports" onmouseover="this.style.background='#F8F8F8';" onmouseout="this.style.background='white';">
-                            <td  title="'Report' "sortable="'name'" ng-click="goreport('/basicstats',report.reportID)">
+                            <td  title="'Report' "sortable="'name'" ng-click="goreport('/basicstats/'+report.reportID,report.reportID)">
                                 <center>
                                     <div class="btn btn-link" >{{report.reportname}}</div></center></td>
                             <td title="'Created On'" sortable="'createdOn'" ng-click="goreport('/basicstats',report.reportID)">

@@ -3,10 +3,9 @@
  */
 
 
-app.controller('advancedAnalyticsCtrl',[ '$http','$scope','$rootScope','$location', '$mdSidenav','NgTableParams',
-    'dynamicHeader','reportService', function($http, $scope ,$rootScope, $location,$mdSidenav, NgTableParams,dynamicHeader,reportService) {
-
-    dynamicHeader.setReportTab($location.$$path);
+app.controller('advancedAnalyticsCtrl',[ '$http','$state','$scope','$rootScope','$location', '$mdSidenav','NgTableParams',
+    'dynamicHeader','reportService', function($http,$state, $scope ,$rootScope, $location,$mdSidenav, NgTableParams,dynamicHeader,reportService) {
+ dynamicHeader.setReportTab('/advancedAnalytics');
     $scope.showPopup=false;
     $scope.showMainMenu=true;
 
@@ -26,7 +25,6 @@ app.controller('advancedAnalyticsCtrl',[ '$http','$scope','$rootScope','$locatio
 
     $scope.advancedReports=[{name:'Maps',image:'static/images/images.png'}
                             ,{name:'Top Users',image:'static/images/images.png'}];
-
 
 
 
@@ -106,6 +104,11 @@ app.controller('advancedAnalyticsCtrl',[ '$http','$scope','$rootScope','$locatio
     $scope.tableParams = new NgTableParams({ count: data.length}, { dataset: data, counts: []});
 
 
+
+    $scope.report_id= $state.params.reportId;
+jQuery('#basic_head').attr('href','/#/basicstats/'+$scope.report_id);
+jQuery('#advanced_head').attr('href','/#/advancedAnalytics/'+$scope.report_id);
+jQuery('#raw_head').attr('href','/#/rawData/'+$scope.report_id);
     $scope.htmlString='<table ng-table="tableParamsUser" class="table" >\
         <tr ng-repeat="user in users">\
         <td  align="center"  title="User">\
@@ -124,9 +127,9 @@ app.controller('advancedAnalyticsCtrl',[ '$http','$scope','$rootScope','$locatio
         });
 
 
-
-    $scope.report_id=reportService.getReportId();
    setTimeout(function () {
+        jQuery(".nav").find(".active").removeClass("active");
+        jQuery("#advanced_head").parent().addClass("active");
         var reportCheck = $http.get('/api/report?report_id='+$scope.report_id);
         reportCheck.success(function(data, status, headers, config) {
             //$scope.reportSpec = convertDate(data.report);

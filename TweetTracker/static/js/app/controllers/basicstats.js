@@ -11,7 +11,10 @@ app.controller('basicStatsCtrl',[ '$scope','$rootScope','$location','NgTablePara
     $scope.go = function ( path ) {
         $location.path( path );
     };
-
+    $scope.report_id= $state.params.reportId;
+jQuery('#basic_head').attr('href','/#/basicstats/'+$scope.report_id);
+jQuery('#advanced_head').attr('href','/#/advancedAnalytics/'+$scope.report_id);
+jQuery('#raw_head').attr('href','/#/rawData/'+$scope.report_id);
      $scope.topics = [];
     // This function converts date to string format
     var convertDate=function(report){
@@ -43,6 +46,8 @@ app.controller('basicStatsCtrl',[ '$scope','$rootScope','$location','NgTablePara
 
    $scope.report_id=reportService.getReportId();
    setTimeout(reportDetails = function () {
+       jQuery(".nav").find(".active").removeClass("active");
+        jQuery("#basic_head").parent().addClass("active");
         var reportCheck = $http.get('/api/report?report_id='+$scope.report_id);
         reportCheck.success(function(data, status, headers, config) {
             //$scope.reportSpec = convertDate(data.report);
