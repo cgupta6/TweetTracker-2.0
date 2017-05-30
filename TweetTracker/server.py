@@ -21,7 +21,6 @@ from tweet_tracker_api.utilities import *
 from tweet_tracker_api.bot_prob import find_jobs_bot_prob
 from tweet_tracker_api.userlimit import *
 from tweet_tracker_api.APIErrors import *
-import scheduler
 import logging
 import cPickle as pickle
 import time
@@ -243,20 +242,6 @@ def all_reports():
         return response
 
 
-# Report management routes start here
-@app.route("/api/save_report", methods=['GET'])
-def save_reports():
-    """ Request gets all reports for the user.
-
-    This request should return a JSON object containing all reports that the user
-    can read from.
-    """
-    # TODO: Change when authorization module is in place
-    username = session.get('username')
-    reportId = request.args.get('report_id')
-
-    response = scheduler.saveReport(reportId,username)
-    return response
 
 
 @app.route("/api/savereport", methods=['GET'])
