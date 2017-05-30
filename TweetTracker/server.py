@@ -2,7 +2,6 @@ from mercurial.dispatch import request
 
 from flask import *
 from flask.ext.compressor import Compressor
-
 import tweet_tracker_api
 import tweet_tracker_api.APIClass
 import tweet_tracker_api.auth.user
@@ -91,6 +90,13 @@ def index():
     else:
         check='no'
     return render_template("index.html",auth=check)
+
+@app.route("/checkAuth")
+def check_auth():
+    if 'authenticated' in session:
+        return jsonify({'auth':'yes'})
+    else:
+        abort(401)
 
 @app.route("/app")
 @app.route("/app/overview")
