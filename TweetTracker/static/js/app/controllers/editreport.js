@@ -46,10 +46,6 @@ app.controller('editReportCtrl', function ( $scope, $location, $http ,$rootScope
         report.createtime=tempdate.toUTCString();
         report.id= reportDb.report_id;
         report.name= reportDb.reportname;
-        if(reportDb.start_datetime!=undefined)
-            report.startDate=new Date(reportDb.start_datetime*1000.0);
-        if(reportDb.end_datetime!=undefined)
-            report.endDate=new Date(reportDb.end_datetime*1000.0);
         if(reportDb.selectedJobs!=undefined) {
             report.selectedJobs = reportDb.selectedJobs;
             for(var ii in report.selectedJobs){
@@ -73,20 +69,21 @@ app.controller('editReportCtrl', function ( $scope, $location, $http ,$rootScope
                 document.getElementById("videoMapFilter").checked=false;
         }
 
-        if(reportDb.allWords!=undefined) {
-            report.allWords = reportDb.allWords;
+        if(reportDb.allWords[0]!=undefined) {
+            report.allWords = reportDb.allWords[0];
+            console.log(report.allWords);
             splitRes=report.allWords.split(',');
             for ( i in splitRes)
                 $scope.input2.createItem(splitRes[i]);
         }
-        if(reportDb.anyWords!=undefined) {
-            report.anyWords = reportDb.anyWords;
+        if(reportDb.anyWords[0]!=undefined) {
+            report.anyWords = reportDb.anyWords[0];
             splitRes=report.anyWords.split(',');
             for ( i in splitRes)
                 $scope.input3.createItem(splitRes[i]);
         }
-        if(reportDb.noneWords!=undefined){
-            report.excludedWords=reportDb.noneWords;
+        if(reportDb.noneWords[0]!=undefined){
+            report.excludedWords=reportDb.noneWords[0];
             splitRes=report.excludedWords.split(',');
             for ( i in splitRes)
                 $scope.input4.createItem(splitRes[i]);
@@ -185,6 +182,26 @@ app.controller('editReportCtrl', function ( $scope, $location, $http ,$rootScope
         var reportCheck = $http.get('/api/report?report_id='+report_id);
          reportCheck.success(function(data, status, headers, config) {
         $scope.report = mapReport(data.report);
+        if(data.report.end_datetime==-1)
+        {
+            $('#datetimepicker2').datetimepicker({
+                                            date: new Date()
+                                        });
+        }
+        else
+        {
+            $('.btn-toggle').click();
+            $('#datetimepicker2').datetimepicker({
+                                            date: new Date(data.report.end_datetime*1000)
+                                        });
+        }
+        $('#datetimepicker1').datetimepicker({
+                                            date: new Date(data.report.start_datetime*1000)
+                                        });
+        console.log(data.report.end_datetime);
+
+
+
     });
     reportCheck.error(function(data, status, headers, config) {
         //TODO: Add a backup input for this
@@ -215,13 +232,17 @@ app.controller('editReportCtrl', function ( $scope, $location, $http ,$rootScope
                 jobSources.push(k);
             }
         }
-
+        var toDate = Math.floor($('#datetimepicker2').data("DateTimePicker").date().valueOf()/1000.0);
+        if($('.btn-toggle').find('.active').html()=='Current')
+        {
+            toDate=-1;
+        }
         console.log(report_id)
         var sendObj = {
             report_id:report_id,
             name: $scope.report.name,
-            start_datetime: Math.floor(($scope.report.startDate.getTime())/1000.0),
-            end_datetime: Math.floor($scope.report.endDate.getTime()/1000.0),
+            start_datetime: Math.floor($('#datetimepicker1').data("DateTimePicker").date().valueOf()/1000.0),
+            end_datetime: toDate,
             selectedJobs :$scope.selectedJobs,
             filter_by: jobSources,
             allWords: $scope.report.allWords,

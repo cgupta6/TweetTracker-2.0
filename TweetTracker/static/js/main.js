@@ -9,6 +9,18 @@ var app = angular.module('tweetTrackerApp', [
         .accentPalette('orange');
 });
 
+app.factory("checkAuthentication", function($state) {
+    return function () {
+        return $.get('/checkAuth')
+            .then(function (response) {
+                    return response;
+                }
+                , function (_error) {
+                    $state.go('/');
+                });
+    }
+});
+
 app.run(function(editableOptions, $location ) {
     editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
 
@@ -30,15 +42,30 @@ app.config(function ($stateProvider) {
     }).state("rawData",{
         url:"/rawData/:reportId",
         controller:"rawDataCtrl",
-        templateUrl:"static/templates/RawData.html"
+        templateUrl:"static/templates/RawData.html",
+        resolve : {
+            resolveLogin : function(checkAuthentication){
+                return checkAuthentication();
+            }
+        }
     }).state("advancedAnalytics",{
         url:"/advancedAnalytics/:reportId",
         controller:"advancedAnalyticsCtrl",
-        templateUrl:"static/templates/advancedanalytics.html"
+        templateUrl:"static/templates/advancedanalytics.html",
+        resolve : {
+            resolveLogin : function(checkAuthentication){
+                return checkAuthentication();
+            }
+        }
     }).state("myProfile",{
         url:"/myProfile",
         controller:"profileCtrl",
-        templateUrl:"static/templates/MyProfile.html"
+        templateUrl:"static/templates/MyProfile.html",
+        resolve : {
+            resolveLogin : function(checkAuthentication){
+                return checkAuthentication();
+            }
+        }
     }).state("register",{
         url:"/register",
         controller:"registerCtrl",
@@ -46,41 +73,70 @@ app.config(function ($stateProvider) {
     }).state("editReport",{
         url:"/editReport/:reportId",
         controller:"editReportCtrl",
-        templateUrl:"static/templates/EditReport.html"
+        templateUrl:"static/templates/EditReport.html",
+        resolve : {
+            resolveLogin : function(checkAuthentication){
+                return checkAuthentication();
+            }
+        }
     }).state("newReport",{
         url:"/newReport",
         controller:"newReportCtrl",
-        templateUrl:"static/templates/NewReport.html"
+        templateUrl:"static/templates/NewReport.html",
+        resolve : {
+            resolveLogin : function(checkAuthentication){
+                return checkAuthentication();
+            }
+        }
     }).state("newCrawl",{
         url:"/newCrawl",
         controller:"newCrawlCtrl",
-        templateUrl:"static/templates/NewCrawl.html"
+        templateUrl:"static/templates/NewCrawl.html",
+        resolve : {
+            resolveLogin : function(checkAuthentication){
+                return checkAuthentication();
+            }
+        }
     }).state("editCrawl",{
         url:"/editCrawl/:jobId",
         controller:"editCrawlCtrl",
-        templateUrl:"static/templates/EditCrawl.html"
+        templateUrl:"static/templates/EditCrawl.html",
+        resolve : {
+            resolveLogin : function(checkAuthentication){
+                return checkAuthentication();
+            }
+        }
     }).state("myJobs",{
         url:"/myJobs",
         controller:"myJobCtrl",
-        templateUrl:"static/templates/MyJobs.html"
+        templateUrl:"static/templates/MyJobs.html",
+        resolve : {
+            resolveLogin : function(checkAuthentication){
+                return checkAuthentication();
+            }
+        }
     }).state("basicstats",{
         url:"/basicstats/:reportId",
         controller:"basicStatsCtrl",
-        templateUrl:"static/templates/basicstats.html"
+        templateUrl:"static/templates/basicstats.html",
+        resolve : {
+            resolveLogin : function(checkAuthentication){
+                return checkAuthentication();
+            }
+        }
     });
 });
-
 app.controller('mainCtrl', function ( $scope, $location, $http,$rootScope ,dynamicHeader,$state) {
     //console.log("Header Rendered");
     $scope.isReport=dynamicHeader;
 
     dynamicHeader.setReportTab($location.$path);
-    //$state.includes("contacts")
 
     $scope.$on('$viewContentLoaded', function(){
         $(".nav").find(".active").removeClass("active");
-        if($location.$$path!="/"){}
-            $("#"+$location.$$path.substr(1).split('/')[0]).parent().addClass("active");
+        if(($location.$$path=="/")||($location.$$path=="/#")){}
+        else
+        $("#"+$location.$$path.substr(1).split('/')[0]).parent().addClass("active");
     });
 });
 
