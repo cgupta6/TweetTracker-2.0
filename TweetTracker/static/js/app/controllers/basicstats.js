@@ -46,7 +46,6 @@ jQuery('#raw_head').attr('href','/#/rawData/'+$scope.report_id);
 
    $scope.report_id=reportService.getReportId();
    setTimeout(reportDetails = function () {
-   setTimeout(function () {
         jQuery(".nav").find(".active").removeClass("active");
         jQuery("#basic_head").parent().addClass("active");
         var reportCheck = $http.get('/api/report?report_id='+$scope.report_id);
@@ -87,6 +86,7 @@ jQuery('#raw_head').attr('href','/#/rawData/'+$scope.report_id);
               getLinks1();
               getTopics1();
               getTweets1();
+              getMentions1();
 
         }
 
@@ -385,6 +385,39 @@ jQuery('#raw_head').attr('href','/#/rawData/'+$scope.report_id);
         //});
 
     };
+
+var getMentions1 = function () {
+
+
+            /* var queryObject = {
+                categoryID: $scope.categoryID,
+                start_time: $scope.reportSpec.start_datetime,
+                end_time: $scope.reportSpec.end_datetime
+            };
+            queryObject['Types'] = ["TopHashtags"];
+            queryObject['limit'] = 30;
+
+            var hashtagsPromise = $http.get('/api/getentities', {
+                params: queryObject
+            });
+            hashtagsPromise.success(function (data, status, headers, config) {
+              */
+                $scope.mentions = $scope.entities['TopMentions'].map(function(mentionsArray) {
+                    return {
+                        mention: mentionsArray[0],
+                        count: mentionsArray[1]
+                    };
+                });
+
+             $scope.tableParamsMentions = new NgTableParams({}, {
+            counts: [],
+            dataset: $scope.mentions.slice(0,5)
+        });
+        $scope.tableParamsMentions2 = new NgTableParams({}, {
+            counts: [],
+            dataset: $scope.mentions
+        });
+        };
 
   var getTopics1 = function () {
 

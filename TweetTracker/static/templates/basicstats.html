@@ -41,7 +41,7 @@
                             <td  align="center" title="'Info'">{{reportSpec.createtime2}}
                             </td></tr>
                         <tr><td  align="center">Tweets Crawled:
-                            <td  align="center" title="'Info'">{{tweetCount}}
+                            <td  align="center" title="'Info'">{{reportSpec.current}}
                             </td></tr>
                         <tr><td  align="center"  title="'Detail'">Selected Crawl:
                             <td  align="center" title="'Info'">{{reportSpec.selectedJobs.toString() | cut:true:15:' ...'}}
@@ -82,7 +82,7 @@
                                         </td></tr>
 
                                     <tr><td  align="center"  title="'Detail'">All Words:
-                                        <td  align="center" title="'Info'">{{reportSpec.allWords}}
+                                        <td  align="center" title="'Info'">{{reportSpec.allWords.split(',')}}
                                         </td></tr>
 
                                     <tr><td  align="center"  title="'Detail'">Any Words:
@@ -246,6 +246,61 @@
             <md-card-footer md-colors="::{backgroundColor: 'default-primary-200'}" >
                 <span><b>5 of {{ hashtags.length }} Hashtags</b>
                     <md-button class="md-raised md-small md-warn pull-right" data-toggle="modal" data-target="#hashModal">
+                        More
+                        <i class="fa fa-chevron-right"></i></md-button>  </span>
+            </md-card-footer>
+
+        </md-card>
+
+       </div>
+
+         <div class="col-lg-3">
+          <md-card >
+            <md-card-header md-colors="::{backgroundColor: 'default-primary-900'}">
+                <md-card-header-text>
+                    <span class="md-title">Top Mentions</span>
+                </md-card-header-text>
+            </md-card-header>
+
+            <md-card-content>
+                <table ng-table="tableParamsMentions" class="table"  style="word-wrap:break-word;table-layout: fixed;">
+                        <tr ng-repeat="tags in $data">
+                            <td  align="center"  title="'tag'">
+                                {{tags.mention}}</td>
+                            <td  align="center" title="'tagCount'">
+                                {{tags.count}}</td>
+                        </tr>
+                    </table>
+            </md-card-content>
+          <div class="modal fade" id="mentionModal" role="dialog">
+              <div class="modal-dialog">
+
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title">Top Mentions</h4>
+                      </div>
+                      <div class="modal-body">
+                          <table ng-table="tableParamsMentions2" class="table" >
+                              <tr ng-repeat="tags in $data">
+                                  <td  align="center"  title="'tag'">
+                                      {{tags.mention}}</td>
+                                  <td  align="center" title="'tagCount'">
+                                      {{tags.count}}</td>
+                              </tr>
+                          </table>
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                  </div>
+
+              </div>
+          </div>
+            <md-card-footer md-colors="::{backgroundColor: 'default-primary-200'}" >
+                <span><b>5 of {{ mentions.length }} mentions</b>
+                    <md-button class="md-raised md-small md-warn pull-right" data-toggle="modal" data-target="#mentionModal">
                         More
                         <i class="fa fa-chevron-right"></i></md-button>  </span>
             </md-card-footer>
