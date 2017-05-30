@@ -18,29 +18,16 @@ jQuery('#raw_head').attr('href','/#/rawData/'+$scope.report_id);
      $scope.topics = [];
     // This function converts date to string format
     var convertDate=function(report){
-        var tempdate=new Date(report.createtime);
-        report.createtime=tempdate.toUTCString();
+        report.createtime=moment(report.createtime).format("M/D/YYYY H:mm");
 
         var dateObj = new Date(report.start_datetime);
-        var month = dateObj.getUTCMonth() + 1; //months from 1-12
-        var day = dateObj.getUTCDate();
-        var year = dateObj.getUTCFullYear();
 
-        newdate = year + "/" + month + "/" + day;
-
-        report.start_datetime=newdate;
+        report.start_datetime_disp=moment(report.start_datetime).format("M/D/YYYY H:mm");
         var dateObj;
         if(report.end_datetime==-1)
-            dateObj = new Date();
+            dateObj = moment();
         else
-            dateObj = new Date(report.end_datetime);
-        var month = dateObj.getUTCMonth() + 1; //months from 1-12
-        var day = dateObj.getUTCDate();
-        var year = dateObj.getUTCFullYear();
-
-        newdate = year + "/" + month + "/" + day;
-
-        report.end_datetime=newdate;
+            dateObj = moment(report.end_datetime);
 
         return report;
     };
@@ -53,13 +40,21 @@ jQuery('#raw_head').attr('href','/#/rawData/'+$scope.report_id);
         jQuery("#basic_head").parent().addClass("active");
         var reportCheck = $http.get('/api/report?report_id='+$scope.report_id);
         reportCheck.success(function(data, status, headers, config) {
-            //$scope.reportSpec = convertDate(data.report);
             $scope.reportSpec = data.report;
             console.log($scope.reportSpec);
             $scope.entities = $scope.reportSpec.data;
-            //console.log($scope.reportSpec);
-            var tempdate=new Date(data.report.createtime);
-            $scope.reportSpec.createtime2=tempdate.toUTCString();
+
+            $scope.reportSpec.createtime_disp=moment($scope.reportSpec.createtime).format("M/D/YYYY H:mm");
+
+            $scope.reportSpec.start_datetime_disp=moment($scope.reportSpec.start_datetime*1000).format("M/D/YYYY H:mm");
+
+            var dateObj;
+            if($scope.reportSpec.end_datetime==-1)
+                dateObj = moment();
+            else
+                dateObj = moment($scope.reportSpec.end_datetime*1000);
+
+            $scope.reportSpec.end_datetime_disp=dateObj.format("M/D/YYYY H:mm");
 
 
             var jobsPromise = $http.get('/api/job');
