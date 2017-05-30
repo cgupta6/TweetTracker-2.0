@@ -29,8 +29,11 @@ jQuery('#raw_head').attr('href','/#/rawData/'+$scope.report_id);
         newdate = year + "/" + month + "/" + day;
 
         report.start_datetime=newdate;
-
-        var dateObj = new Date(report.end_datetime);
+        var dateObj;
+        if(report.end_datetime==-1)
+            dateObj = new Date();
+        else
+            dateObj = new Date(report.end_datetime);
         var month = dateObj.getUTCMonth() + 1; //months from 1-12
         var day = dateObj.getUTCDate();
         var year = dateObj.getUTCFullYear();

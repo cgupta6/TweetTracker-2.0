@@ -38,18 +38,60 @@
                         Date Range:
                     </div>
                     <div class="col-lg-8">
-                        From    <md-datepicker
-                            ng-model="report.startDate"
-                            md-placeholder="Enter date"
-                            md-current-view="year"></md-datepicker>
-                        To <md-datepicker
-                            ng-model="report.endDate"
-                            md-placeholder="Enter date"
-                            md-current-view="year"></md-datepicker>
+                      From:
+                        <div class="container">
+                            <div class="row">
+                                <div class='col-lg-6' style="padding: 0">
+                                    <div class="form-group">
+                                        <div class='input-group date' id='datetimepicker1'>
+                                            <input type='text' class="form-control" />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <script type="text/javascript">
+                                    $(function () {
+                                        $('#datetimepicker1').datetimepicker({
+                                            date: new Date()
+                                        });
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                        To:
+                        <div class="btn-group btn-toggle">
+                        <button class="btn btn-xs btn-primary active">Current</button>
+                        <button class="btn btn-xs btn-default">Custom</button>
+                        </div>
+                        <div class="container" style="display: none" id="custom">
+                        <br/>
+                            <div class="row">
+                                <div class='col-lg-6' style="padding: 0">
+                                    <div class="form-group">
+                                        <div class='input-group date' id='datetimepicker2'>
+                                            <input type='text' class="form-control" />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <script type="text/javascript">
+                                    $(function () {
+                                        $('#datetimepicker2').datetimepicker({
+                                            date: new Date()
+                                        });
+                                    });
+                                </script>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="row">
+                        <br/>
                     <div class="col-lg-4">
                         Filter Map By:
                     </div>
@@ -294,4 +336,22 @@
             }
         }
     });
+
+
+
+   $('.btn-toggle').click(function() {
+    $(this).find('.btn').toggleClass('active');
+    	$(this).find('.btn').toggleClass('btn-primary');
+    $(this).find('.btn').toggleClass('btn-default');
+    if($('.btn-toggle').find('.active').html()=='Custom')
+    {
+        $('#custom').css('display','block');
+    }
+    if($('.btn-toggle').find('.active').html()=='Current')
+    {
+        $('#custom').css('display','none');
+    }
+return false;
+});
+
 </script>

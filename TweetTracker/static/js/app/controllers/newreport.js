@@ -2,9 +2,9 @@
  * Created by anjoy92 on 4/14/17.
  */
 
-app.controller('newReportCtrl', function ( $scope, $location, $http ,$rootScope, $log,dynamicHeader) {
+app.controller("newReportCtrl",['$scope', '$location', '$http' ,'$rootScope', '$log','dynamicHeader',
+    function ( $scope, $location, $http ,$rootScope, $log,dynamicHeader) {
     dynamicHeader.setReportTab($location.$$path);
-
 
     $scope.showDetails=false;
     $scope.selectedJobs=[];
@@ -39,6 +39,9 @@ app.controller('newReportCtrl', function ( $scope, $location, $http ,$rootScope,
     $scope.report.startDate = new Date();
     $scope.report.endDate = new Date();
 
+    ;
+
+
     // Post the new report, then redirect to the job listings
     $scope.submitReport = function () {
 
@@ -59,12 +62,16 @@ app.controller('newReportCtrl', function ( $scope, $location, $http ,$rootScope,
                 jobSources.push(k);
             }
         }
+        var toDate = Math.floor($('#datetimepicker2').data("DateTimePicker").date().valueOf()/1000.0);
+        if($('.btn-toggle').find('.active').html()=='Current')
+        {
+            toDate=-1;
+        }
 
-        console.log(typeof($scope.report.startDate));
         var sendObj = {
             name: $scope.report.name,
-            start_datetime: Math.floor($scope.report.startDate.getTime()/1000.0),
-            end_datetime: Math.floor($scope.report.endDate.getTime()/1000.0),
+            start_datetime: Math.floor($('#datetimepicker1').data("DateTimePicker").date().valueOf()/1000.0),
+            end_datetime: toDate,
             selectedJobs :$scope.selectedJobs,
             filter_by: jobSources,
             allWords: $scope.report.allWords,
@@ -120,4 +127,5 @@ app.controller('newReportCtrl', function ( $scope, $location, $http ,$rootScope,
                 }});
         } ,1);
     });
-});
+}]);
+
