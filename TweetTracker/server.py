@@ -268,7 +268,7 @@ def saveReport():
     response = tweet_tracker_api.report_management.api_support.get_report(report_id,username)
     reportDetails = json.loads(response.get_data())
     reportDetails = reportDetails['report']
-    print "jobss:",reportDetails['selectedJobs']
+
     username = tweet_tracker_api.auth.user.id_to_username(reportDetails['creator'])
     data = {}
     data= tweet_tracker_api.job_management.job.get_all_by_user(username)
@@ -277,6 +277,9 @@ def saveReport():
     job_ids = map(checkJob, reportDetails['selectedJobs'])
     begin_time = long(reportDetails['start_datetime'])
     end_time = long(reportDetails['end_datetime'])
+    if end_time == -1:
+        end_time = int(round(time.time()))
+    print "end time:", end_time
     limit = 30
     # getUsers()
     print "reportid",reportDetails["reportID"]

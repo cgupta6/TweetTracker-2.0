@@ -67,6 +67,9 @@ def CreateReportThread(reportDetails):
     job_ids = map(checkJob, reportDetails['selectedJobs'])
     begin_time = long(reportDetails['start_datetime'])
     end_time = long(reportDetails['end_datetime'])
+    if end_time == -1:
+        end_time = int(round(time.time()))
+
     limit = 30
     # getUsers()
 
