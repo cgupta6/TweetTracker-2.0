@@ -156,6 +156,11 @@ label {
     margin-bottom: 8px !important;
 }
 
+.modal-content{
+    border-radius: 15px 15px 0 0;
+}
+
 .modal-header{
-    background-color: rgba(107, 103, 91, 0.96);
+    background: rgb(66, 98, 129) !important;
+    border-radius: 10px 10px 0 0;
 }

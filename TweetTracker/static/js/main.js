@@ -4,9 +4,58 @@
 var app = angular.module('tweetTrackerApp', [
     'ngMaterial', 'ngMessages', 'material.svgAssetsCache','ngTable','xeditable','ui.router', 'selectize',"ngAnimate","services"
 ]).config(function($mdThemingProvider) {
+
+
+    $mdThemingProvider.definePalette('sadred', {
+    '50': 'b9423e',
+    '100': 'b9423e',
+    '200': 'b9423e',
+    '300': 'b9423e',
+    '400': 'b9423e',
+    '500': 'b9423e',
+    '600': 'e53935',
+    '700': 'b9423e',
+    '800': 'b9423e',
+    '900': 'b9423e',
+    'A100': 'b9423e',
+    'A200': 'b9423e',
+    'A400': 'b9423e',
+    'A700': 'b9423e',
+    'contrastDefaultColor': 'light',    // whether, by default, text (contrast)
+                                        // on this palette should be dark or light
+
+    'contrastDarkColors': ['50', '100', //hues which contrast should be 'dark' by default
+     '200', '300', '400', 'A100'],
+    'contrastLightColors': undefined
+  });
+
+     $mdThemingProvider.definePalette('sadblue', {
+    '50': '2c3e50',
+    '100': '2c3e50',
+    '200': 'eeeeee',
+    '300': '428bca',
+    '400': '2c3e50',
+    '500': '2c3e50',
+    '600': '2c3e50',
+    '700': '2c3e50',
+    '800': '2c3e50',
+    '900': '426281',
+    'A100': '2c3e50',
+    'A200': '2c3e50',
+    'A400': '2c3e50',
+    'A700': '2c3e50',
+    'contrastDefaultColor': 'light',    // whether, by default, text (contrast)
+                                        // on this palette should be dark or light
+
+    'contrastDarkColors': ['50', '100', //hues which contrast should be 'dark' by default
+     '200', '300', '400', 'A100'],
+    'contrastLightColors': undefined
+  });
+
+
     $mdThemingProvider.theme('default')
-        .primaryPalette('grey')
-        .accentPalette('orange');
+        .primaryPalette('sadblue')
+        .warnPalette('sadred');
 });
 
 app.factory("checkAuthentication", function($state) {
