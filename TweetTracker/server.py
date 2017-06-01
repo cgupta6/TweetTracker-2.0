@@ -810,6 +810,24 @@ def get_tweets():
     except InvalidUsage as e:
         raise e
 
+
+@app.route("/api/gettweetsbydate")
+def get_tweets_date():
+    try:
+        print 'req args',request.args
+        (success, result) = searchExport.getTweetCountByDate(request.args)
+        #print 'tweetsresult',result
+        if not success:
+            raise InvalidUsage(result, 410)
+        else:
+            r = Response(
+                json.dumps(result, ensure_ascii=False),
+                mimetype="application/json"
+            )
+            return r
+    except InvalidUsage as e:
+        raise e
+
 @app.route("/api/getyaks")
 def get_yakss():
     try:

@@ -151,9 +151,9 @@ jQuery('#raw_head').attr('href','/#/rawData/'+$scope.report_id);
              });
 
             if($scope.reportSpec.data=="" || $scope.reportSpec.data== null){
-                    getUsers();
-                    getTweets();
-                    getLocations();
+                    //getUsers();
+                    //getTweets();
+                    //getLocations();
             }
             else{
                     getUsers1();
@@ -261,7 +261,7 @@ jQuery('#raw_head').attr('href','/#/rawData/'+$scope.report_id);
                 end_time: $scope.reportSpec.end_datetime
             };
 
-            var tweetsPromise = $http.get('/api/gettweets', {
+            var tweetsPromise = $http.get('/api/gettweetsbydate', {
                 params: queryObject
             });
             tweetsPromise.success(function (data, status, headers, config) {
