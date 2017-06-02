@@ -94,7 +94,7 @@ jQuery('#raw_head').attr('href','/#/rawData/'+$scope.report_id);
             console.log("DB not reachable.")
         });
         });
-    },500);
+    },100);
 
 
     var data=[];
