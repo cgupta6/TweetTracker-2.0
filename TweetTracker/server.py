@@ -299,9 +299,15 @@ def saveReport():
     (success, result) = searchExport.getTweets_sch(queryObject)
     tweets = result
     locations = tweet_tracker_api.entities.api_support.get_locations_sch(username, job_ids, begin_time, end_time, config)
+
+    (success, result) = searchExport.getTweets_sch(queryObject)
+    tweets = result
+
+    (success, result) = searchExport.getTweetCountByDate_sch(queryObject)
+    stackTweetCount = result
     print "==============================="
     data = {"TopUsers" : topUsers, "TopHashtags" : topHashtags, "TopLinks": topLinks, "TopMentions": topMentions, "word_cloud": topTopics,\
-            "Tweets": tweets, "locations": locations}
+            "Tweets": tweets, "locations": locations, "stackTweetCount": stackTweetCount}
 
     print data
     name = reportDetails['reportname']

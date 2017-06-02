@@ -141,6 +141,7 @@ def three_search(username, begin_time, end_time, job_ids, query_object, limit, s
     :param no_limit: If true, ignore the limit parameter and return all results
     :return: A response either containing search results or an error
     """
+
     query_object = json.loads(query_object)
     
     # Check that our user can query all selected jobs

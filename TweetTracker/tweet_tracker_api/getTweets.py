@@ -417,3 +417,44 @@ class SearchExport(TweetTrackerAPIClass):
 
 
         return True, tweetCatCount
+
+    def getTweetCountByDate_sch(self, queryargs):
+        """
+
+        :param queryargs: 
+        :return: 
+        """
+        categories = queryargs['categoryID']
+        print "categories:", categories
+        tweetCatCount = []
+        arguments = queryargs.copy()
+        for category in categories:
+            arguments['categoryID'] = category
+            (success, result) = self.getTweets(arguments)
+            # print 'tweetsresult',result
+            catCount = {"key": category, "values": []}
+            countDict = {}
+
+            for tweet in result['tweets']:
+                timestamp = tweet['timestamp']
+                # date = datetime.datetime.fromtimestamp(timestamp/1000).strftime("%B %d, %Y")
+                date = datetime.datetime.fromtimestamp(timestamp / 1000).strftime("%d-%b-%y")
+                # print "date:", date
+                if date in countDict.keys():
+                    countDict[date] = countDict[date] + 1
+                else:
+                    countDict[date] = 1
+            for key, value in countDict.items():
+                key = key + ":00:00:00"
+                print "key::", key
+                import time
+                key = time.strptime(key, "%d-%b-%y:%H:%M:%S")
+                key = time.mktime(key)
+                pair = [key, value]
+                catCount['values'].append(pair)
+
+            tweetCatCount.append(catCount)
+
+        print "TweetCatCount:::", tweetCatCount
+
+        return True, tweetCatCount
