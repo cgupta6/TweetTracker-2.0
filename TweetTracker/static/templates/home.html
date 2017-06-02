@@ -1,9 +1,9 @@
 <style>
    .md-tab, .md-tabs-canvas, .md-active {
-    background: rgb(255,87,34) !important;
+    background: #b9423e !important;
 }
     md-tabs > md-tabs-wrapper {
-  background-color: rgb(255,87,34)  !important;
+  background-color: #b9423e !important;
 }
     md-tabs > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]) {
   color: #fff !important;
@@ -22,7 +22,7 @@
         <div class="col-sm-8" >
             <md-content class="md-padding" >
                 <md-tabs class="md-accent" md-selected="data.selectedIndex" md-dynamic-height md-border-bottom >
-                    <md-tab ng-repeat="video in videos" label="{{video.name}}" md-colors="::{backgroundColor: 'default-primary-900'}" >
+                    <md-tab ng-repeat="video in videos" label="{{video.name}}" md-colors="::{backgroundColor: 'default-warn-900'}" >
                         <md-content class="md-padding" layout-xs="column" layout="row" layout-align="center center">
                            <iframe width="900" height="500" ng-src="{{video.url | trusted}}"
                                          frameborder="0" allowfullscreen></iframe>

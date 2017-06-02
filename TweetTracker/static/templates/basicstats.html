@@ -216,9 +216,9 @@
             <md-card-content>
                 <table ng-table="tableParamsHashtags" class="table"  style="word-wrap:break-word;table-layout: fixed;">
                         <tr ng-repeat="tags in $data">
-                            <td  align="center"  >
+                            <td  align="center"  title="'Tag'">
                                 {{tags.hashtag}}</td>
-                            <td  align="center" >
+                            <td  align="center"  title="'Tag Count'">
                                 {{tags.count}}</td>
                         </tr>
                     </table>
@@ -235,9 +235,9 @@
                       <div class="modal-body">
                           <table ng-table="tableParamsHashtags2" class="table" >
                               <tr ng-repeat="tags in $data">
-                                  <td  align="center">
+                                  <td  align="center"  title="'Tag'">
                                       {{tags.hashtag}}</td>
-                                  <td  align="center" >
+                                  <td  align="center"  title="'Tag Count'">
                                       {{tags.count}}</td>
                               </tr>
                           </table>
@@ -273,9 +273,9 @@
             <md-card-content style="width: 100%">
                 <table ng-table="tableParamsLinks" class="table" style="word-wrap:break-word;table-layout: fixed;">
                         <tr ng-repeat="link in $data">
-                            <td  align="center"  title="'link'">
+                            <td  align="center"  title="'Link'">
                                 <a target="_blank" href="{{ link.link }}" >{{link.link | cut:true:15:' ...'}}</a></td>
-                            <td  align="center" title="'linkCount'">
+                            <td  align="center" title="'Link Count'">
 
                                 {{link.count}}</td>
                         </tr>
@@ -294,9 +294,9 @@
                       <div class="modal-body">
                           <table ng-table="tableParamsLinks2" class="table" >
                               <tr ng-repeat="link in $data">
-                                  <td  align="center">
+                                  <td  align="center"  title="'Link'">
                                       <a href="{{ link.link }}" >{{link.link}}</a></td>
-                                  <td  align="center">
+                                  <td  align="center"  title="'Link Count'">
                                       {{link.count}}</td>
                               </tr>
                           </table>
