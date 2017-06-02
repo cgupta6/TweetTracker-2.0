@@ -215,6 +215,7 @@ class SearchExport(TweetTrackerAPIClass):
         :param queryargs: query arguments
         :return: tweets and count in an object
         """
+        print "queryargs:", queryargs
         categories = queryargs['categoryID']
         start_time = queryargs['start_time'] if 'start_time' in queryargs else 0
         end_time = queryargs['end_time'] if 'end_time' in queryargs else int(time())
@@ -425,16 +426,21 @@ class SearchExport(TweetTrackerAPIClass):
         :return: 
         """
         categories = queryargs['categoryID']
+        start_time = queryargs['start_time']
         print "categories:", categories
         tweetCatCount = []
         arguments = queryargs.copy()
         for category in categories:
-            arguments['categoryID'] = category
-            (success, result) = self.getTweets(arguments)
+            arguments['categoryID'] = [category]
+            (success, result) = self.getTweets_sch(arguments)
             # print 'tweetsresult',result
-            catCount = {"key": category, "values": []}
-            countDict = {}
 
+            database = self.decideConnection(start_time)[1]  # we don't care about the dist/ram string
+            categoryname=database.categories.find_one({"categoryID" : category})['catname']
+
+            catCount = {"key": categoryname, "values": []}
+            countDict = {}
+            print "result:", result
             for tweet in result['tweets']:
                 timestamp = tweet['timestamp']
                 # date = datetime.datetime.fromtimestamp(timestamp/1000).strftime("%B %d, %Y")
