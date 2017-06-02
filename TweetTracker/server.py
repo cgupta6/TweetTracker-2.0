@@ -303,6 +303,7 @@ def saveReport():
     (success, result) = searchExport.getTweets_sch(queryObject)
     tweets = result
 
+    queryObject['limit'] = -1;
     (success, result) = searchExport.getTweetCountByDate_sch(queryObject)
     stackTweetCount = result
     print "==============================="

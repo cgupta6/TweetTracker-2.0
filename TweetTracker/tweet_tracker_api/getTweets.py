@@ -329,16 +329,28 @@ class SearchExport(TweetTrackerAPIClass):
             print 'Exception occured!'
 
         database = self.decideConnection(start_time)[1]  # we don't care about the dist/ram string
-        for doc in database.tweets.find(q, self.projection).skip(skip).limit(limit):
-            del doc['_id']
-            # convert the fields that would not make sense to an end user
-            # doc['type'] = bullshit.convert_type(doc.get('type', 1))
-            if 'tweet-lang' in doc:
-                doc['tweet-lang'] = bullshit.convert_lang_code(doc['tweet-lang'])
-                # else:
-                # doc['tweet-lang'] = doc['lang']
-            doc['str_id_tweet'] = str(doc['id'])
-            tweets.append(doc)
+        if limit==1:
+            for doc in database.tweets.find(q, self.projection):
+                del doc['_id']
+                # convert the fields that would not make sense to an end user
+                # doc['type'] = bullshit.convert_type(doc.get('type', 1))
+                if 'tweet-lang' in doc:
+                    doc['tweet-lang'] = bullshit.convert_lang_code(doc['tweet-lang'])
+                    # else:
+                    # doc['tweet-lang'] = doc['lang']
+                doc['str_id_tweet'] = str(doc['id'])
+                tweets.append(doc)
+        else:
+            for doc in database.tweets.find(q, self.projection).skip(skip).limit(limit):
+                del doc['_id']
+                # convert the fields that would not make sense to an end user
+                # doc['type'] = bullshit.convert_type(doc.get('type', 1))
+                if 'tweet-lang' in doc:
+                    doc['tweet-lang'] = bullshit.convert_lang_code(doc['tweet-lang'])
+                    # else:
+                    # doc['tweet-lang'] = doc['lang']
+                doc['str_id_tweet'] = str(doc['id'])
+                tweets.append(doc)
 
         print '=== Query finished at %d (%f seconds) ===' % (time(), time() - timestart)
 
