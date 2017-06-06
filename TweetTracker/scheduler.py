@@ -75,7 +75,7 @@ def CreateReportThread(reportDetails):
 
     print "==============================="
     #print "seconds", intervalSeconds
-
+    starttime = datetime.now()
     print "reportid:",reportDetails["reportID"]
     #print "job ids", job_ids
     topUsers = tweet_tracker_api.entities.api_support.get_users_sch(username, job_ids, begin_time, end_time, limit)
@@ -107,10 +107,12 @@ def CreateReportThread(reportDetails):
     stackTweetCount = result
 
     print "==============================="
+    endtime = datetime.now()
+    time_period = endtime - starttime
     data = {"TopUsers": topUsers, "TopHashtags": topHashtags, "TopLinks": topLinks, "TopMentions": topMentions,
             "word_cloud": topTopics, \
-            "Tweets": tweets, "locations": locations, "stackTweetCount": stackTweetCount}
-
+            "Tweets": tweets, "locations": locations, "stackTweetCount": stackTweetCount, "timeTaken": str(time_period)}
+    print data
     name = reportDetails['reportname']
     start_datetime = begin_time
     end_datetime = end_time

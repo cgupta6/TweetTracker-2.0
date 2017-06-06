@@ -417,7 +417,7 @@ class SearchExport(TweetTrackerAPIClass):
                     countDict[date] = 1
             for key,value in countDict.items():
                 key = key+":00:00:00"
-                print "key::", key
+
                 import time
                 key = time.strptime(key, "%d-%b-%y:%H:%M:%S")
                 key = time.mktime(key)
@@ -464,7 +464,6 @@ class SearchExport(TweetTrackerAPIClass):
                     countDict[date] = 1
             for key, value in countDict.items():
                 key = key + ":00:00:00"
-                print "key::", key
                 import time
                 key = time.strptime(key, "%d-%b-%y:%H:%M:%S")
                 key = time.mktime(key)
