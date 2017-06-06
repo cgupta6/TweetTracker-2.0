@@ -40,6 +40,7 @@ jQuery('#raw_head').attr('href','/#/rawData/'+$scope.report_id);
         jQuery("#basic_head").parent().addClass("active");
         var reportCheck = $http.get('/api/report?report_id='+$scope.report_id);
         reportCheck.success(function(data, status, headers, config) {
+            jQuery('#loaderJob').hide();
             $scope.reportSpec = data.report;
             console.log($scope.reportSpec);
             $scope.entities = $scope.reportSpec.data;
@@ -78,14 +79,15 @@ jQuery('#raw_head').attr('href','/#/rawData/'+$scope.report_id);
             getTweets();*/
             saveReport();
         }
+        else if($scope.reportSpec.data=="haha"){}
         else{
+            jQuery('.loader-walk').hide();
+              $scope.totalTweets = $scope.entities['totalTweets'];
               getUsers1();
               getHashtags1();
               getLinks1();
               getTopics1();
               getTweets1();
-
-
         }
 
         });
@@ -426,7 +428,6 @@ jQuery('#raw_head').attr('href','/#/rawData/'+$scope.report_id);
             tweetsPromise.success(function (data, status, headers, config) {
         */
                 $scope.tweets = $scope.entities.Tweets['tweets'];
-
             $scope.tableParamsTweet2 = new NgTableParams({
                     page: 1,   // show first page
                     count: 5  // count per page

@@ -8,6 +8,7 @@ import bullshit
 import logging
 from flask import session
 import os,datetime
+import collections
 
 
 
@@ -417,7 +418,7 @@ class SearchExport(TweetTrackerAPIClass):
                     countDict[date] = 1
             for key,value in countDict.items():
                 key = key+":00:00:00"
-
+                print "key::", key
                 import time
                 key = time.strptime(key, "%d-%b-%y:%H:%M:%S")
                 key = time.mktime(key)
@@ -439,39 +440,37 @@ class SearchExport(TweetTrackerAPIClass):
         """
         categories = queryargs['categoryID']
         start_time = queryargs['start_time']
-        print "categories:", categories
+        end_time = queryargs['end_time']
         tweetCatCount = []
         arguments = queryargs.copy()
+        totalTweets=0
+        emptyCountDict =  collections.OrderedDict()
+        start_epoc = int((int(start_time))/86400)*86400
+        end_epoc = int((int(end_time))/86400)*86400
+        while start_epoc <= end_epoc:
+            emptyCountDict[start_epoc]=0
+            start_epoc=start_epoc+86400
         for category in categories:
             arguments['categoryID'] = [category]
             (success, result) = self.getTweets_sch(arguments)
-            # print 'tweetsresult',result
-
+            totalTweets = totalTweets + len(result['tweets'])
             database = self.decideConnection(start_time)[1]  # we don't care about the dist/ram string
             categoryname=database.categories.find_one({"categoryID" : category})['catname']
 
             catCount = {"key": categoryname, "values": []}
-            countDict = {}
-            print "result:", result
+            countDict = emptyCountDict
             for tweet in result['tweets']:
                 timestamp = tweet['timestamp']
                 # date = datetime.datetime.fromtimestamp(timestamp/1000).strftime("%B %d, %Y")
-                date = datetime.datetime.fromtimestamp(timestamp / 1000).strftime("%d-%b-%y")
-                # print "date:", date
+                date = int((timestamp / 1000)/86400)*86400
                 if date in countDict.keys():
                     countDict[date] = countDict[date] + 1
                 else:
                     countDict[date] = 1
             for key, value in countDict.items():
-                key = key + ":00:00:00"
-                import time
-                key = time.strptime(key, "%d-%b-%y:%H:%M:%S")
-                key = time.mktime(key)
-                pair = [key, value]
+                pair = [key*1000, value]
                 catCount['values'].append(pair)
-
             tweetCatCount.append(catCount)
 
-        #print "TweetCatCount:::", tweetCatCount
 
-        return True, tweetCatCount
+        return True, tweetCatCount , totalTweets
