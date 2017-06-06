@@ -285,8 +285,8 @@ def saveReport():
         'start_time': begin_time,
         'end_time': end_time
     }
-    queryObject['Types'] = ["TopHashtags"];
-    queryObject['limit'] = 30;
+    queryObject['Types'] = ["TopHashtags"]
+    queryObject['limit'] = 30
     data=''
     (success, result) = getEntities.getEntities_sch(queryObject)
     data = result
@@ -302,13 +302,13 @@ def saveReport():
 
     (success, result) = searchExport.getTweets_sch(queryObject)
     tweets = result
-
-    queryObject['limit'] = -1;
-    (success, result) = searchExport.getTweetCountByDate_sch(queryObject)
+    
+    queryObject['limit'] = -1
+    (success, result, totalTweets) = searchExport.getTweetCountByDate_sch(queryObject)
     stackTweetCount = result
     print "==============================="
     data = {"TopUsers" : topUsers, "TopHashtags" : topHashtags, "TopLinks": topLinks, "TopMentions": topMentions, "word_cloud": topTopics,\
-            "Tweets": tweets, "locations": locations, "stackTweetCount": stackTweetCount}
+            "Tweets": tweets, "locations": locations, "stackTweetCount": stackTweetCount,"totalTweets":totalTweets}
 
     print data
     name = reportDetails['reportname']
