@@ -67,69 +67,72 @@ def CreateReportThread(reportDetails):
     job_ids = map(checkJob, reportDetails['selectedJobs'])
     begin_time = long(reportDetails['start_datetime'])
     end_time = long(reportDetails['end_datetime'])
-    if end_time == -1:
-        end_time = int(round(time.time()))
-
-    limit = 30
-    # getUsers()
-
-    print "==============================="
-    #print "seconds", intervalSeconds
-    starttime = datetime.now()
-    print "reportid:",reportDetails["reportID"]
-    #print "job ids", job_ids
-    topUsers = tweet_tracker_api.entities.api_support.get_users_sch(username, job_ids, begin_time, end_time, limit)
-    #getHashtags()
-    Types = ["TopHashtags"]
-
-    queryObject = {
-        'categoryID': job_ids,
-        'start_time': begin_time,
-        'end_time': end_time
-    }
-    queryObject['Types'] = ["TopHashtags"];
-    queryObject['limit'] = 30;
-    data=''
-    (success, result) = getEntities.getEntities_sch(queryObject)
-    data = result
-    #print 'data:',data
-    topHashtags = data['TopHashtags']
-    topLinks = data['TopUrls']
-    topMentions = data['TopMentions']
-
-    #getTopics1();
-    topTopics =  tweet_tracker_api.entities.api_support.generate_word_cloud_sch(username, job_ids, begin_time, end_time, limit)
-    (success, result) = searchExport.getTweets_sch(queryObject)
-    tweets = result
-    locations = tweet_tracker_api.entities.api_support.get_locations_sch(username, job_ids, begin_time, end_time, config)
-
-    (success, result) = searchExport.getTweetCountByDate_sch(queryObject)
-    stackTweetCount = result
-
-    print "==============================="
-    endtime = datetime.now()
-    time_period = endtime - starttime
-    data = {"TopUsers": topUsers, "TopHashtags": topHashtags, "TopLinks": topLinks, "TopMentions": topMentions,
-            "word_cloud": topTopics, \
-            "Tweets": tweets, "locations": locations, "stackTweetCount": stackTweetCount, "timeTaken": str(time_period)}
-    print data
-    name = reportDetails['reportname']
-    start_datetime = begin_time
-    end_datetime = end_time
-    selectedJobs = reportDetails['selectedJobs']
-    filter_by = reportDetails['filter_by']
-    allWords = reportDetails['allWords']
-    anyWords = reportDetails['anyWords']
-    noneWords = reportDetails['noneWords']
-    report_id = reportDetails['reportID']
-    creator = reportDetails['creator']
-    mongo_response = report.update(report_id, name, start_datetime, end_datetime, selectedJobs, filter_by, allWords, anyWords, noneWords, creator, data)
 
 
-    #sleepTime=randint(0,30)
-    #print 'Sleep Time',sleepTime
-    #sleep(sleepTime)
-    ##############
+
+
+    if reportDetails['data']=="" or reportDetails['data']== None or end_time ==-1:
+
+        if end_time == -1:
+            end_time = int(round(time.time()))
+
+        limit = 30
+        # getUsers()
+
+        print "==============================="
+        #print "seconds", intervalSeconds
+        starttime = datetime.now()
+        print "reportid:",reportDetails["reportID"]
+        #print "job ids", job_ids
+        topUsers = tweet_tracker_api.entities.api_support.get_users_sch(username, job_ids, begin_time, end_time, limit)
+        #getHashtags()
+        Types = ["TopHashtags"]
+
+        queryObject = {
+            'categoryID': job_ids,
+            'start_time': begin_time,
+            'end_time': end_time
+        }
+        queryObject['Types'] = ["TopHashtags"];
+        queryObject['limit'] = 30;
+        data=''
+        (success, result) = getEntities.getEntities_sch(queryObject)
+        data = result
+        #print 'data:',data
+        topHashtags = data['TopHashtags']
+        topLinks = data['TopUrls']
+        topMentions = data['TopMentions']
+
+        #getTopics1();
+        topTopics =  tweet_tracker_api.entities.api_support.generate_word_cloud_sch(username, job_ids, begin_time, end_time, limit)
+        (success, result) = searchExport.getTweets_sch(queryObject)
+        tweets = result
+        locations = tweet_tracker_api.entities.api_support.get_locations_sch(username, job_ids, begin_time, end_time, config)
+
+        (success, result) = searchExport.getTweetCountByDate_sch(queryObject)
+        stackTweetCount = result
+
+        print "==============================="
+        endtime = datetime.now()
+        time_period = endtime - starttime
+        data = {"TopUsers": topUsers, "TopHashtags": topHashtags, "TopLinks": topLinks, "TopMentions": topMentions,
+                "word_cloud": topTopics, \
+                "Tweets": tweets, "locations": locations, "stackTweetCount": stackTweetCount, "timeTaken": str(time_period)}
+        print data
+        name = reportDetails['reportname']
+        start_datetime = begin_time
+        end_datetime = end_time
+        selectedJobs = reportDetails['selectedJobs']
+        filter_by = reportDetails['filter_by']
+        allWords = reportDetails['allWords']
+        anyWords = reportDetails['anyWords']
+        noneWords = reportDetails['noneWords']
+        report_id = reportDetails['reportID']
+        creator = reportDetails['creator']
+        mongo_response = report.update(report_id, name, start_datetime, end_datetime, selectedJobs, filter_by, allWords, anyWords, noneWords, creator, data)
+
+
+
     newThread = Process(target=CreateReportThread,args=(reportDetails,))
     threading.Timer(intervalSeconds,runProc,(newThread,)).start()
     try:
