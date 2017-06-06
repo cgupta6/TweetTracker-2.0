@@ -269,7 +269,7 @@ def get_users(username, job_ids, begin_time, end_time, limit):
             return None
     # Create catime constraints for each job_id
     catime_constraints = create_catimes(job_ids, begin_time, end_time)
-    print catime_constraints
+    #print catime_constraints
 
     query_obj = {"$or": [{
                              "catime": {
@@ -317,9 +317,7 @@ def get_users_sch(username, job_ids, begin_time, end_time, limit):
     """
     # Check that our user can query all selected jobs
     for job_id in job_ids:
-        print "job idd", job_id
         obj = job.get_job_with_user(job_id, username)
-        print "objj", obj
         # obj is None if we don't have permission to access the job
         if obj is None:
             return None
@@ -346,7 +344,6 @@ def get_users_sch(username, job_ids, begin_time, end_time, limit):
         search_tweets = ram_tweets
 
     user_counter = collections.Counter()
-    print "query objj", query_obj
 
     user_search = search_tweets.find(query_obj, {
         "entities.user_mentions.screen_name": 1

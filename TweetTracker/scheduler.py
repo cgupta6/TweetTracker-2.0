@@ -74,16 +74,14 @@ def CreateReportThread(reportDetails):
     # getUsers()
 
     print "==============================="
-    print "seconds", intervalSeconds
+    #print "seconds", intervalSeconds
 
-    print "reportid",reportDetails["reportID"]
-    print "job ids", job_ids
+    print "reportid:",reportDetails["reportID"]
+    #print "job ids", job_ids
     topUsers = tweet_tracker_api.entities.api_support.get_users_sch(username, job_ids, begin_time, end_time, limit)
-    print "topusers", topUsers
     #getHashtags()
     Types = ["TopHashtags"]
 
-    print type(job_ids[0])
     queryObject = {
         'categoryID': job_ids,
         'start_time': begin_time,
@@ -94,7 +92,7 @@ def CreateReportThread(reportDetails):
     data=''
     (success, result) = getEntities.getEntities_sch(queryObject)
     data = result
-    print 'data:',data
+    #print 'data:',data
     topHashtags = data['TopHashtags']
     topLinks = data['TopUrls']
     topMentions = data['TopMentions']
@@ -104,11 +102,15 @@ def CreateReportThread(reportDetails):
     (success, result) = searchExport.getTweets_sch(queryObject)
     tweets = result
     locations = tweet_tracker_api.entities.api_support.get_locations_sch(username, job_ids, begin_time, end_time, config)
-    print "==============================="
-    data = {"TopUsers" : topUsers, "TopHashtags" : topHashtags, "TopLinks": topLinks, "TopMentions": topMentions, "word_cloud": topTopics,\
-            "Tweets": tweets, "locations": locations}
 
-    print data
+    (success, result) = searchExport.getTweetCountByDate_sch(queryObject)
+    stackTweetCount = result
+
+    print "==============================="
+    data = {"TopUsers": topUsers, "TopHashtags": topHashtags, "TopLinks": topLinks, "TopMentions": topMentions,
+            "word_cloud": topTopics, \
+            "Tweets": tweets, "locations": locations, "stackTweetCount": stackTweetCount}
+
     name = reportDetails['reportname']
     start_datetime = begin_time
     end_datetime = end_time
@@ -161,11 +163,112 @@ def ThreadCleaner():
 def runProc(proc):
     proc.run()
 
+def saveReportToDB(reportDetails):
+    #global threadList
+    global jobs
+    #newThread = None
+    #intervalSeconds=hourInterval*60+(randint(-minsInterval, minsInterval)*60)
+    ############## Report Logic
+    username = user.id_to_username(reportDetails['creator'])
+    data = {}
+    if username is None:
+        data = tweet_tracker_api.job_management.job.get_public()
+    else:
+        data= tweet_tracker_api.job_management.job.get_all_by_user(username)
+
+    jobs = map(cleanJob,data['jobs'])
+    print "jobs:", jobs
+    print "selectedJobs:", reportDetails['selectedJobs']
+    job_ids = map(checkJob, reportDetails['selectedJobs'])
+    sleepTime = randint(0, 10)
+    sleep(sleepTime)
+    begin_time = long(reportDetails['start_datetime'])
+    end_time = long(reportDetails['end_datetime'])
+    if end_time == -1:
+        end_time = int(round(time.time()))
+
+    limit = 30
+    # getUsers()
+
+    print "==============================="
+    #print "seconds", intervalSeconds
+
+    #print "reportid",reportDetails["reportID"]
+    #print "job ids", job_ids
+    topUsers = tweet_tracker_api.entities.api_support.get_users_sch(username, job_ids, begin_time, end_time, limit)
+    #getHashtags()
+    Types = ["TopHashtags"]
+
+    queryObject = {
+        'categoryID': job_ids,
+        'start_time': begin_time,
+        'end_time': end_time
+    }
+    queryObject['Types'] = ["TopHashtags"];
+    queryObject['limit'] = 30;
+    data=''
+    (success, result) = getEntities.getEntities_sch(queryObject)
+    data = result
+    #print 'data:',data
+    topHashtags = data['TopHashtags']
+    topLinks = data['TopUrls']
+    topMentions = data['TopMentions']
+
+    #getTopics1();
+    topTopics =  tweet_tracker_api.entities.api_support.generate_word_cloud_sch(username, job_ids, begin_time, end_time, limit)
+    (success, result) = searchExport.getTweets_sch(queryObject)
+    tweets = result
+    locations = tweet_tracker_api.entities.api_support.get_locations_sch(username, job_ids, begin_time, end_time, config)
+
+    (success, result) = searchExport.getTweetCountByDate_sch(queryObject)
+    stackTweetCount = result
+    print "==============================="
+    data = {"TopUsers": topUsers, "TopHashtags": topHashtags, "TopLinks": topLinks, "TopMentions": topMentions,
+            "word_cloud": topTopics, \
+            "Tweets": tweets, "locations": locations, "stackTweetCount": stackTweetCount}
+    print data
+    name = reportDetails['reportname']
+    start_datetime = begin_time
+    end_datetime = end_time
+    selectedJobs = reportDetails['selectedJobs']
+    filter_by = reportDetails['filter_by']
+    allWords = reportDetails['allWords']
+    anyWords = reportDetails['anyWords']
+    noneWords = reportDetails['noneWords']
+    report_id = reportDetails['reportID']
+    creator = reportDetails['creator']
+    mongo_response = report.update(report_id, name, start_datetime, end_datetime, selectedJobs, filter_by, allWords, anyWords, noneWords, creator, data)
+
+
+    sleepTime=randint(0,30)
+    print 'Sleep Time',sleepTime
+    sleep(sleepTime)
+    ##############
+
+
+def cleanJob(job):
+    return {
+            'id': job['categoryID'],
+            'name': job['catname'],
+            'selected': False,
+            'crawling': (job['includeincrawl'] == 1)
+        }
+
+def checkJob(job):
+    global jobs
+    for item in jobs:
+        if item['name'] == job:
+            return item['id']
+
+
+
+
 # Cleaner Every 2 hours
 def main():
     #pull all reports and start
     global threadList
     reports = tweet_tracker_api.report_management.report.get_reports_all()['reports']
+
     for rep in reports:
         intervalSeconds = (randint(0, startInterval))
         newThread = Process(target=CreateReportThread, args=(rep,))
@@ -175,7 +278,10 @@ def main():
             threadList.append([newThread, datetime.now()])
         finally:
             list1Lock.release()
-    threading.Timer(7200, runProc, (Process(target=ThreadCleaner),)).start()
+
+
+
+            #threading.Timer(7200, runProc, (Process(target=ThreadCleaner),)).start()
     #app.run(host='0.0.0.0', threaded=True, port=5000, debug=True)
     #print 'SHOBHIT'
 

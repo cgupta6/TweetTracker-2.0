@@ -334,6 +334,7 @@ def cleanJob(job):
 
 def checkJob(job):
     global jobs
+    print "checkjobs:", jobs
     for item in jobs:
         if item['name'] == job:
             return item['id']

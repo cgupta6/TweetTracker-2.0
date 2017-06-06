@@ -217,13 +217,11 @@ def id_to_username(id):
     :param username: username
     :return: id
     """
-    print "iddd", id
     creator = users.find_one({'id': int(id)})
     if creator is None:
         return None
     else:
-        print "adaa", creator.get('username')
-        return creator.get('username')  # Sometimes pymongo returns floats...
+       return creator.get('username')  # Sometimes pymongo returns floats...
 
 
 def next_user_id():

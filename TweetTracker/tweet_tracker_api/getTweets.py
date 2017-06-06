@@ -473,6 +473,6 @@ class SearchExport(TweetTrackerAPIClass):
 
             tweetCatCount.append(catCount)
 
-        print "TweetCatCount:::", tweetCatCount
+        #print "TweetCatCount:::", tweetCatCount
 
         return True, tweetCatCount

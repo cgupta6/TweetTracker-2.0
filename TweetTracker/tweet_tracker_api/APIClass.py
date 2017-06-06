@@ -44,12 +44,12 @@ class TweetTrackerAPIClass(object):
         td = timedelta(days=2)
         minTimeDatetime = datetime.fromtimestamp(float(minTime))
         
-        print "minTimeDatetime", minTimeDatetime
-        print "MAX", datetime.now() - td
+        #print "minTimeDatetime", minTimeDatetime
+        #print "MAX", datetime.now() - td
 
         if minTimeDatetime < datetime.now() - td:
-            print "RETURNING DISTRIBUTED"
-            print self.dist_db
+            #print "RETURNING DISTRIBUTED"
+            #print self.dist_db
             return ("distributed", self.dist_db)
         else:
             print "RETURNING RAM"

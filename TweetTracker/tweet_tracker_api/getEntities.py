@@ -141,7 +141,7 @@ class Entities(TweetTrackerAPIClass):
         
         
         db_type, db = self.decideConnection(start_time)
-        print "The db_type is", db_type
+        #print "The db_type is", db_type
         
         
         # if db_type == "ram":
@@ -339,7 +339,7 @@ class Entities(TweetTrackerAPIClass):
             entities.append({"entities.user_mentions.screen_name": {"$exists": True}})
 
         db_type, db = self.decideConnection(start_time)
-        print "The db_type is", db_type
+        #print "The db_type is", db_type
 
         # if db_type == "ram":
         # q = dict({"timestamp":{"$gte":start_time*1000,"$lte":end_time*1000},"cat":{"$in":categories},"$or":entities}.items()+geoQuery.items())
