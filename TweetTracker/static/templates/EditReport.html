@@ -57,8 +57,8 @@
                         </div>
                         To:
                         <div class="btn-group btn-toggle">
-                        <button class="btn btn-xs btn-primary active">Current</button>
-                        <button class="btn btn-xs btn-default">Custom</button>
+                        <button class="btn btn-xs btn-default active">Current</button>
+                        <button class="btn btn-xs btn-primary">Custom</button>
                         </div>
                         <div class="container" style="display: none" id="custom">
                         <br/>
@@ -290,7 +290,7 @@
         $('.input-daterange input').datepicker({});
     });
 
-    $('.btn-toggle').click(function() {
+   $('.btn-toggle').click(function() {
     $(this).find('.btn').toggleClass('active');
     	$(this).find('.btn').toggleClass('btn-primary');
     $(this).find('.btn').toggleClass('btn-default');
