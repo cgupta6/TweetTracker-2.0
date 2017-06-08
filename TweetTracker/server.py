@@ -20,6 +20,7 @@ from tweet_tracker_api.utilities import *
 from tweet_tracker_api.bot_prob import find_jobs_bot_prob
 from tweet_tracker_api.userlimit import *
 from tweet_tracker_api.APIErrors import *
+import tweet_tracker_api.InvalidUsage
 import logging
 import cPickle as pickle
 import time
@@ -102,16 +103,13 @@ def check_auth():
 def overview():
     return render_template("overview.html", ngApp="overview")
 
-
 @app.route("/app/jobmanager")
 def job_manager():
     return render_template("job_manager.html", ngApp="jobManager")
 
-
 @app.route("/app/tweetalyzer")
 def tweetalyzer():
     return render_template("tweetalyzer.html", ngApp="tweetalyzer")
-
 
 @app.route("/app/search")
 def search():
@@ -202,8 +200,8 @@ def put_user():
     if username is None:
         abort(401)
 
-
     return tweet_tracker_api.auth.api_support.update_user(username, email, password, firstname, lastname, phone, account,timezone)
+
 
 @app.route("/api/deleteUser", methods=['PUT'])
 def delete_user():
@@ -217,7 +215,6 @@ def delete_user():
 
     if username is None:
         abort(401)
-
 
     return tweet_tracker_api.auth.api_support.delete_user(username, email)
 
@@ -248,11 +245,12 @@ def all_reports():
         return response
 
 
-
-
 @app.route("/api/savereport", methods=['GET'])
 def saveReport():
-
+    """
+    
+    :return: 
+    """
     global jobs
     username = session.get('username')
     report_id = request.args.get('report_id')
@@ -263,18 +261,15 @@ def saveReport():
     username = tweet_tracker_api.auth.user.id_to_username(reportDetails['creator'])
     data = {}
     data= tweet_tracker_api.job_management.job.get_all_by_user(username)
-    print "data:", data
+    #print "data:", data
     jobs = map(cleanJob,data['jobs'])
     job_ids = map(checkJob, reportDetails['selectedJobs'])
     begin_time = long(reportDetails['start_datetime'])
     end_time = long(reportDetails['end_datetime'])
     if end_time == -1:
         end_time = int(round(time.time()))
-    print "end time:", end_time
     limit = 30
     # getUsers()
-    print "reportid",reportDetails["reportID"]
-    print "job ids", job_ids
     topUsers = tweet_tracker_api.entities.api_support.get_users_sch(username, job_ids, begin_time, end_time, limit)
 
     #getHashtags()
@@ -287,7 +282,7 @@ def saveReport():
     }
     queryObject['Types'] = ["TopHashtags"]
     queryObject['limit'] = 30
-    data=''
+
     (success, result) = getEntities.getEntities_sch(queryObject)
     data = result
     topHashtags = data['TopHashtags']
@@ -296,13 +291,12 @@ def saveReport():
 
     #getTopics();
     topTopics =  tweet_tracker_api.entities.api_support.generate_word_cloud_sch(username, job_ids, begin_time, end_time, limit)
+    #gettweets()
     (success, result) = searchExport.getTweets_sch(queryObject)
     tweets = result
+    #getLocations()
     locations = tweet_tracker_api.entities.api_support.get_locations_sch(username, job_ids, begin_time, end_time, config)
-
-    (success, result) = searchExport.getTweets_sch(queryObject)
-    tweets = result
-    
+    #stackTweetCount()
     queryObject['limit'] = -1
     (success, result, totalTweets) = searchExport.getTweetCountByDate_sch(queryObject)
     stackTweetCount = result
@@ -310,7 +304,7 @@ def saveReport():
     data = {"TopUsers" : topUsers, "TopHashtags" : topHashtags, "TopLinks": topLinks, "TopMentions": topMentions, "word_cloud": topTopics,\
             "Tweets": tweets, "locations": locations, "stackTweetCount": stackTweetCount,"totalTweets":totalTweets}
 
-    print data
+
     name = reportDetails['reportname']
     start_datetime = begin_time
     end_datetime = end_time
@@ -338,9 +332,6 @@ def checkJob(job):
     for item in jobs:
         if item['name'] == job:
             return item['id']
-
-
-
 
 
 @app.route("/api/deleteReport/<report_id>", methods=['POST'])
@@ -376,8 +367,6 @@ def update_report_request():
     noneWords = request.json.get('noneWords')
     report_id = int(request.json.get('report_id'))
 
-    print report_id
-    print name
     if username is None:
         abort(401)
     if name is None:
@@ -436,8 +425,6 @@ def create_report_request():
     #return tweet_tracker_api.job_management.api_support.get_all_classic(username)
     return tweet_tracker_api.report_management.api_support.create_report(name, start_datetime, end_datetime, selectedJobs,
                                                                          filter_by, allWords, anyWords, noneWords, username)
-
-
 
 
 # Job Management routes start here

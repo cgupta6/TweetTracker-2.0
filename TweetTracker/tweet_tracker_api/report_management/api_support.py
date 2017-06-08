@@ -29,7 +29,6 @@ def get_report(report_id, username=None):
     :param username: user name
     :return: jsonified report
     """
-    print username
     my_report = report.get_report_with_user(report_id, username)
     if my_report is None:
         abort(401)

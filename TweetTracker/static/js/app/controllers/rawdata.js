@@ -137,8 +137,22 @@ jQuery('#raw_head').attr('href','/#/rawData/'+$scope.report_id);
                 window.navigator.msSaveBlob(blob, "tweets" + extension);
             else
             {
-                 $scope.exportAddress = url.createObjectURL(blob);
-                 $timeout(function(){document.getElementById("invisibleDownloadLink").click();},10,false);
+                var data1 = []
+                i=0
+                for (tweet in data.tweets){
+                    data1.push(data.tweets[tweet]);
+                    i=i+1;
+                    if(i==1000)
+                        break;
+                }
+
+                 var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data1));
+                 var dlAnchorElem = document.getElementById('downloadAnchorElem');
+                 dlAnchorElem.setAttribute("href",     dataStr     );
+                 dlAnchorElem.setAttribute("download", $scope.report_id+".json");
+                 dlAnchorElem.click();
+                 //$scope.exportAddress = url.createObjectURL(blob);
+                 //$timeout(function(){document.getElementById("invisibleDownloadLink").click();},10,false);
             }
         });
 

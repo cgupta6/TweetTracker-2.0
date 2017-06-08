@@ -33,10 +33,10 @@ class Entities(TweetTrackerAPIClass):
         :param queryargs: query arguments
         :return: JSON containing top hashtags, mentions, urls
         """
-        print queryargs
+        #print queryargs
         
         try:
-            print queryargs.getlist('categoryID')
+            #print queryargs.getlist('categoryID')
             categories=queryargs.getlist('categoryID')
 
             categories = [int(x) for x in categories]
@@ -232,10 +232,10 @@ class Entities(TweetTrackerAPIClass):
         :param queryargs: query arguments
         :return: JSON containing top hashtags, mentions, urls
         """
-        print queryargs
+        #print queryargs
 
         try:
-            print queryargs['categoryID']
+            ##print queryargs['categoryID']
             categories = queryargs['categoryID']
 
             categories = [int(x) for x in categories]

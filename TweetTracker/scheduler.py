@@ -53,11 +53,11 @@ startInterval=config['startInterval']
 def CreateReportThread(reportDetails):
     global threadList
     global jobs
-    newThread = None
+
     intervalSeconds=hourInterval*60+(randint(-minsInterval, minsInterval)*60)
     ############## Report Logic
     username = user.id_to_username(reportDetails['creator'])
-    data = {}
+
     if username is None:
         data = tweet_tracker_api.job_management.job.get_public()
     else:
@@ -67,7 +67,6 @@ def CreateReportThread(reportDetails):
     job_ids = map(checkJob, reportDetails['selectedJobs'])
     begin_time = long(reportDetails['start_datetime'])
     end_time = long(reportDetails['end_datetime'])
-
 
 
 
@@ -103,13 +102,16 @@ def CreateReportThread(reportDetails):
         topLinks = data['TopUrls']
         topMentions = data['TopMentions']
 
-        #getTopics1();
+        #getTopics();
         topTopics =  tweet_tracker_api.entities.api_support.generate_word_cloud_sch(username, job_ids, begin_time, end_time, limit)
+        #getTweets()
         (success, result) = searchExport.getTweets_sch(queryObject)
         tweets = result
+
+        #getLocations()
         locations = tweet_tracker_api.entities.api_support.get_locations_sch(username, job_ids, begin_time, end_time, config)
 
-        (success, result) = searchExport.getTweetCountByDate_sch(queryObject)
+        (success, result, totalTweets) = searchExport.getTweetCountByDate_sch(queryObject)
         stackTweetCount = result
 
         print "==============================="
@@ -117,7 +119,8 @@ def CreateReportThread(reportDetails):
         time_period = endtime - starttime
         data = {"TopUsers": topUsers, "TopHashtags": topHashtags, "TopLinks": topLinks, "TopMentions": topMentions,
                 "word_cloud": topTopics, \
-                "Tweets": tweets, "locations": locations, "stackTweetCount": stackTweetCount, "timeTaken": str(time_period)}
+                "Tweets": tweets, "locations": locations, "stackTweetCount": stackTweetCount,"totalTweets":totalTweets,\
+                "timeTaken": str(time_period)}
         print data
         name = reportDetails['reportname']
         start_datetime = begin_time
@@ -266,8 +269,6 @@ def checkJob(job):
             return item['id']
 
 
-
-
 # Cleaner Every 2 hours
 def main():
     #pull all reports and start
@@ -285,10 +286,6 @@ def main():
             list1Lock.release()
 
 
-
-            #threading.Timer(7200, runProc, (Process(target=ThreadCleaner),)).start()
-    #app.run(host='0.0.0.0', threaded=True, port=5000, debug=True)
-    #print 'SHOBHIT'
 
 if __name__ == "__main__":
     main()
