@@ -206,7 +206,7 @@ app.controller('advancedAnalyticsCtrl',[ '$http','$state','$scope','$rootScope',
     var getStackedCrawl = function () {
         var colors = d3.scale.category20();
         $scope.stackTweetCount = $scope.entities['stackTweetCount']
-     
+
         nv.addGraph(function() {
             chart = nv.models.stackedAreaChart()
                 .useInteractiveGuideline(true)

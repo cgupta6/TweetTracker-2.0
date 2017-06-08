@@ -1,5 +1,17 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
 <link rel="stylesheet"; href="static/css/mdcard.css">
+<link href="static/css/nv.d3.min.css" rel="stylesheet" type="text/css">
+<script src="static/js/libs/nv.d3.min.js"></script>
+<style>
+    .NoData{
+        font-weight: 700;
+        font-size: 18px;
+        position: absolute;
+        top:47%;
+        left:36%;
+        display: none;
+    }
+</style>
 <div class="container">
 
         <!-- Modal content -->
@@ -134,7 +146,10 @@
                     <div class="loader-walk">
                       <div></div><div></div><div></div><div></div><div></div>
                     </div>
-                   <div style="height:253px;" data-wordcloud data-ng-model="topics"></div>
+                <div id="topkeywordsNone" class="NoData">
+                    No Data Available.
+                </div>
+                   <div id="topkeywordsCloud" style="height:253px;" data-wordcloud data-ng-model="topics"></div>
                 </md-card-content>
                 <md-card-footer md-colors="::{backgroundColor: 'default-primary-200'}" >
                     <span><b></b></span>
@@ -163,7 +178,10 @@
                     <div class="loader-walk">
                       <div></div><div></div><div></div><div></div><div></div>
                     </div>
-                <table ng-table="tableParamsUser" class="table" style="word-wrap:break-word;table-layout: fixed;">
+                <div id="topusersNone" class="NoData">
+                    No Data Available.
+                </div>
+                <table id="topusersTable" ng-table="tableParamsUser" class="table" style="word-wrap:break-word;table-layout: fixed;">
                         <tr ng-repeat="user in $data">
                             <td  align="center"  title="'User'">
                                 <a target="_blank" href="https://www.twitter.com/{{ user.user }}"> {{user.user}}</a></td>
@@ -225,14 +243,18 @@
                     <div class="loader-walk">
                       <div></div><div></div><div></div><div></div><div></div>
                     </div>
-                <table ng-table="tableParamsHashtags" class="table"  style="word-wrap:break-word;table-layout: fixed;">
+                <div id="tophashtagNone" class="NoData">
+                    No Data Available.
+                </div>
+                <div id="hashtagPie" style="height:260px;"><svg></svg></div>
+           <!--     <table ng-table="tableParamsHashtags" class="table"  style="word-wrap:break-word;table-layout: fixed;">
                         <tr ng-repeat="tags in $data">
                             <td  align="center"  title="'Tag'">
                                 {{tags.hashtag}}</td>
                             <td  align="center"  title="'Tag Count'">
                                 {{tags.count}}</td>
                         </tr>
-                    </table>
+                    </table> -->
             </md-card-content>
           <div class="modal fade" id="hashModal" role="dialog">
               <div class="modal-dialog">
@@ -285,10 +307,13 @@
                     <div class="loader-walk">
                       <div></div><div></div><div></div><div></div><div></div>
                     </div>
-                <table ng-table="tableParamsLinks" class="table" style="word-wrap:break-word;table-layout: fixed;">
+                <div id="toplinkNone" class="NoData">
+                    No Data Available.
+                </div>
+                <table id="toplinkTable" ng-table="tableParamsLinks" class="table" style="word-wrap:break-word;table-layout: fixed;">
                         <tr ng-repeat="link in $data">
                             <td  align="center"  title="'Link'">
-                                <a target="_blank" href="{{ link.link }}" >{{link.link | cut:true:15:' ...'}}</a></td>
+                                <a target="_blank" href="{{ link.link }}" >{{link.link | cut:true:20:' ...'}}</a></td>
                             <td  align="center" title="'Link Count'">
 
                                 {{link.count}}</td>
@@ -297,10 +322,10 @@
             </md-card-content>
 
           <div class="modal fade" id="linkModal" role="dialog">
-              <div class="modal-dialog">
+              <div class="modal-dialog" style="min-width: 1000px;">
 
                   <!-- Modal content-->
-                  <div class="modal-content">
+                  <div class="modal-content" >
                       <div class="modal-header">
                           <button type="button" class="close" data-dismiss="modal">&times;</button>
                           <h4 class="modal-title">Top Links</h4>
@@ -309,7 +334,7 @@
                           <table ng-table="tableParamsLinks2" class="table" >
                               <tr ng-repeat="link in $data">
                                   <td  align="center"  title="'Link'">
-                                      <a href="{{ link.link }}" >{{link.link}}</a></td>
+                                      <a href="{{ link.link }}" target="_blank" >{{link.link}}</a></td>
                                   <td  align="center"  title="'Link Count'">
                                       {{link.count}}</td>
                               </tr>
