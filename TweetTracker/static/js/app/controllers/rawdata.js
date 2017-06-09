@@ -66,7 +66,7 @@ jQuery('#raw_head').attr('href','/#/rawData/'+$scope.report_id);
             console.log("DB not reachable.")
         });
         });
-    },500);
+    },100);
 
 
 
@@ -87,7 +87,7 @@ jQuery('#raw_head').attr('href','/#/rawData/'+$scope.report_id);
 
         var query = queryObject;
         var extension = '.json';
-        query["no_limit"] = true;
+        //query["no_limit"] = true;
         query["skip"] = 0;
         query["remove_fields"] = {"cat": "false", "catime": "false", "rand": "false", "inserted_at": "false", "tweet-lang": "false"}
 
@@ -96,18 +96,18 @@ jQuery('#raw_head').attr('href','/#/rawData/'+$scope.report_id);
 
 
 
-        var exportAllPromise = $http.get('/api/three_search', {
-            params: query
-        });
+       var exportAllPromise = $http.get('/api/three_search', {
+           params: query
+       });
 
-        exportAllPromise.success(function (data, status, headers, config) {
-            console.log("exported successfully..")
+       exportAllPromise.success(function (data, status, headers, config) {
+            console.log("exported successfully..");
             console.log(data);
 
             var url = URL || webkitURL;
             var onePerLine = "";
             var blob;
-
+             var data ;
             if("response_type" in query){
                 if(query["response_type"] === "XML"){
                   if (usedAPI === "tweet") {
@@ -129,36 +129,26 @@ jQuery('#raw_head').attr('href','/#/rawData/'+$scope.report_id);
                         for(var i = 0; i < data.videos.length; i++)
                             onePerLine += JSON.stringify(data.videos[i]) + '\n';
                     }
+
                     blob = new Blob([onePerLine],{type:"text/json;charset=utf-8"});
+                    data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(onePerLine));
                 }
             }
 
-            if (navigator.appVersion.toString().indexOf('.NET') > 0)
-                window.navigator.msSaveBlob(blob, "tweets" + extension);
+            if (navigator.appVersion.toString().indexOf('.NET') > 0) {
+                window.navigator.msSaveBlob(blob1, "tweets" + extension);
+            }
             else
             {
-                var data1 = []
-                i=0
-                for (tweet in data.tweets){
-                    data1.push(data.tweets[tweet]);
-                    i=i+1;
-                    if(i==1000)
-                        break;
-                }
-
-                 var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data1));
-                 var dlAnchorElem = document.getElementById('downloadAnchorElem');
-                 dlAnchorElem.setAttribute("href",     dataStr     );
-                 dlAnchorElem.setAttribute("download", $scope.report_id+".json");
-                 dlAnchorElem.click();
-                 //$scope.exportAddress = url.createObjectURL(blob);
-                 //$timeout(function(){document.getElementById("invisibleDownloadLink").click();},10,false);
+                $scope.exportAddress = url.createObjectURL(blob);
+                $('<a href="data:' + data + '" download="raw_data.json">download JSON</a>').appendTo('#cont');
+                $('#cont').children()[0].click();
             }
-        });
+       });
 
-        exportAllPromise.error(function (data, status, headers, config) {
-            $log.error("Failed to load export results from the API!");
-        });
+       exportAllPromise.error(function (data, status, headers, config) {
+           $log.error("Failed to load export results from the API!");
+       });
     };
 
 

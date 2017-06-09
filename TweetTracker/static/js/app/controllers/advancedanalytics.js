@@ -200,7 +200,7 @@ app.controller('advancedAnalyticsCtrl',[ '$http','$state','$scope','$rootScope',
             console.log("DB not reachable.")
         });
         });
-    },500);
+    },100);
 
 
     var getStackedCrawl = function () {
