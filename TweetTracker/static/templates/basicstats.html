@@ -47,23 +47,23 @@
                       <div></div><div></div><div></div><div></div><div></div>
                     </div>
                     <table ng-table="tableParamsDetails" class="table" style="word-wrap:break-word;table-layout: fixed;">
-                        <tr><td  align="center">Report Name:
+                        <tr><td  align="center"><strong>Report Name:</strong>
                             <td  align="center">{{reportSpec.reportname}}
                          </td></tr>
 
-                        <tr><td  align="center">Create Time:
+                        <tr><td  align="center"><strong>Create Time:</strong>
                             <td  align="center">{{reportSpec.createtime_disp}}
                             </td></tr>
-                        <tr><td  align="center">Tweets Crawled:
+                        <tr><td  align="center"><strong>Tweets Crawled:</strong>
                             <td  align="center">{{totalTweets}}
                             </td></tr>
-                        <tr><td  align="center" >Start Time:
+                        <tr><td  align="center" ><strong>Start Time:</strong>
                                         <td  align="center">{{reportSpec.start_datetime_disp}}
                                         </td></tr>
-                        <tr><td  align="center" >End Time:
+                        <tr><td  align="center" ><strong>End Time:</strong>
                         <td  align="center">{{reportSpec.end_datetime_disp}}
                         </td></tr>
-                        <tr><td  align="center" >Selected Crawl:
+                        <tr><td  align="center" ><strong>Selected Crawl:</strong>
                             <td  align="center">{{reportSpec.selectedJobs.toString() | cut:true:15:' ...'}}
                             </td></tr>
                     </table>
@@ -95,7 +95,7 @@
                                         <td  align="center">{{reportSpec.limit}}
                                         </td></tr>
                                     <tr><td  align="center">Tweets Crawled:
-                                        <td  align="center" >{{reportSpec.current}}
+                                        <td  align="center" >{{totalTweets}}
                                         </td></tr>
                                     <tr><td  align="center" >Selected Jobs:
                                         <td  align="center" >{{reportSpec.selectedJobs.toString()}}
@@ -313,7 +313,7 @@
                 <table id="toplinkTable" ng-table="tableParamsLinks" class="table" style="word-wrap:break-word;table-layout: fixed;">
                         <tr ng-repeat="link in $data">
                             <td  align="center"  title="'Link'">
-                                <a target="_blank" href="{{ link.link }}" >{{link.link | cut:true:20:' ...'}}</a></td>
+                                <a target="_blank" href="{{ link.link }}" >{{link.link | cut:true:17:' ...'}}</a></td>
                             <td  align="center" title="'Link Count'">
 
                                 {{link.count}}</td>
