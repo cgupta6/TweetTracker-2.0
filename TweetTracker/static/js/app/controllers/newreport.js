@@ -48,14 +48,14 @@ app.controller("newReportCtrl",['$scope', '$location', '$http' ,'$rootScope', '$
         var jobSources = [];
         //$scope.selectedJobs = [];
 
-        var mapTweets = document.getElementById("tweetMapFilter").checked;
-        var mapImages = document.getElementById("imageMapFilter").checked;
-        var mapVideos = document.getElementById("videoMapFilter").checked;
+        var mapTweets = true;
+        var mapImages = true;
+        var mapVideos = true;
 
         var tw_searchData = {
             filterTweets : mapTweets,
             filterImages : mapImages,
-            filterVideos : mapVideos,
+            filterVideos : mapVideos
         };
         for (k in tw_searchData){
             if(tw_searchData[k]){
