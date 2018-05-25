@@ -24,6 +24,47 @@ def setup(collection, ram_collection):
     ram_tweets = ram_collection
 
 
+from bson import ObjectId
+from bson import json_util
+
+class JSONEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, ObjectId):
+            return str(o)
+        return json.JSONEncoder.default(self, o)
+
+def download_job(username, job_id):
+    """ Removes the job from its owner so it won't appear in their job list.
+
+    :param username: The user seeking to delete a job
+    :param job_id: The job to delete
+    :return: An HTTP status code indicating success/failure
+    """
+    #user_id = username_to_id(username)
+    if username is None:
+        abort(401)
+    mongo_success = list(tweets.find({"cat": job_id}))
+
+    print("mongo success3.....")
+    print(mongo_success)
+    print(type(mongo_success))
+    
+    if mongo_success is None:
+        # Forbidden, because the user authenticates but lack permission
+        abort(403)
+    else:
+
+        #r = flask.Response(json.dumps(mongo_success, ensure_ascii=False),mimetype="application/json")
+        #mongo_success = OrderedDict(sorted(mongo_success.iteritems()))
+        #r = json.dumps(mongo_success)
+        #log = logging.getLogger()
+        #log.error(username + ' ' + 'Job_Deletion '+ str(job_id))
+        #return JSONEncoder().encode(mongo_success)
+        return json.dumps(mongo_success,default=json_util.default)
+
+
+
+
 def get_tweet(username, tweet_id, catime, response_type="JSON", remove_fields={}):
     """ This function retrieves a single tweet and creates a response for it.
 

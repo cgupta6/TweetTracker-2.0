@@ -3,6 +3,7 @@ from json import dumps
 import report
 from ..auth.user import email_to_id, username_to_id
 import logging
+import json
 
 def get_all_reports_by_user(username=None):
     """ This gets all of the reports for a user by their username.
@@ -34,6 +35,39 @@ def get_report(report_id, username=None):
         abort(401)
     else:
         return jsonify(my_report)
+from bson import ObjectId
+from bson import json_util
+
+
+
+def download_report(username, report_id):
+    """ Removes the job from its owner so it won't appear in their job list.
+
+    :param username: The user seeking to delete a job
+    :param job_id: The job to delete
+    :return: An HTTP status code indicating success/failure
+    """
+    #user_id = username_to_id(username)
+    if username is None:
+        abort(401)
+    mongo_success = report.download_report(username, report_id)
+
+    print("mongo success4.....")
+    print(mongo_success)
+    print(type(mongo_success))
+    
+    if mongo_success is None:
+        # Forbidden, because the user authenticates but lack permission
+        abort(403)
+    else:
+
+        #r = flask.Response(json.dumps(mongo_success, ensure_ascii=False),mimetype="application/json")
+        #mongo_success = OrderedDict(sorted(mongo_success.iteritems()))
+        #r = json.dumps(mongo_success)
+        #log = logging.getLogger()
+        #log.error(username + ' ' + 'Job_Deletion '+ str(job_id))
+        #return JSONEncoder().encode(mongo_success)
+        return json.dumps(mongo_success,default=json_util.default)
 
 
 def create_report(name, start_datetime, end_datetime, selectedJobs, filter_by, allWords, anyWords, noneWords, username):

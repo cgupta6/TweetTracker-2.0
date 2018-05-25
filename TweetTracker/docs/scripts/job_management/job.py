@@ -324,6 +324,18 @@ def delete(user_id, job_id):
     return jobs.save(job)
 
 
+def download(user_id, job_id):
+  
+    job = jobs.find_one({"creator": user_id, "categoryID": job_id})
+    
+    if job is None:
+        print("NONE..............")
+        return None
+    
+    return jobs.save(job)
+
+
+
 def authenticated_set_crawl(user_id, job_id, crawl):
     """
 

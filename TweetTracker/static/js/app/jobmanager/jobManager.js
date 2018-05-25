@@ -74,6 +74,31 @@ jobManager.controller('JobListController', function ($scope, $http, $log) {
         });
     };
 
+
+
+    $scope.downloadJob = function(id) {
+        var really_delete = confirm("Are you really sure you want to download this job?");
+        if (really_delete === false) { return; }
+        $log.info('Attempt to delete job with id ' + id);
+        var deletePromise = $http({method: 'Download', url: '/api/job/' + id});
+        deletePromise.success(function(data, status, headers, config) {
+            $log.info("Job successfully deleted.");
+            var index = -1;
+            for (var i = 0; i < $scope.jobs.length; i++)
+                if ($scope.jobs[i].id === parseInt(id))
+                    index = i;
+            $scope.jobs.splice(index, 1);
+        });
+        deletePromise.error(function(data, status, headers, config) {
+            $log.error("Failed to download job.");
+        });
+    };
+
+
+
+
+
+
     $scope.setCrawl = function(id, crawl) {
         $log.info('Setting the crawling of job ' + id + ' to ' + crawl);
         var setPromise = $http({method: 'PUT', url: '/api/job/' + id + '/set_crawl', data: {crawl: crawl}});

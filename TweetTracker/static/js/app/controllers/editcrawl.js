@@ -230,7 +230,9 @@ app.controller('editCrawlCtrl', function ( $scope, $location, $http ,$rootScope,
         console.log("in delete job");
     };
 
-
+    $scope.downloadJob = function () {
+        console.log("in downloadjob");
+    };
 
 });
 

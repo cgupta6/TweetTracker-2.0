@@ -114,7 +114,16 @@ def get_reports_all():
 
 
 
-
+def download_report(user_id, report_id):
+  
+    job = reports.find({"reportID": report_id})
+    print(job)
+    
+    if job is None:
+        print("NONE..............")
+        return None
+    print("Non NONE..............")
+    return list(job)
 
 def get_report_with_user(report_id, username):
     """ Gets the report with the given username.

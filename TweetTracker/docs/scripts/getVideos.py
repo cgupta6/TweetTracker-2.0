@@ -102,7 +102,7 @@ class SearchExportVideos(object):
             log = logging.getLogger()
             log.error(session['username'] + ' ' + 'Tweetalyzer:getVideos' + ' ' +  str(query))
         except Exception as e:
-            print 'Exception occured!'
+            print 'Exception occureed!'
 
         docs = self.mongoDBFacade.queryVideos(None, query, self.projection, skip, limit, start_time, sort_by)
 

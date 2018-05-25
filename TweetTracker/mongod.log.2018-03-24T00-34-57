@@ -1,0 +1,16 @@
+2018-03-16T20:36:44.886+0000 I CONTROL  [initandlisten] MongoDB starting : pid=12266 port=27017 dbpath=/home/ubuntu/da/data/db/ 64-bit host=ip-172-31-28-16
+2018-03-16T20:36:44.891+0000 I CONTROL  [initandlisten] db version v3.4.4
+2018-03-16T20:36:44.891+0000 I CONTROL  [initandlisten] git version: 888390515874a9debd1b6c5d36559ca86b44babd
+2018-03-16T20:36:44.891+0000 I CONTROL  [initandlisten] OpenSSL version: OpenSSL 1.0.2g  1 Mar 2016
+2018-03-16T20:36:44.891+0000 I CONTROL  [initandlisten] allocator: tcmalloc
+2018-03-16T20:36:44.891+0000 I CONTROL  [initandlisten] modules: none
+2018-03-16T20:36:44.891+0000 I CONTROL  [initandlisten] build environment:
+2018-03-16T20:36:44.891+0000 I CONTROL  [initandlisten]     distmod: ubuntu1604
+2018-03-16T20:36:44.891+0000 I CONTROL  [initandlisten]     distarch: x86_64
+2018-03-16T20:36:44.891+0000 I CONTROL  [initandlisten]     target_arch: x86_64
+2018-03-16T20:36:44.891+0000 I CONTROL  [initandlisten] options: { processManagement: { fork: true }, storage: { dbPath: "/home/ubuntu/da/data/db/" }, systemLog: { destination: "file", path: "mongod.log" } }
+2018-03-16T20:36:44.908+0000 I STORAGE  [initandlisten] exception in initAndListen: 98 Unable to lock file: /home/ubuntu/da/data/db/mongod.lock Resource temporarily unavailable. Is a mongod instance already running?, terminating
+2018-03-16T20:36:44.908+0000 I NETWORK  [initandlisten] shutdown: going to close listening sockets...
+2018-03-16T20:36:44.908+0000 I NETWORK  [initandlisten] shutdown: going to flush diaglog...
+2018-03-16T20:36:44.908+0000 I CONTROL  [initandlisten] now exiting
+2018-03-16T20:36:44.908+0000 I CONTROL  [initandlisten] shutting down with code:100

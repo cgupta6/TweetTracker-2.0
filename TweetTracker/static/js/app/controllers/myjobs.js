@@ -224,7 +224,7 @@ app.directive("actionButton", function() {
                         <li class="disabled" ><a href="""><i class="fa fa-bookmark" style="padding-right: 5px;"></i>Export Bookmarked</a></li>\
                         <li role="separator" class="divider"></li>\
                         <li><a href=""><i class="fa fa-share-alt" style="padding-right: 5px;"></i>Share/Unshare</a></li>\
-                        <li><a href=""><i class="fa fa-archive" style="padding-right: 5px;"></i>Archive Report</a></li>\
+                        <li><a href=""><i class="fa fa-archive" style="padding-right: 5px;"></i>Archive Content</a></li>\
                         <li class="disabled" ><a href="""><i class="fa fa-bell" style="padding-right: 5px;"></i>Alerts</a></li>\
                         <li role="separator" class="divider"></li>\
                         <li><a href=""><i class="fa fa-trash-o" style="padding-right: 5px;"></i>Delete Report</a></li>\
@@ -241,14 +241,14 @@ app.directive("actionButton", function() {
 
 app.directive("jobActionbutton", ['$http','$state', function($http,$state) {
     return {
-        template : '<div class="btn-group pull-right">\
+        template : '<script src="https://fastcdn.org/FileSaver.js/1.1.20151003/FileSaver.min.js"></script><div class="btn-group pull-right">\
                     <md-button class="md-raised md-small md-warn"  data-toggle="dropdown" ><i class="fa fa-cog"></i>Action</md-button>\
                     </button>\
                     <ul class="dropdown-menu">\
                         <li><a href="/#/editCrawl/{{jobId}}"><i class="fa fa-pencil-square-o" style="padding-right: 5px;"></i>Edit Crawl</a></li>\
                         <li role="separator" class="divider"></li>\
                         <li><a href=""><i class="fa fa-share-alt" style="padding-right: 5px;"></i>Share/Unshare</a></li>\
-                        <li><a href=""><i class="fa fa-archive" style="padding-right: 5px;"></i>Archive Report</a></li>\
+                        <li><a href="" data-ng-click="downloadCrawl(jobId)"><i class="fa fa-archive" style="padding-right: 5px;"></i>Archive Contents</a></li>\
                         <li class="disabled" ><a href="""><i class="fa fa-bell" style="padding-right: 5px;"></i>Alerts</a></li>\
                         <li role="separator" class="divider"></li>\
                         <li><a href="" data-ng-click="deleteCrawl(jobId)"><i class="fa fa-trash-o"  style="padding-right: 5px;"></i>Delete Crawl</a></li>\
@@ -268,6 +268,27 @@ app.directive("jobActionbutton", ['$http','$state', function($http,$state) {
                     alert('Delete Failed');
                 });
             }
+
+
+            $scope.downloadCrawl = function(job_id){
+                console.log(job_id);
+                console.log(job_id);
+                var jobDelete = $http.post('/api/downloadJob/'+job_id);
+                jobDelete.success(function(data, status, headers, config) {
+                console.log("data is here");
+                console.log(data);
+                tempData = JSON.stringify(data);
+                console.log(data);
+                var file = new Blob([tempData], { type: 'json' });
+
+                saveAs(file, 'output.json');
+                $state.reload();
+                });
+                jobDelete.error(function(data, status, headers, config) {
+                    alert('Download Failed');
+                });
+            }
+
         }
 
     };
@@ -284,7 +305,7 @@ app.directive("reportActionbutton", ['$http','$state', function($http,$state) {
                         <li><a href="/#/editReport/{{reportId}}"><i class="fa fa-pencil-square-o" style="padding-right: 5px;"></i>Edit Report</a></li>\
                         <li role="separator" class="divider"></li>\
                         <li><a href=""><i class="fa fa-share-alt" style="padding-right: 5px;"></i>Share/Unshare</a></li>\
-                        <li><a href=""><i class="fa fa-archive" style="padding-right: 5px;"></i>Archive Report</a></li>\
+                        <li><a href="" data-ng-click="downloadReport(reportId)"><i class="fa fa-archive" style="padding-right: 5px;"></i>Archive Contents</a></li>\
                         <li class="disabled" ><a href="""><i class="fa fa-bell" style="padding-right: 5px;"></i>Alerts</a></li>\
                         <li role="separator" class="divider"></li>\
                         <li><a href="" data-ng-click="deleteReport(reportId)"><i class="fa fa-trash-o"  style="padding-right: 5px;"></i>Delete Report</a></li>\
@@ -304,7 +325,34 @@ app.directive("reportActionbutton", ['$http','$state', function($http,$state) {
                     alert('Delete Failed');
                 });
             }
+
+
+
+        $scope.downloadReport = function(report_id){
+                $('#loading_class').css('display','block');
+                console.log(report_id);
+                console.log(report_id);
+                var jobDelete = $http.post('/api/downloadReport/'+report_id);
+
+
+                jobDelete.success(function(data, status, headers, config) {
+                
+                
+                tempData = JSON.stringify(data);
+                
+                var file = new Blob([tempData], { type: 'json' });
+
+                saveAs(file, 'output.json');
+                $state.reload();
+                });
+                jobDelete.error(function(data, status, headers, config) {
+                    alert('Download Failed');
+                });
+                
+            }
         }
+
+        
 
     };
 }]);

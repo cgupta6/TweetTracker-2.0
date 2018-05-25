@@ -130,6 +130,27 @@ def delete_job(username, job_id):
         log.error(username + ' ' + 'Job_Deletion '+ str(job_id))
         return jsonify({"status": "ok"})
 
+def download_job(username, job_id):
+    """ Removes the job from its owner so it won't appear in their job list.
+
+    :param username: The user seeking to delete a job
+    :param job_id: The job to delete
+    :return: An HTTP status code indicating success/failure
+    """
+    user_id = username_to_id(username)
+    if user_id is None:
+        abort(401)
+    mongo_success = job.download(user_id, job_id)
+    print("mongo success.....")
+    print(mongo_success)
+    if mongo_success is None:
+        # Forbidden, because the user authenticates but lack permission
+        abort(403)
+    else:
+        r = flask.Response(json.dumps(mongo_success, ensure_ascii=False),mimetype="application/json")
+        #log = logging.getLogger()
+        #log.error(username + ' ' + 'Job_Deletion '+ str(job_id))
+        return r
 
 def set_crawl(username, job_id, crawl):
     """ This is the backing function for the set_crawl enpoint.

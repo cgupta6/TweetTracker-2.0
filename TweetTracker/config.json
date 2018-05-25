@@ -1,7 +1,7 @@
 {
 	"_comment": "RAM server info",
 
-	"mongo_ram_server": "10.211.22.5",
+	"mongo_ram_server": "127.0.0.1",
 	"mongo_ram_port": 27017,
 	"mongo_ram_db": "tweettracker",
 	"mongo_ram_username": "twtuser",
@@ -9,7 +9,7 @@
 
 	"_comment": "distributed server info",
 
-	"mongo_dist_server": "10.211.22.5",
+	"mongo_dist_server": "127.0.0.1",
 	"mongo_dist_port": 27017,
 	"mongo_dist_db": "tweettracker",
 	"mongo_dist_username": "twtuser",

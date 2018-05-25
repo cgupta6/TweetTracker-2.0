@@ -3,8 +3,16 @@ from json import dumps
 import job
 from ..auth.user import email_to_id, username_to_id
 import logging
-
-
+import flask
+import json
+import collections
+from flask import abort, jsonify
+import random
+from time import time
+from collections import defaultdict
+from collections import OrderedDict
+from itertools import islice
+import datetime
 def get_all_classic(username=None):
     """ This gets all of the jobs for a user by their username.
 
@@ -124,11 +132,49 @@ def delete_job(username, job_id):
 
     if mongo_success is None:
         # Forbidden, because the user authenticates but lack permission
-        abort(403)
+        print("here6")
     else:
+        print("here6")
         log = logging.getLogger()
+        print("here6")
         log.error(username + ' ' + 'Job_Deletion '+ str(job_id))
         return jsonify({"status": "ok"})
+
+
+from bson import ObjectId
+
+class JSONEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, ObjectId):
+            return str(o)
+        return json.JSONEncoder.default(self, o)
+
+
+def download_job(username, job_id):
+    """ Removes the job from its owner so it won't appear in their job list.
+
+    :param username: The user seeking to delete a job
+    :param job_id: The job to delete
+    :return: An HTTP status code indicating success/failure
+    """
+    user_id = username_to_id(username)
+    if user_id is None:
+        abort(401)
+    mongo_success = job.download(user_id, job_id)
+    print("mongo success2.....")
+    print(type(mongo_success))
+    print(mongo_success)
+    if mongo_success is None:
+        # Forbidden, because the user authenticates but lack permission
+        abort(403)
+    else:
+
+        #r = flask.Response(json.dumps(mongo_success, ensure_ascii=False),mimetype="application/json")
+        #mongo_success = OrderedDict(sorted(mongo_success.iteritems()))
+        #r = json.dumps(mongo_success)
+        #log = logging.getLogger()
+        #log.error(username + ' ' + 'Job_Deletion '+ str(job_id))
+        return JSONEncoder().encode(mongo_success)
 
 
 def set_crawl(username, job_id, crawl):

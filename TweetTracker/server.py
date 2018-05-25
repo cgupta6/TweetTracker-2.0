@@ -261,7 +261,7 @@ def saveReport():
     username = tweet_tracker_api.auth.user.id_to_username(reportDetails['creator'])
     data = {}
     data= tweet_tracker_api.job_management.job.get_all_by_user(username)
-    #print "data:", data
+    print "data"
     jobs = map(cleanJob,data['jobs'])
     job_ids = map(checkJob, reportDetails['selectedJobs'])
     begin_time = long(reportDetails['start_datetime'])
@@ -538,6 +538,27 @@ def delete_job(job_id):
         abort(401)
     return tweet_tracker_api.job_management.api_support.delete_job(username, int(job_id))
 
+
+@app.route("/api/downloadJob/<job_id>", methods=['POST'])
+def download_job(job_id):
+    print("hellow here")
+    username = session.get('username')
+    if username is None:
+        abort(401)
+
+    #return tweet_tracker_api.job_management.api_support.download_job(username, int(job_id))
+    return tweet_tracker_api.search.api_support.download_job(username, int(job_id))
+
+
+@app.route("/api/downloadReport/<report_id>", methods=['POST'])
+def download_report(report_id):
+    print("hellow here")
+    username = session.get('username')
+    if username is None:
+        abort(401)
+
+    #return tweet_tracker_api.job_management.api_support.download_job(username, int(job_id))
+    return tweet_tracker_api.report_management.api_support.download_report(username, int(report_id))
 
 @app.route("/api/job/<job_id>/set_crawl", methods=['PUT'])
 def set_crawl(job_id):
@@ -1075,7 +1096,7 @@ def handle_invalid_parameter(error):
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', threaded=True, port=5000, debug=True)
+    app.run(host='0.0.0.0', threaded=True, port=80, debug=True)
 
     # start utility threads
     # locmap = Utils.UtilityThread()

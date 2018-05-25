@@ -314,16 +314,30 @@ def delete(user_id, job_id):
     :param job_id: job id
     :return:
     """
+    print(user_id)
+    print(job_id)
     job = jobs.find_one({"creator": user_id, "categoryID": job_id})
     if user_id == 'admin':
         job = jobs.find_one({"categoryID": job_id})
     if job is None:
+        print("deleing job id:",job)
         return None
     job['prev_creator'] = job['creator']
     job['creator'] = -1
     job['publicflag'] = 0
     job['includeincrawl'] = 0 #make sure the job isn't crawled, since the crawler only checks for creator >= 0
     return jobs.save(job)
+
+def download(user_id, job_id):
+  
+    job = jobs.find_one({"categoryID": job_id})
+    print(job)
+    
+    if job is None:
+        print("NONE..............")
+        return None
+    print("Non NONE..............")
+    return job
 
 
 def authenticated_set_crawl(user_id, job_id, crawl):
